@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 16:11:01 by azaher            #+#    #+#             */
-/*   Updated: 2022/10/27 12:51:34 by azaher           ###   ########.fr       */
+/*   Created: 2022/10/08 18:04:14 by ynafiss           #+#    #+#             */
+/*   Updated: 2022/10/31 14:31:31 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	size_t	rdst;
-	size_t	rsrc;
 	size_t	i;
+	size_t	j;
+	size_t	ldst;
 
 	i = 0;
-	if (dst == NULL && dstsize == 0)
-		return (ft_strlen(src));
-	rdst = ft_strlen(dst);
-	rsrc = ft_strlen(src);
+	j = 0;
 	if (dstsize == 0 || dstsize <= ft_strlen(dst))
 		return (dstsize + ft_strlen(src));
-	while (i < dstsize - rdst - 1 && src[i] != '\0')
+	ldst = ft_strlen(dst);
+	i = ldst;
+	while (i < dstsize - 1 && src[j] != '\0')
 	{
-		dst[rdst + i] = src[i];
+		dst[i] = src[j];
 		i++;
+		j++;
 	}
-	dst[rdst + i] = '\0';
-	return (rdst + rsrc);
+	dst[i] = '\0';
+	return (ldst + ft_strlen(src));
 }

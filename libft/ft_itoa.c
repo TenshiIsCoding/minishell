@@ -3,55 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/20 16:24:17 by azaher            #+#    #+#             */
-/*   Updated: 2022/10/26 14:03:53 by azaher           ###   ########.fr       */
+/*   Created: 2022/10/21 11:25:21 by ynafiss           #+#    #+#             */
+/*   Updated: 2022/10/30 11:22:50 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_countdigits(int n)
+static int	len_n(int n)
 {
-	int			count;
+	int		i;
+	long	j;
 
-	count = 0;
-	if (n <= 0)
-		count++;
-	while (n != 0)
+	i = 1;
+	j = n;
+	if (j < 0)
 	{
-		n = n / 10;
-			count++;
+		j = j * -1;
 	}
-	return (count);
+	while (j > 0)
+	{
+		j = j / 10;
+		i++;
+	}
+	return (i);
+}
+
+static char	*ft_a(char *b, int j, int i)
+{
+	if (j == 0)
+		b[i] = '0';
+	if (j == -2147483648)
+	{
+		j = j / 10;
+		j *= -1;
+		b[i] = '8';
+		i--;
+	}
+	while (j > 0)
+	{
+		b[i] = (j % 10) + '0';
+		j = j / 10;
+		i--;
+	}
+	return (b);
 }
 
 char	*ft_itoa(int n)
 {
-	char		*asc;
-	long long	nb;
-	int			len;
+	char		*b;
+	int			i;
+	long		j;
 
-	nb = n;
-	len = ft_countdigits(n);
-	asc = malloc((len + 1) * sizeof(char));
-	if (!asc)
+	i = len_n(n);
+	j = n;
+	if (j <= 0)
+	b = malloc (i + 1);
+	else
+	{
+		b = malloc (i);
+		i--;
+	}
+	if (!b)
 		return (0);
-	asc[len] = '\0';
-	len--;
-	if (n == 0)
-		asc[0] = '0';
-	if (nb < 0)
+	b[i] = '\0';
+	i--;
+	if (j < 0)
 	{
-		asc[0] = '-';
-		nb *= -1;
+		j *= -1;
+		b[0] = '-';
 	}
-	while (nb > 0)
-	{
-		asc[len] = (nb % 10) + 48;
-		nb = nb / 10;
-		len--;
-	}
-	return (asc);
+	b = ft_a(b, j, i);
+	return (b);
 }
