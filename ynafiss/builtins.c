@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:03:03 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/15 13:00:54 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/15 16:40:07 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-
 #include "minishell.h"
 
 
@@ -94,9 +93,73 @@ void	ft_echo(char *print, char *flag)
 		write(1, "\n", 1);
 }
 
+void	ft_env(t_env *env)
+{
+	while (env)
+	{
+		printf("%s\n", env->element);
+		env = env->next;
+	}
+}
+
+void ft_export(t_env *env)
+{
+	t_env *tmp;
+	t_env *swap;
+	int i = 0;
+	int j = 1;
+	char	*alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	tmp = env;
+	while (alpha[i])
+	{
+		while (env)
+		{
+			if(alpha[i] == env->element[0])
+				swap->element = env->element;
+			env = env->next;
+			swap = swap->next;
+		}
+		env = tmp;
+		i++;
+	}
+	while (alpha[i])
+	{
+		while (alpha[i] == swap->element[0])
+		{
+			if (ft_isalpha(swap->element[j]) && swap->element[j] < swap->next->element[j])
+			{
+				printf("declare -x %s", swap->element);
+				swap = swap->next;
+			}
+			else if (swap->element[j] == swap->next->element[j])
+				j++;
+				
+		}
+		i++;
+	}
+	// while (env)
+	// {
+	// 	printf("declare -x %s", env->element);
+	// 	env = env->next;
+	// }
+}
+
 int main(int ac, char **av, char **env)
 {
 	char	s[100];
+	int		i;
+	int		j;
+	t_env	*enva;
+
+	i = 0;
+	j = 0;
+	enva = ft_lstnew(env[i++]);
+	while (env[i])
+	{
+		ft_lstadd_back(&enva, ft_lstnew(env[i]));
+		i++;
+	}
 	// char *buf;
 
 	// // printing current working directory
@@ -107,6 +170,8 @@ int main(int ac, char **av, char **env)
 	// if (ft_strcmp(buf, "pwd") == 0)
 	// 	ft_pwd();
 	// printf("kyhb%%");
-	ft_cd("~", env);
-	printf("\n%s\n", getcwd(s, 100));
+	// ft_cd("~", env);
+	// ft_env(enva);
+	ft_export(enva);
+	// printf("\n%c\n", enva->element);
 }
