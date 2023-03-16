@@ -3,25 +3,28 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
+#    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/03/13 15:10:23 by azaher           ###   ########.fr        #
+#    Updated: 2023/03/16 11:38:35 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = minishell.c
+
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra
-OBJS = ${SRCS:.c=.o}
-BOBJS = ${BSRCS:.c=.o}
+#CFLAGS = -Wall -Werror -Wextra
+AF= builtins.c	\
+ft_list.c	\
+ft_strcmp.c	\
+
+OBJS = ${AF:.c=.o}
 
 all : ${NAME}
 
 ${NAME} : ${OBJS}
-	cc ${CFLAGS} ${SRCS} -o ${NAME} ${LIBFT} -lreadline
+	cc ${CFLAGS} ${AF} -o ${NAME} ${LIBFT} -lreadline
 
 clean :
 		rm -f ${OBJS} ${BOBJS}

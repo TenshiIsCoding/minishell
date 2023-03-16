@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:03:03 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/15 16:40:07 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/16 15:04:45 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,34 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 #include "minishell.h"
+
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+	int	co;
+
+	i = 0;
+	co = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		if (co == 1 && s[i] == '\'' && s[i - 1] != '=')
+			write(fd, &s[i], 1);
+		if ( s[i] != '\'')
+			write(fd, &s[i], 1);
+		if (s[i] == '=')
+		{
+			write(1, "\"", 1);
+			co = 1;
+		}
+		i++;
+	}
+	if (co == 1)
+		write(1, "\"", 1);
+	
+}
 
 
 char	*get_env(char **env, char *src)
@@ -102,48 +130,50 @@ void	ft_env(t_env *env)
 	}
 }
 
-void ft_export(t_env *env)
+void ft_export(t_env *env, int limit, char *add)
 {
-	t_env *tmp;
-	t_env *swap;
+	char	**str;
 	int i = 0;
-	int j = 1;
-	char	*alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	int j = 0;
+	char	*alpha;
 
-	tmp = env;
-	while (alpha[i])
+	if (add[0] != '\0')
 	{
-		while (env)
-		{
-			if(alpha[i] == env->element[0])
-				swap->element = env->element;
-			env = env->next;
-			swap = swap->next;
-		}
-		env = tmp;
+		ft_lstadd_front(&env, ft_lstnew(add));
+	}
+	str = (char **)malloc(sizeof (char *) * ft_lstsize(env));
+	while (env)
+	{
+		str[i] = env->element;
+		env = env->next;
 		i++;
 	}
-	while (alpha[i])
+	i = 0;
+	while (limit >= i)
 	{
-		while (alpha[i] == swap->element[0])
+		j = 0;
+		while (limit - 1 >= j)
 		{
-			if (ft_isalpha(swap->element[j]) && swap->element[j] < swap->next->element[j])
+			if(strcmp(str[j], str[j + 1]) > 0)
 			{
-				printf("declare -x %s", swap->element);
-				swap = swap->next;
+				alpha = str[j];
+				str[j] = str[j + 1];
+				str[j + 1] = alpha;;
 			}
-			else if (swap->element[j] == swap->next->element[j])
-				j++;
-				
+			j++;
 		}
 		i++;
 	}
-	// while (env)
-	// {
-	// 	printf("declare -x %s", env->element);
-	// 	env = env->next;
-	// }
+	j = 0;
+	while (j <= limit)
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(str[j], 1);
+		write(1, "\n", 1);
+		j++;
+	}
 }
+
 
 int main(int ac, char **av, char **env)
 {
@@ -172,6 +202,7 @@ int main(int ac, char **av, char **env)
 	// printf("kyhb%%");
 	// ft_cd("~", env);
 	// ft_env(enva);
-	ft_export(enva);
+	// write (1, "\"", 1);
+	ft_export(enva, 36, "f=");
 	// printf("\n%c\n", enva->element);
 }

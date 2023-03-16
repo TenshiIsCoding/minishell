@@ -49,6 +49,8 @@ t_env	*ft_lstlast(t_env *lst)
 t_env	*ft_lstnew(char *element)
 {
 	t_env	*new;
+	int	i = 0;
+	int co = 0;
 
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
