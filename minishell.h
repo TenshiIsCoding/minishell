@@ -6,13 +6,18 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:36 by azaher            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/16 16:24:35 by ynafiss          ###   ########.fr       */
+=======
+/*   Updated: 2023/03/16 15:34:07 by azaher           ###   ########.fr       */
+>>>>>>> 6ad028c0b9eee8393e817425a5800db444d9f7e4
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
+<<<<<<< HEAD
 #include <stdlib.h>
 
 typedef struct t_env
@@ -20,6 +25,17 @@ typedef struct t_env
     char    *element;
     struct t_env   *next;
 }t_env;
+=======
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include "libft/libft.h"
+
+typedef struct s_data{
+	char	*line;
+	char	*mask;
+>>>>>>> 6ad028c0b9eee8393e817425a5800db444d9f7e4
 
 typedef struct t_list
 {
@@ -70,5 +86,7 @@ void	ft_lstadd_front(t_env **lst, t_env *new);
 t_env	*ft_lstlast(t_env *lst);
 t_env	*ft_lstnew(char *element);
 int	ft_lstsize(t_env *lst);
+
+char	*maskgen(char *str);
 
 #endif

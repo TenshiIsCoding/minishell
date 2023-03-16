@@ -6,11 +6,20 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
+<<<<<<< HEAD:ynafiss/Makefile
 #    Updated: 2023/03/16 11:38:35 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
+=======
+#    Updated: 2023/03/16 15:33:32 by azaher           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SRCS = minishell.c \
+	   parsing/upgraded_split.c 
+>>>>>>> 6ad028c0b9eee8393e817425a5800db444d9f7e4:Makefile
 
 NAME = minishell
 LIBFT = libft/libft.a
