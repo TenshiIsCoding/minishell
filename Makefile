@@ -6,11 +6,12 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/03/13 15:10:23 by azaher           ###   ########.fr        #
+#    Updated: 2023/03/16 15:33:32 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = minishell.c
+SRCS = minishell.c \
+	   parsing/upgraded_split.c 
 
 NAME = minishell
 LIBFT = libft/libft.a

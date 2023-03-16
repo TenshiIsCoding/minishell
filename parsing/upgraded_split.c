@@ -1,43 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   upgraded_split.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/16 15:42:55 by azaher           ###   ########.fr       */
+/*   Created: 2023/03/16 15:17:08 by azaher            #+#    #+#             */
+/*   Updated: 2023/03/16 15:38:15 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	main(void)
+char	*maskgen(char *str)
 {
-	t_data	*vars;
+	char	*mask;
+	int		i;
 
-	vars = malloc(sizeof(t_data));
-	while (1)
+	i = 0;
+	mask = malloc(sizeof(ft_strlen(str)));
+	while (str[i])
 	{
-		vars->line = readline("minishell>");
-		add_history(vars->line);
-		free(vars->line);
+		if (str[i] == '<')
+			mask[i] = '2';
+		else if (str[i] == '>')
+			mask[i] = '2';
+		else if (str[i] == '|')
+			mask[i] = '2';
+		else if (str[i] == ' ')
+			mask[i] = '1';
+		else
+			mask[i] = '0';
+		i++;
 	}
+	return (mask);
 }
-
-/*≈
-><|
-
-00122222222210
-ls >>>>>|||| p
-[ls, >>>>>|||, p]
-
-00122222333310
-ls >>>>>|||| p
-[ls, >>>>>, |||||, p]
-
-<>| outside '' "" 2
-\t\n\v 1
-else 0
-
-*/
