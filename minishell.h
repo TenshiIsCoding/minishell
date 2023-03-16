@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/16 08:17:18 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/16 16:58:30 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 #define MINISHELL_H
 
 #include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <fcntl.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+
+//              Execution Structs              //
+
 
 typedef struct t_env
 {
@@ -26,6 +35,8 @@ typedef struct t_list
 	int				content;
 	struct t_list	*next;
 }t_list;
+
+//              Execution Prototypes              //
 
 
 void	*ft_memcpy(void *dst, const void *src, size_t n);
