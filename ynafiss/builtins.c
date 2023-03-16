@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:03:03 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/16 15:04:45 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/16 16:28:36 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include <readline/history.h>
 #include <readline/readline.h>
-#include "minishell.h"
+#include "../minishell.h"
 
 
 void	ft_putstr_fd(char *s, int fd)
