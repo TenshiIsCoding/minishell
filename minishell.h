@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/16 08:17:18 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/16 22:02:49 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 typedef struct t_env
 {
-    char    *element;
-    struct t_env   *next;
+	char			*element;
+	struct t_env	*next;
 }t_env;
 
 typedef struct t_list
@@ -26,6 +26,13 @@ typedef struct t_list
 	int				content;
 	struct t_list	*next;
 }t_list;
+
+typedef struct t_data{
+	char	*line;
+	char	*mask;
+	int		sqmask;
+	int		dqmask;
+}t_data;
 
 
 void	*ft_memcpy(void *dst, const void *src, size_t n);
@@ -63,12 +70,12 @@ size_t	ft_strlen(const char *str);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *str);
-int	ft_strcmp(const char *s1, const char *s2);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strcmp(const char *s1, const char *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_lstadd_back(t_env **lst, t_env *new);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 t_env	*ft_lstlast(t_env *lst);
 t_env	*ft_lstnew(char *element);
-int	ft_lstsize(t_env *lst);
+int		ft_lstsize(t_env *lst);
 
 #endif
