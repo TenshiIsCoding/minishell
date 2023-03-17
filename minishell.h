@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/17 01:23:15 by azaher           ###   ########.fr       */
+/*   Updated: 2023/03/17 02:23:23 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define MINISHELL_H
 
 # include <stdlib.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h>
-#include <readline/history.h>
-#include <readline/readline.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <string.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 //              Execution Structs              //
 
@@ -43,8 +43,8 @@ typedef struct t_list
 typedef struct t_data{
 	char	*line;
 	char	*mask;
-	int		sqmask;
-	int		dqmask;
+	int		dquote;
+	int		squote;
 }t_data;
 
 
@@ -93,5 +93,6 @@ int		ft_lstsize(t_env *lst);
 
 //              Parsing prototypes Structs              //
 
+void	maskgen(t_data *vars);
 
 #endif
