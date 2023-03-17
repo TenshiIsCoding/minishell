@@ -6,11 +6,11 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:03:44 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/14 14:55:49 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/17 09:37:59 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
