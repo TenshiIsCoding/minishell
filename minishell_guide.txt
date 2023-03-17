@@ -42,7 +42,7 @@ environment variable that you'll make. (static (technique of mlx)).
 	example:
 	string		ls>>>a | echo 'ls > a |" hhhh' ||| ls < a
 	output_musk	00222012100001000000000000000012221001210
-
+	
 	if you give that mask to the previous function it will generate this list
 
 	[ls, >>|, a, |, echo, 'ls > a |" hhhh', ||, ' " ', |||, ls, <, a]
@@ -110,3 +110,13 @@ ls>>>>>>>>a       'ls $r'> a'
 00222222220111111100000202100
 [ls',>>>>>>>>,' a, 'ls > $ra', >,  a']
 []
+
+
+
+
+
+
+
+
+echo 'hello world'
+000010000000000000
