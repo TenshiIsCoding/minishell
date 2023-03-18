@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:03:03 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/17 13:12:49 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:30:19 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_putstr_export(char *s, int fd)
 	{
 		if (co == 1 && s[i] == '\'' && s[i - 1] != '=')
 			write(fd, &s[i], 1);
-		if ( s[i] != '\'')
+		else if ( s[i] != '\'')
 			write(fd, &s[i], 1);
 		if (s[i] == '=')
 		{
@@ -173,7 +173,7 @@ void ft_export(t_env *env, int limit, char *add)
 
 int main(int ac, char **av, char **env)
 {
-	char	s[100];
+	char	*s =  "hello="  "";
 	int		i;
 	int		j;
 	t_env	*enva;
@@ -182,7 +182,6 @@ int main(int ac, char **av, char **env)
 	j = 0;
 	(void)av;
 	(void)ac;
-	(void)s;
 	enva = ft_lstnew(env[i++]);
 	while (env[i])
 	{
@@ -203,8 +202,8 @@ int main(int ac, char **av, char **env)
 	// ft_env(enva);
 	// write (1, "\"", 1);
 	// ft_export(enva, 36, "f");
-	ft_lstadd_front(&enva, ft_lstnew("f=\'''"));
-	ft_lstadd_front(&enva, ft_lstnew("r"));
-	ft_export(enva, 37, "h=""");
+	// ft_lstadd_front(&enva, ft_lstnew("f=\'''"));
+	// ft_lstadd_front(&enva, ft_lstnew("r"));
+	ft_export(enva, 37, s);
 	// printf("\n%c\n", enva->element);
 }
