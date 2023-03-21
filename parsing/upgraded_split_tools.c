@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   upgraded_split.c                                   :+:      :+:    :+:   */
+/*   upgraded_split_tools.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:08 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/17 02:33:49 by azaher           ###   ########.fr       */
+/*   Updated: 2023/03/18 00:42:07 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,25 @@ void	maskgen(t_data *vars)
 		i++;
 	}
 	vars->mask[i] = '\0';
+}
+
+int	token_count(t_data *vars)
+{
+	int		i;
+	int		count;
+	char	prev_mask;
+
+	i = 1;
+	count = 0;
+	prev_mask = '1';
+	while (vars->mask[i])
+	{
+		if (vars->mask[i] == '0' && prev_mask != '0')
+			count++;
+		else if (vars->mask[i] == '2' && prev_mask != '2')
+			count++;
+		prev_mask = vars->mask[i];
+		i++;
+	}
+	return (count);
 }

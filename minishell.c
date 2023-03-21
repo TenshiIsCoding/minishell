@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/17 02:25:04 by azaher           ###   ########.fr       */
+/*   Updated: 2023/03/18 00:43:43 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ int	main(void)
 		vars->line = readline("minishell>");
 		maskgen(vars);
 		printf("%s\n", vars->mask);
+		printf("there are %d tokens\n", tocount);
 		add_history(vars->line);
 		free(vars->line);
 	}
 }
 
 /*≈
-><|
+
 
 00122222222210
 ls >>>>>|||| p

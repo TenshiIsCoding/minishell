@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/17 13:22:53 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/17 23:21:25 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ int		ft_lstsize(t_env *lst);
 //              Parsing prototypes Structs              //
 
 void	maskgen(t_data *vars);
+int		token_count(t_data *vars);
 
 #endif

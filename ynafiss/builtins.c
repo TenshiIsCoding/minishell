@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:03:03 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/17 13:12:49 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/17 13:28:07 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,40 +171,40 @@ void ft_export(t_env *env, int limit, char *add)
 }
 
 
-int main(int ac, char **av, char **env)
-{
-	char	s[100];
-	int		i;
-	int		j;
-	t_env	*enva;
+// int main(int ac, char **av, char **env)
+// {
+// 	char	s[100];
+// 	int		i;
+// 	int		j;
+// 	t_env	*enva;
 
-	i = 0;
-	j = 0;
-	(void)av;
-	(void)ac;
-	(void)s;
-	enva = ft_lstnew(env[i++]);
-	while (env[i])
-	{
-		ft_lstadd_back(&enva, ft_lstnew(env[i]));
-		i++;
-	}
-	// char *buf;
+// 	i = 0;
+// 	j = 0;
+// 	(void)av;
+// 	(void)ac;
+// 	(void)s;
+// 	enva = ft_lstnew(env[i++]);
+// 	while (env[i])
+// 	{
+// 		ft_lstadd_back(&enva, ft_lstnew(env[i]));
+// 		i++;
+// 	}
+// 	// char *buf;
 
-	// // printing current working directory
-	// buf = readline("\nMinishell>>");
-	// add_history(buf);
-	// if (ft_strcmp(buf, "cd") == 0)
-	// 	ft_cd(av[2], env);
-	// if (ft_strcmp(buf, "pwd") == 0)
-	// 	ft_pwd();
-	// printf("kyhb%%");
-	// ft_cd("~", env);
-	// ft_env(enva);
-	// write (1, "\"", 1);
-	// ft_export(enva, 36, "f");
-	ft_lstadd_front(&enva, ft_lstnew("f=\'''"));
-	ft_lstadd_front(&enva, ft_lstnew("r"));
-	ft_export(enva, 37, "h=""");
-	// printf("\n%c\n", enva->element);
-}
+// 	// // printing current working directory
+// 	// buf = readline("\nMinishell>>");
+// 	// add_history(buf);
+// 	// if (ft_strcmp(buf, "cd") == 0)
+// 	// 	ft_cd(av[2], env);
+// 	// if (ft_strcmp(buf, "pwd") == 0)
+// 	// 	ft_pwd();
+// 	// printf("kyhb%%");
+// 	// ft_cd("~", env);
+// 	// ft_env(enva);
+// 	// write (1, "\"", 1);
+// 	// ft_export(enva, 36, "f");
+// 	ft_lstadd_front(&enva, ft_lstnew("f=\'''"));
+// 	ft_lstadd_front(&enva, ft_lstnew("r"));
+// 	ft_export(enva, 37, "h=""");
+// 	// printf("\n%c\n", enva->element);
+// }
