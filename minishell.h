@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/17 13:22:53 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/21 15:24:08 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memset(void *str, int c, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
+void	ft_export(t_env **env, int limit, char *add);
 void	ft_bzero(void *str, size_t n);
+void	ft_unset(t_env **env, char *name);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putstr_fd(char *s, int fd);
