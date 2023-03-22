@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:12:54 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/20 13:29:07 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/22 18:08:07 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,30 @@ void	ft_putstr_export(char *s, int fd)
 	
 }
 
-void ft_export(t_env **env, int limit, char *add)
+char **ft_export(t_env *env, int limit, char *add, int unst)
 {
 	char	**str;
+	char	**new_env;
 	int i = 0;
 	int j = 0;
+	int size = ft_lstsize(env);
 	char	*alpha;
 
-	if (add)
+	// if (add)
+	// 	ft_lstadd_front(&env, ft_lstnew(add));
+	str = (char **)malloc(sizeof (char *) * (ft_lstsize((env)) + 1));
+	while (env)
 	{
-		ft_lstadd_front(env, ft_lstnew(add));
-    }
-	str = (char **)malloc(sizeof (char *) * ft_lstsize((*env)));
-	while (*env)
-	{
-		str[i] = (*env)->element;
-		(*env) = (*env)->next;
+		str[i] = (env)->element;
+		(env) = (env)->next;
 		i++;
 	}
+	str[i] = NULL;
 	i = 0;
 	while (limit >= i)
 	{
 		j = 0;
-		while (limit - 2 >= j)
+		while (limit >= j)
 		{
 			if(strcmp(str[j], str[j + 1]) > 0)
 			{
@@ -73,22 +74,13 @@ void ft_export(t_env **env, int limit, char *add)
 		}
 		i++;
 	}
-	j = 0;
-	while (j <= limit)
+	if (unst == 1)
 	{
-		ft_putstr_export("declare -x ", 1);
-		ft_putstr_export(str[j], 1);
-		write(1, "\n", 1);
-		// free(str[j]);
-		j++;
+		new_env = malloc(sizeof(char *) * (ft_lstsize(env) + 1));
+		new_env = ft_unset(str, add, size);
+		new_env[i] = NULL;
+		return (new_env);
 	}
-	j = 0;
-	// while (str != NULL && str[j] != NULL)
-	// {
-	// 	free(str[j]);
-	// 	j++;
-	// }
-	// free (str);
-	// free (str);
+	return (str);
 }
 

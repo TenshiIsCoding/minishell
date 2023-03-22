@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:03:03 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/21 15:25:10 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/22 18:13:31 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 // int main(int ac, char **av, char **env)
 // {
-// 	char	*s =  "hello";
-// 	// char	*r =  "no";
+// 	char	*s =  "COLORTERM";
+// 	char	**r;
 // 	int		i;
 // 	int		j;
 // 	t_env	*enva;
@@ -32,12 +32,36 @@
 // 		ft_lstadd_back(&enva, ft_lstnew(env[i]));
 // 		i++;
 // 	}
+// 	ft_lstadd_back(&enva, NULL);
 // 	// char *buf;
-// 	ft_export(&enva, 37, s);
+// 	// r = ft_export(enva, ft_lstsize(enva) - 1, s, 0);
+// 	// 	i = 0;
+// 	// while (r[i])
+// 	// {
+// 	// 	if (r[i][0])
+// 	// 		ft_putstr_export("declare -x ", 1);
+// 	// 	ft_putstr_export(r[i], 1);
+// 	// 	if (r[i][0])
+// 	// 		write(1, "\n", 1);
+// 	// 	i++;
+// 	// }
+// 	printf ("--------------------------------------------------------\n");
+// 	r = ft_export(enva, ft_lstsize(enva) - 1, s, 1);
+// 	printf("--%d--\n", ft_lstsize(enva));
+// 	// exit (0);
+// 	i = 0;
+// 	while (r[i])
+// 	{
+// 		if (r[i][0])
+// 			ft_putstr_export("declare -x ", 1);
+// 		ft_putstr_export(r[i], 1);
+// 		if (r[i][0])
+// 			write(1, "\n", 1);
+// 		i++;
+// 	}
 // 	// ft_export(&enva, 38, r);
 // 	// ft_export(&enva, 37, s);
 // 	// ft_export(&enva, 37, s);
-// 	ft_unset(&enva, s);
 // 	// ft_export(&unset, 37, s);
 // 	// ft_unset(&enva, s);
 // 	// ft_export(&enva, 37, "g");
