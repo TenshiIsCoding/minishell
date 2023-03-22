@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/21 16:32:55 by azaher           ###   ########.fr       */
+/*   Updated: 2023/03/22 18:07:06 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 int	main(void)
 {
 	t_data	*vars;
+	char	**ret;
 
 	vars = malloc(sizeof(t_data));
 	while (1)
 	{
 		vars->line = readline("minishell>");
-		maskgen(vars);
-		printf("%s\n", vars->mask);
-		printf("there are %d tokens\n", tocount);
+		ret = upgraded_split(vars);
+		printf("%s\n%s\n", ret[0], ret[1]);
 		add_history(vars->line);
 		free(vars->line);
 	}

@@ -6,11 +6,13 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:08 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/18 00:42:07 by azaher           ###   ########.fr       */
+/*   Updated: 2023/03/21 22:08:57 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/*	   replaces normal charaters by 0 and checks if in double quote	    */
 
 void	difelse(t_data *vars, int i)
 {
@@ -28,6 +30,8 @@ void	difelse(t_data *vars, int i)
 		vars->mask[i] = '0';
 }
 
+/*	   	replaces normal charaters by 0 and checks if in single quote	*/
+
 void	sifelse(t_data *vars, int i)
 {
 	if (vars->squote)
@@ -44,6 +48,8 @@ void	sifelse(t_data *vars, int i)
 		vars->mask[i] = '0';
 }
 
+/*	   		replaces space with 1 and other tokens with 2			*/
+
 void	ifelse(t_data *vars, int i)
 {
 	if (vars->squote || vars->dquote)
@@ -58,6 +64,8 @@ void	ifelse(t_data *vars, int i)
 	}
 }
 
+/*tokenize and give each input a certain number to help with spliting/parsing*/
+
 void	maskgen(t_data *vars)
 {
 	int		i;
@@ -67,7 +75,7 @@ void	maskgen(t_data *vars)
 	len = ft_strlen(vars->line);
 	vars->dquote = 0;
 	vars->squote = 0;
-	vars->mask = malloc(len * sizeof(char));
+	vars->mask = malloc((len + 1) * sizeof(char));
 	while (i < len)
 	{
 		if (vars->line[i] == ' ')
@@ -85,6 +93,8 @@ void	maskgen(t_data *vars)
 	}
 	vars->mask[i] = '\0';
 }
+
+/*                     counts tokens in the mask                           */
 
 int	token_count(t_data *vars)
 {

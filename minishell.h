@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/21 16:38:05 by azaher           ###   ########.fr       */
+/*   Updated: 2023/03/22 18:12:34 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 
 //              Execution Structs              //
 
-
 typedef struct t_env
 {
 	char			*element;
@@ -37,7 +36,6 @@ typedef struct t_list
 	struct t_list	*next;
 }t_list;
 
-
 //              Parsing Structs              //
 
 typedef struct t_data{
@@ -46,7 +44,6 @@ typedef struct t_data{
 	int		dquote;
 	int		squote;
 }t_data;
-
 
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
@@ -97,5 +94,6 @@ int		ft_lstsize(t_env *lst);
 
 void	maskgen(t_data *vars);
 int		token_count(t_data *vars);
+char	**upgraded_split(t_data *vars);
 
 #endif
