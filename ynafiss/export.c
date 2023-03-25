@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:12:54 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/22 18:08:07 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/24 01:29:26 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_putstr_export(char *s, int fd)
 			write(fd, &s[i], 1);
 		if ( s[i] != '\'')
 			write(fd, &s[i], 1);
-		if (s[i] == '=')
+		if (s[i] == '=' && co == 0)
 		{
 			write(1, "\"", 1);
 			co = 1;
@@ -39,6 +39,31 @@ void	ft_putstr_export(char *s, int fd)
 	
 }
 
+void	add_to_env(char *add, t_env **env)
+{
+	int	i;
+	t_env	*tmp;
+	int j;
+
+	j = ft_strlen(add) - 1;
+	i = 0;
+	tmp = (*env);
+	while (*env)
+	{
+		if (strncmp((*env)->element, add, ft_strlen(add) - 1) == 0)
+		{
+			i = 1;
+			break ;
+		}
+		(*env) = (*env)->next;
+	}
+	*env = tmp;
+	if (i == 1)
+		return ;
+	else if (i == 0 && add[j] == '=')
+		ft_lstadd_front(env, ft_lstnew(add));
+}
+
 char **ft_export(t_env *env, int limit, char *add, int unst)
 {
 	char	**str;
@@ -48,8 +73,7 @@ char **ft_export(t_env *env, int limit, char *add, int unst)
 	int size = ft_lstsize(env);
 	char	*alpha;
 
-	// if (add)
-	// 	ft_lstadd_front(&env, ft_lstnew(add));
+	add_to_env(add, &env);
 	str = (char **)malloc(sizeof (char *) * (ft_lstsize((env)) + 1));
 	while (env)
 	{
@@ -62,7 +86,7 @@ char **ft_export(t_env *env, int limit, char *add, int unst)
 	while (limit >= i)
 	{
 		j = 0;
-		while (limit >= j)
+		while (limit - 1 >= j)
 		{
 			if(strcmp(str[j], str[j + 1]) > 0)
 			{
@@ -78,7 +102,7 @@ char **ft_export(t_env *env, int limit, char *add, int unst)
 	{
 		new_env = malloc(sizeof(char *) * (ft_lstsize(env) + 1));
 		new_env = ft_unset(str, add, size);
-		new_env[i] = NULL;
+		new_env[limit] = NULL;
 		return (new_env);
 	}
 	return (str);
