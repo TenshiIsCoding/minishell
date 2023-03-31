@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:12:54 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/24 01:29:26 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/30 00:41:31 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ char **ft_export(t_env *env, int limit, char *add, int unst)
 	int size = ft_lstsize(env);
 	char	*alpha;
 
-	add_to_env(add, &env);
+	if (add && unst == 0)
+		add_to_env(add, &env);
 	str = (char **)malloc(sizeof (char *) * (ft_lstsize((env)) + 1));
 	while (env)
 	{

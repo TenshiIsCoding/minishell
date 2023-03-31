@@ -6,12 +6,16 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/22 18:17:36 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/30 00:41:41 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# ifndef BUFFER_SIZE
+#  define  BUFFER_SIZE	5
+# endif
 
 # include <stdlib.h>
 # include <stdlib.h>
@@ -90,6 +94,10 @@ void	ft_lstadd_front(t_env **lst, t_env *new);
 t_env	*ft_lstlast(t_env *lst);
 t_env	*ft_lstnew(char *element);
 int		ft_lstsize(t_env *lst);
+char	*get_next_line(int fd);
+char	*ft_ft(int fd, char *str);
+char	*ft_fr(char *str);
+char	*ft_l1(char *s);
 
 //              Parsing prototypes Structs              //
 
