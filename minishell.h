@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/22 18:17:36 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/03 09:47:05 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,36 @@ typedef struct t_list
 
 //              Parsing Structs              //
 
+typedef struct t_cmd {
+	char	**args;
+	char	**outf;
+	char	**infl;
+}t_cmd;
+
+typedef struct t_node
+{
+	t_cmd				*content;
+	struct t_node		*next;
+}t_node;
+
 typedef struct t_data{
+	int		cmdcount;
+	t_node	*cmds;
+	t_node	*ndtmp;
+	char	**splt;
 	char	*line;
 	char	*mask;
 	int		dquote;
 	int		squote;
+	char	*temp;
+	char	*ret;
+	int		status;
+	int		argln;
+	int		outln;
+	int		inln;
+	int		argdx;
+	int		outdx;
+	int		infdx;
 }t_data;
 
 void	*ft_memcpy(void *dst, const void *src, size_t n);
@@ -96,5 +121,21 @@ int		ft_lstsize(t_env *lst);
 void	maskgen(t_data *vars);
 int		token_count(t_data *vars);
 char	**upgraded_split(t_data *vars);
+void	ft_free(char **ret);
+int		check_mix_meta(char *token);
+int		check_quotes(char *token);
+int		pipe_ends(char	*first_token, char *last_token);
+int		double_pipe(char *token);
+int		double_rredirections(char *token);
+int		triple_lredirections(char *token);
+int		syntax_checker(char	**tokens);
+char	*ft_strjoin_char(char *str, char c);
+int		get_delimiter(char *str);
+char	*get_expanded_env(char **env, char *str);
+char	*ft_lexxer(char *str, char **env);
+void	parse_start(t_data *vars);
+void	ft_lstback_add(t_node **lst, t_node *new);
+t_node	*ft_lstlastnode(t_node *lst);
+char	**rllc(char **tab, char *arg);
 
 #endif
