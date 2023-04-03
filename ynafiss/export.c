@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:12:54 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/30 00:41:31 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/02 16:05:13 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,3 @@ char **ft_export(t_env *env, int limit, char *add, int unst)
 	}
 	return (str);
 }
-

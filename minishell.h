@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/30 00:41:41 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:08:22 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ char	*get_next_line(int fd);
 char	*ft_ft(int fd, char *str);
 char	*ft_fr(char *str);
 char	*ft_l1(char *s);
+void	ft_env(t_env *env);
+void	ft_pwd(void);void	ft_echo(char *print, char *flag);
+void 	ft_cd(char *path, char **env);
 
 //              Parsing prototypes Structs              //
 
