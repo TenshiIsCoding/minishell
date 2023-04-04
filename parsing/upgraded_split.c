@@ -6,11 +6,24 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 02:40:38 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/22 18:12:53 by azaher           ###   ########.fr       */
+/*   Updated: 2023/03/22 22:23:12 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_free(char **ret)
+{
+	int	i;
+
+	i = 0;
+	while (ret[i])
+	{
+		free(ret[i]);
+		i++;
+	}
+	free (ret);
+}
 
 /* 			duplicates string considering the given coordinates				*/
 
@@ -33,6 +46,8 @@ char	*dup_coord(char *str, int start, int end)
 	return (ret);
 }
 
+/*	 	fills the allocated token and returns the i to incrament it		*/
+
 int	token_fill(char **token, char *mask, char *str, int i)
 {
 	int		len;
@@ -45,7 +60,6 @@ int	token_fill(char **token, char *mask, char *str, int i)
 	index = 0;
 	while (mask[len + i] == temp)
 		len++;
-	printf("%d", len);
 	*token = malloc((len + 1) * sizeof(char));
 	token_temp = *token;
 	while (mask[i] == temp)
@@ -57,6 +71,8 @@ int	token_fill(char **token, char *mask, char *str, int i)
 	token_temp[index] = '\0';
 	return (i);
 }
+
+/*  	iterates through the mask and splits where the 1's are found	 */
 
 char	**upgraded_split(t_data *vars)
 {

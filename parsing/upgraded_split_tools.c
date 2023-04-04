@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:08 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/21 22:08:57 by azaher           ###   ########.fr       */
+/*   Updated: 2023/03/22 19:51:54 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	token_count(t_data *vars)
 	int		count;
 	char	prev_mask;
 
-	i = 1;
+	i = 0;
 	count = 0;
 	prev_mask = '1';
 	while (vars->mask[i])

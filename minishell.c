@@ -6,27 +6,95 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/23 13:38:51 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/04 02:26:31 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	main(void)
-// {
-// 	t_data	*vars;
-// 	char	**ret;
+void	print_ret(char **ret)
+{
+	int	i;
+	int	j;
 
-// 	vars = malloc(sizeof(t_data));
-// 	while (1)
-// 	{
-// 		vars->line = readline("minishell>");
-// 		ret = upgraded_split(vars);
-// 		printf("%s\n%s\n", ret[0], ret[1]);
-// 		add_history(vars->line);
-// 		free(vars->line);
-// 	}
-// }
+	i = 0;
+	j = 0;
+	while (ret[i])
+	{
+		j = 0;
+		while (ret[i][j])
+		{
+			write(1, &ret[i][j], 1);
+			j++;
+		}
+		write(1, "\n", 1);
+		i++;
+	}
+}
+
+void	hard_list(t_node *node)
+{
+	t_node	*tmp;
+
+	if (node == NULL)
+		return ;
+	tmp = node->next->next;
+	node->content = node->next->content;
+	node->next = node->next->next;
+	free(tmp);
+}
+
+void	print_list(t_node *node)
+{
+	while(node != NULL) {
+	printf("%s\n", node->content->args[0]);
+	printf("%s\n", node->content->args[1]);
+	printf("%s\n", node->content->infl[0]);
+	node = node->next;
+	}
+	
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_data	*vars;
+
+	(void)argc;
+	(void)argv;
+	(void)env;
+	vars = malloc(sizeof(t_data));
+	while (1)
+	{
+		vars->line = readline("minishell$ ");
+		if (!vars->line)
+			break ;
+		if (!vars->line[0])
+			continue ;
+		parse_start(vars);
+		if (vars->status != 258)
+			hard_list(vars->cmds);
+		multipipe(vars->cmds, vars->cmdcount, env);
+		add_history(vars->line);
+		free(vars->line);
+	}
+}
+
+/*≈
+
+
+00122222222210
+ls >>>>>|||| p
+[ls, >>>>>|||, p]
+
+00122222333310
+ls >>>>>|||| p
+[ls, >>>>>, |||||, p]
+
+<>| outside '' "" 2
+\t\n\v 1
+else 0
+	dump shit
+*/
 
 /*≈
 
