@@ -12,7 +12,7 @@
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra 
 AF= minishell.c \
 ynafiss/builtins.c	\
 ynafiss/ft_list.c	\
