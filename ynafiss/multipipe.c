@@ -6,9 +6,10 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/04 02:37:58 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/04 21:46:33 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 #include <unistd.h>
@@ -145,7 +146,7 @@ void	last_cmd(int *fd, char **cmd, char **env)
 		dup2(*fd, 0);
 		close(pi[0]);
 		close (pi[1]);
-		waitpid(ch, NULL, 0);
+		waitpid(ch, NULL, -1);
 		execve(path, cmd, env);
 	}
 	
@@ -160,15 +161,19 @@ void    multipipe(t_node  *line, int pipe_num, char **env)
 	i = 0;
 	j = 0;
 	fd = dup (0);
-	// // printf("%s", line->content->args[0]);
-	// printf("%d", pipe_num);
-	// // printf("%s", line->next->content->args[0]);
-	// exit (0);
+	if (pipe_num == 1)
+	{
+		one_cmd()
+	}
 	while (i < pipe_num)
 	{
 		mid_cmd(&fd, line->content->args, env);
 		i++;
 	}
+	printf("%d", pipe_num);
+	printf("%s", line->next->content->args[0]);
+	printf("%s", line->content->args[0]);
+	exit (0);
 	line = line->next;
 	last_cmd(&fd, line->content->args, env);
 }
