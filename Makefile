@@ -6,7 +6,7 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/04 23:51:00 by azaher           ###   ########.fr        #
+#    Updated: 2023/04/04 23:55:07 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ ynafiss/echo_cd.c	\
 ynafiss/env_pwd.c	\
 ynafiss/export.c	\
 ynafiss/unset.c	\
-pipex/multipipe.c	\
+ynafiss/multipipe.c	\
 parsing/upgraded_split_tools.c \
 parsing/upgraded_split.c \
 parsing/syntax_tools.c \

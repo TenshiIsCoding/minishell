@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/04 23:51:26 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/04 23:55:39 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	main(int argc, char **argv, char **env)
 		if (vars->status != 258)
 			hard_list(vars->cmds);
 		multipipe(vars->cmds, vars->cmdcount, env);
+		print_list(vars->cmds);
 		add_history(vars->line);
 		free(vars->line);
 	}
