@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
+#    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/03 09:55:38 by azaher           ###   ########.fr        #
+#    Updated: 2023/04/04 01:51:02 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ ynafiss/echo_cd.c	\
 ynafiss/env_pwd.c	\
 ynafiss/export.c	\
 ynafiss/unset.c	\
+pipex/multipipe.c	\
 parsing/upgraded_split_tools.c \
 parsing/upgraded_split.c \
 parsing/syntax_tools.c \

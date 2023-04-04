@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/03 09:47:05 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/04 01:49:08 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# ifndef BUFFER_SIZE
+#  define  BUFFER_SIZE	5
+# endif
 
 # include <stdlib.h>
 # include <stdlib.h>
@@ -70,6 +74,7 @@ typedef struct t_data{
 	int		infdx;
 }t_data;
 
+void    multipipe(t_node  *line, int pipe_num, char **env);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_calloc(size_t count, size_t size);
@@ -115,6 +120,13 @@ void	ft_lstadd_front(t_env **lst, t_env *new);
 t_env	*ft_lstlast(t_env *lst);
 t_env	*ft_lstnew(char *element);
 int		ft_lstsize(t_env *lst);
+char	*get_next_line(int fd);
+char	*ft_ft(int fd, char *str);
+char	*ft_fr(char *str);
+char	*ft_l1(char *s);
+void	ft_env(t_env *env);
+void	ft_pwd(void);void	ft_echo(char *print, char *flag);
+void 	ft_cd(char *path, char **env);
 
 //              Parsing prototypes Structs              //
 
