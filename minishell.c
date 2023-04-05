@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/04 21:45:42 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/05 00:00:21 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	main(int argc, char **argv, char **env)
 		printf("%s", vars->cmds->content->args[0]);
 		exit (0);
 		multipipe(vars->cmds, vars->cmdcount, env);
+		print_list(vars->cmds);
 		add_history(vars->line);
 		free(vars->line);
 	}
