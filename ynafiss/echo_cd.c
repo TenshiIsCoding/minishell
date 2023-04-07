@@ -6,13 +6,13 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/19 09:15:58 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/06 02:58:36 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_echo(char *print, char *flag)
+void	ft_echo(char **print, char *flag)
 {
 	int	i;
 	int	j;
@@ -36,10 +36,16 @@ void	ft_echo(char *print, char *flag)
 			j++;
 		}
 	}
-	while (print[i])
+	i = 0;
+	j = 2;
+	while (print[j])
 	{
-		write(1, &print[i], 1);
-		i++;
+		while(print[j][i])
+		{
+			write(1, &print[i], 1);
+			i++;
+		}
+		j++;
 	}
 	if (flag[k] != '\0' && (flag == NULL || ft_strcmp(flag, "-n") != 0))
 		write(1, "\n", 1);

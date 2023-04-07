@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/05 00:00:21 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/06 02:37:23 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	main(int argc, char **argv, char **env)
 	vars = malloc(sizeof(t_data));
 	while (1)
 	{
-		vars->line = readline("minishell> ");
+		vars->line = readline("minishell$ ");
 		if (!vars->line)
 			break ;
 		if (!vars->line[0])
@@ -73,16 +73,7 @@ int	main(int argc, char **argv, char **env)
 		parse_start(vars);
 		if (vars->status != 258)
 			hard_list(vars->cmds);
-		printf("%s", vars->cmds->content->args[0]);
-		if (vars->cmds->next == NULL)
-		{
-			printf("5awya"), exit (0);
-		}
-		vars->cmds = vars->cmds->next;
-		printf("%s", vars->cmds->content->args[0]);
-		exit (0);
 		multipipe(vars->cmds, vars->cmdcount, env);
-		print_list(vars->cmds);
 		add_history(vars->line);
 		free(vars->line);
 	}

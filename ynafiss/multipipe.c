@@ -6,10 +6,9 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/04 21:46:33 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/07 00:54:53 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 #include <unistd.h>
@@ -45,6 +44,8 @@ void	com_n(char *cmd)
 {
 	write(2, "command not found: ", 20);
 	write(2, cmd, ft_strlen(cmd));
+	write(2, "\n", 1);
+
 	exit(127);
 }
 
@@ -77,25 +78,9 @@ char	*get(char **env, char *cmd)
 	return (cmd);
 }
 
-int	ft_len(char	**cmd, int j)
+void	mid_cmd(int *fd, char **cmd, char **env, int ch, int *pi)
 {
-	int	i;
-
-	i = j;
-	while (cmd[i] && strcmp(cmd[i], "|") != 0)
-		i++;
-	return (i);
-}
-
-void	mid_cmd(int *fd, char **cmd, char **env)
-{
-	static int	c;
 	char		*path;
-	int			ch;
-	int			pi[2];
-
-	pipe(pi);
-	ch = fork();
 	if (ch == 0)
 	{
 		if (cmd[0][0] == '/' && access(cmd[0], X_OK) == 0)
@@ -103,22 +88,15 @@ void	mid_cmd(int *fd, char **cmd, char **env)
 		else
 			path = get(env, cmd[0]);
 
-		if (c == 0)
-		{
-			dup2(pi[1], 1);
-			close(pi[0]);
-			close (pi[1]);
-			c++;
-		}
-		else
-		{
 			close (pi[0]);
-			dup2(*fd, 0);
 			dup2(pi[1], 1);
-			close(*fd);
 			close (pi[1]);
-		}
-		execve(path, cmd, env);
+			dup2(*fd, 0);
+			close(*fd);
+		// if (is_builtin(cmd) == 0)
+			execve(path, cmd, env);
+		// else
+		// 	exec_built(cmd, env);
 	}
 	else
 	{
@@ -129,51 +107,96 @@ void	mid_cmd(int *fd, char **cmd, char **env)
 	
 }
 
-void	last_cmd(int *fd, char **cmd, char **env)
+// void	exec_built(char **cmd, char **env)
+// {
+// 	if (strcmp(cmd[0], "cd"))
+// 		ft_cd(cmd[1], env);
+// 	if (strcmp(cmd[0], "echo"))
+// 		ft_echo(cmd, cmd[1]);
+// 	if (strcmp(cmd[0], "env"))
+// 		ft_env(env);
+// 	if (strcmp(cmd[0], "pwd"))
+// 		ft_pwd();
+// 	if (strcmp(cmd[0], "unset"))
+// 		ft_unset(env, cmd, cmd[1]);
+// }
+
+int	is_builtin(char **cmd)
+{
+	if (strcmp(cmd[0], "cd") || strcmp(cmd[0], "echo") || strcmp(cmd[0], "export") || strcmp(cmd[0], "env") || strcmp(cmd[0], "unset") ||  strcmp(cmd[0], "pwd"))
+		return (1);
+	else
+		return (0);
+}
+
+void	last_cmd(int fd, char **cmd, char **env, int ch)
 {
 	char		*path;
-	int			ch;
-	int			pi[2];
 
-	pipe(pi);
-	ch = fork();
 	if (ch == 0)
 	{
 		if (cmd[0][0] == '/' && access(cmd[0], X_OK) == 0)
 			path = cmd[0];	
 		else
 			path = get(env, cmd[0]);
-		dup2(*fd, 0);
-		close(pi[0]);
-		close (pi[1]);
-		waitpid(ch, NULL, -1);
+		printf("%s", path);
+		dup2(fd, 0);
+		close (fd);
+		execve(path, cmd, env);
+	}
+	else
+		close (fd);
+}
+
+void one_cmd(char **cmd, char **env, int ch)
+{
+	char		*path;
+
+	if (ch == 0)
+	{
+		if (cmd[0][0] == '/' && access(cmd[0], X_OK) == 0)
+			path = cmd[0];	
+		else
+			path = get(env, cmd[0]);
 		execve(path, cmd, env);
 	}
 	
 }
 
-void    multipipe(t_node  *line, int pipe_num, char **env)
+void    multipipe(t_node  *line, int cmd_num, char **env)
 {
     int	i;
 	int	j;
 	int	fd;
+	int ch[cmd_num];
+	int			pi[2];
 
 	i = 0;
 	j = 0;
 	fd = dup (0);
-	if (pipe_num == 1)
+	if (cmd_num == 1)
 	{
-		one_cmd()
+		ch[i] = fork();
+		one_cmd(line->content->args, env, ch[i]);
 	}
-	while (i < pipe_num)
+	else
 	{
-		mid_cmd(&fd, line->content->args, env);
-		i++;
+		pipe(pi);
+		while (i < cmd_num && line->next)
+		{
+			ch[i] = fork();
+			mid_cmd(&fd, line->content->args, env, ch[i], pi);
+			line = line->next;
+			i++;
+		}
+		ch[i] = fork();
+		last_cmd(fd, line->content->args, env, ch[i]);
 	}
-	printf("%d", pipe_num);
-	printf("%s", line->next->content->args[0]);
-	printf("%s", line->content->args[0]);
-	exit (0);
-	line = line->next;
-	last_cmd(&fd, line->content->args, env);
+	waitpid(ch[i], NULL, 0);
+	while (j < i)
+	{
+		waitpid(ch[j], NULL, 0);
+		j++;
+	}
+	
 }
