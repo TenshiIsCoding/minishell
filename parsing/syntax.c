@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:55:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/02 06:11:30 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/08 05:24:56 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ifelse_ret(char *token, char *next_token)
 		if (token[0] == '|')
 			return (double_pipe(token));
 		else if (token[0] == '>')
-			return (double_rredirections(token) || next_token == NULL);
+			return (triple_rredirections(token) || next_token == NULL);
 		else if (token[0] == '<')
 			return (triple_lredirections(token) || next_token == NULL);
 	}

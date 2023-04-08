@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/06 19:34:37 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/08 05:44:12 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-
+# include "queue/queue.h"
 //              Execution Structs              //
 
 typedef struct t_env
@@ -42,10 +42,23 @@ typedef struct t_list
 
 //              Parsing Structs              //
 
+enum
+{
+	IN,
+	OUT,
+	APND,
+	HERE
+};
+
+typedef struct t_file
+{
+	int		type;
+	char	*filename;
+}t_file;
+
 typedef struct t_cmd {
 	char	**args;
-	char	**outf;
-	char	**infl;
+	t_file	**files;
 }t_cmd;
 
 typedef struct t_node
@@ -58,6 +71,7 @@ typedef struct t_data{
 	int		cmdcount;
 	t_node	*cmds;
 	t_node	*ndtmp;
+	t_queue	commands;
 	char	**splt;
 	char	*line;
 	char	*mask;
@@ -66,15 +80,10 @@ typedef struct t_data{
 	char	*temp;
 	char	*ret;
 	int		status;
-	int		argln;
-	int		outln;
-	int		inln;
-	int		argdx;
-	int		outdx;
-	int		infdx;
+	int		pipedex;
 }t_data;
 
-void    multipipe(t_node  *line, int pipe_num, char **env);
+void	multipipe(t_node *line, int pipe_num, char **env);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_calloc(size_t count, size_t size);
@@ -139,16 +148,18 @@ int		check_mix_meta(char *token);
 int		check_quotes(char *token);
 int		pipe_ends(char	*first_token, char *last_token);
 int		double_pipe(char *token);
-int		double_rredirections(char *token);
+int		triple_rredirections(char *token);
 int		triple_lredirections(char *token);
 int		syntax_checker(char	**tokens);
-char	*ft_strjoin_char(char *str, char c);
-int		get_delimiter(char *str);
-char	*get_expanded_env(char **env, char *str);
-char	*ft_lexxer(char *str, char **env);
-void	parse_start(t_data *vars);
+void	pass_data(t_data *v);
+int		parse_start(t_data *vars);
 void	ft_lstback_add(t_node **lst, t_node *new);
 t_node	*ft_lstlastnode(t_node *lst);
 char	**rllc(char **tab, char *arg);
+int		is_redir(char *token);
+t_file	*create_file(char *filename, char *filetype);
+t_file	**fill_files(t_queue *files);
+t_cmd	*get_cmd(char **splt, t_data *v);
+void	free_data(void *t);
 
 #endif

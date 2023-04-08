@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:55:12 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/29 02:33:10 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/08 05:24:40 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,21 @@ int	double_pipe(char *token)
 	return (token[1] != '\0');
 }
 
-int	double_rredirections(char *token)
+int	triple_rredirections(char *token)
 {
-	return (token[1] != '\0');
+	int	i;
+	int	tracker;
+
+	i = 1;
+	tracker = 1;
+	while (token[i])
+	{
+		if (token[i] == '<')
+			tracker++;
+		i++;
+	}
+	if (tracker > 2)
+		return (1);
+	else
+		return (0);
 }
