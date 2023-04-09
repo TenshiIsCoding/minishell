@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:03:03 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/03 18:35:52 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/07 01:13:37 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@
 // 	char	**r;
 // 	int		i;
 // 	int		j;
-// 	t_env	*enva;
    
 // 	i = 0;
 // 	j = 0;
 // 	(void)av;
 // 	(void)ac;
+// 	t_env	*enva;
 // 	enva = ft_lstnew(env[i++]);
 // 	while (env[i])
 // 	{

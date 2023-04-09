@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/07 00:54:53 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/07 01:06:23 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,26 @@ char	*get(char **env, char *cmd)
 	return (cmd);
 }
 
+void	exec_built(char **cmd, char **env)
+{
+	if (strcmp(cmd[0], "cd"))
+		ft_cd(cmd[1], env);
+	// if (strcmp(cmd[0], "echo"))
+	// 	ft_echo(cmd, cmd[1]);
+	// if (strcmp(cmd[0], "env"))
+	// 	ft_env(env);
+	if (strcmp(cmd[0], "pwd"))
+		ft_pwd();
+	// if (strcmp(cmd[0], "unset"))
+	// 	ft_unset(env, cmd, cmd[1]);
+}
+int	is_builtin(char **cmd)
+{
+	if (strcmp(cmd[0], "cd") || strcmp(cmd[0], "echo") || strcmp(cmd[0], "export") || strcmp(cmd[0], "env") || strcmp(cmd[0], "unset") ||  strcmp(cmd[0], "pwd"))
+		return (1);
+	else
+		return (0);
+}
 void	mid_cmd(int *fd, char **cmd, char **env, int ch, int *pi)
 {
 	char		*path;
@@ -93,10 +113,10 @@ void	mid_cmd(int *fd, char **cmd, char **env, int ch, int *pi)
 			close (pi[1]);
 			dup2(*fd, 0);
 			close(*fd);
-		// if (is_builtin(cmd) == 0)
+		if (is_builtin(cmd) == 0)
 			execve(path, cmd, env);
-		// else
-		// 	exec_built(cmd, env);
+		else
+			exec_built(cmd, env);
 	}
 	else
 	{
@@ -107,27 +127,7 @@ void	mid_cmd(int *fd, char **cmd, char **env, int ch, int *pi)
 	
 }
 
-// void	exec_built(char **cmd, char **env)
-// {
-// 	if (strcmp(cmd[0], "cd"))
-// 		ft_cd(cmd[1], env);
-// 	if (strcmp(cmd[0], "echo"))
-// 		ft_echo(cmd, cmd[1]);
-// 	if (strcmp(cmd[0], "env"))
-// 		ft_env(env);
-// 	if (strcmp(cmd[0], "pwd"))
-// 		ft_pwd();
-// 	if (strcmp(cmd[0], "unset"))
-// 		ft_unset(env, cmd, cmd[1]);
-// }
 
-int	is_builtin(char **cmd)
-{
-	if (strcmp(cmd[0], "cd") || strcmp(cmd[0], "echo") || strcmp(cmd[0], "export") || strcmp(cmd[0], "env") || strcmp(cmd[0], "unset") ||  strcmp(cmd[0], "pwd"))
-		return (1);
-	else
-		return (0);
-}
 
 void	last_cmd(int fd, char **cmd, char **env, int ch)
 {
