@@ -6,13 +6,13 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/08 02:26:55 by azaher           ###   ########.fr        #
+#    Updated: 2023/04/11 02:42:44 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 AF= minishell.c \
 ynafiss/builtins.c	\
 ynafiss/ft_list.c	\

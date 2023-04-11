@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 06:53:03 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/08 05:44:58 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/11 02:26:18 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	parse_start(t_data *vars)
 	vars->splt = upgraded_split(vars);
 	if (syntax_checker(vars->splt))
 	{
-		printf("minishell: syntax error near unexpected token\n");
+		write(2, "minishell: syntax error near unexpected token\n", 46);
 		vars->status = 258;
 		ft_free(vars->splt);
 		free(vars->mask);
