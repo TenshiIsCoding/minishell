@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/06 02:37:23 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/11 03:36:37 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,51 @@ void	hard_list(t_node *node)
 	free(tmp);
 }
 
-void	print_list(t_node *node)
+void	print_queue(t_queue *queue)
 {
-	while(node != NULL) {
-	printf("%s\n", node->content->args[0]);
-	printf("%s\n", node->content->args[1]);
-	printf("%s\n", node->content->infl[0]);
-	node = node->next;
+	int				i;
+	t_queue_node	*node;
+	t_cmd			*cmd;
+
+	node = queue->head;
+	while (node)
+	{
+		i = 0;
+		cmd = node->ptr;
+		printf("Args: ");
+		while (cmd->args[i])
+			printf("%s ", cmd->args[i++]);
+		printf("\n");
+		i = 0;
+		printf("Files: ");
+		while (cmd->files[i])
+		{
+			printf("(%s type: %d) ", cmd->files[i]->filename,
+				cmd->files[i]->type);
+			i++;
+		}
+		printf("\n");
+		printf("COMMANDs: %d\n", queue->len);
+		node = node->next;
 	}
-	
+}
+
+void	free_cmd(void *v)
+{
+	t_cmd	*p;
+	int		i;
+
+	i = 0;
+	p = v;
+	ft_free(p->args);
+	while (p->files[i])
+	{
+		free(p->files[i]->filename);
+		free(p->files[i]);
+		i++;
+	}
+	free(p->files);
+	free(p);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -61,8 +97,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	(void)env;
 	vars = malloc(sizeof(t_data));
+	vars->env = full_env(env);
 	while (1)
 	{
 		vars->line = readline("minishell$ ");
@@ -70,45 +106,12 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		if (!vars->line[0])
 			continue ;
-		parse_start(vars);
-		if (vars->status != 258)
-			hard_list(vars->cmds);
-		multipipe(vars->cmds, vars->cmdcount, env);
+		if (parse_start(vars))
+			continue ;
+		multipipe(&vars->commands, env);
+		// print_queue(&vars->commands);
+		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
 	}
 }
-
-/*≈
-
-
-00122222222210
-ls >>>>>|||| p
-[ls, >>>>>|||, p]
-
-00122222333310
-ls >>>>>|||| p
-[ls, >>>>>, |||||, p]
-
-<>| outside '' "" 2
-\t\n\v 1
-else 0
-	dump shit
-*/
-
-/*≈
-
-
-00122222222210
-ls >>>>>|||| p
-[ls, >>>>>|||, p]
-
-00122222333310
-ls >>>>>|||| p
-[ls, >>>>>, |||||, p]
-
-<>| outside '' "" 2
-\t\n\v 1
-else 0
-
-*/

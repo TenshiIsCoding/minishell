@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/07 01:06:23 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/10 02:42:15 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,27 +77,28 @@ char	*get(char **env, char *cmd)
 		com_n(cmd);
 	return (cmd);
 }
-
 void	exec_built(char **cmd, char **env)
 {
-	if (strcmp(cmd[0], "cd"))
+	if (strcmp(cmd[0], "cd") == 0)
 		ft_cd(cmd[1], env);
-	// if (strcmp(cmd[0], "echo"))
-	// 	ft_echo(cmd, cmd[1]);
-	// if (strcmp(cmd[0], "env"))
-	// 	ft_env(env);
-	if (strcmp(cmd[0], "pwd"))
+// 	if (strcmp(cmd[0], "echo"))
+// 		ft_echo(cmd, cmd[1]);
+// 	if (strcmp(cmd[0], "env"))
+// 		ft_env(env);
+	// if (strcmp(cmd[0], "pwd") == 0)
 		ft_pwd();
-	// if (strcmp(cmd[0], "unset"))
-	// 	ft_unset(env, cmd, cmd[1]);
+// 	if (strcmp(cmd[0], "unset"))
+// 		ft_unset(env, cmd, cmd[1]);
 }
+
 int	is_builtin(char **cmd)
 {
-	if (strcmp(cmd[0], "cd") || strcmp(cmd[0], "echo") || strcmp(cmd[0], "export") || strcmp(cmd[0], "env") || strcmp(cmd[0], "unset") ||  strcmp(cmd[0], "pwd"))
+	if (strcmp(cmd[0], "pwd") == 0)
 		return (1);
 	else
 		return (0);
 }
+
 void	mid_cmd(int *fd, char **cmd, char **env, int ch, int *pi)
 {
 	char		*path;
@@ -128,7 +129,6 @@ void	mid_cmd(int *fd, char **cmd, char **env, int ch, int *pi)
 }
 
 
-
 void	last_cmd(int fd, char **cmd, char **env, int ch)
 {
 	char		*path;
@@ -156,41 +156,50 @@ void one_cmd(char **cmd, char **env, int ch)
 	{
 		if (cmd[0][0] == '/' && access(cmd[0], X_OK) == 0)
 			path = cmd[0];	
-		else
+		if (is_builtin(cmd) == 0)
+		{			
 			path = get(env, cmd[0]);
-		execve(path, cmd, env);
+			execve(path, cmd, env);
+		}
+		else
+			exec_built(cmd, env);
 	}
 	
 }
 
-void    multipipe(t_node  *line, int cmd_num, char **env)
+void    multipipe(t_queue *line, char **env)
 {
     int	i;
 	int	j;
+	t_queue_node	*node;
+	t_cmd			*cmd;
 	int	fd;
-	int ch[cmd_num];
+	int ch[line->len];
 	int			pi[2];
 
 	i = 0;
 	j = 0;
+	node = line->head;
 	fd = dup (0);
-	if (cmd_num == 1)
+	if (line->len == 1)
 	{
+		cmd = node->ptr;
 		ch[i] = fork();
-		one_cmd(line->content->args, env, ch[i]);
+		one_cmd(cmd->args, env, ch[i]);
 	}
 	else
 	{
-		pipe(pi);
-		while (i < cmd_num && line->next)
+		while (i < line->len)
 		{
+			pipe(pi);
+			cmd = node->ptr;
 			ch[i] = fork();
-			mid_cmd(&fd, line->content->args, env, ch[i], pi);
-			line = line->next;
+			mid_cmd(&fd, cmd->args, env, ch[i], pi);
+			node = node->next;
 			i++;
-		}
+		} 
 		ch[i] = fork();
-		last_cmd(fd, line->content->args, env, ch[i]);
+		last_cmd(fd, cmd->args, env, ch[i]);
 	}
 	waitpid(ch[i], NULL, 0);
 	while (j < i)

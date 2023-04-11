@@ -6,7 +6,7 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/04 23:55:07 by azaher           ###   ########.fr        #
+#    Updated: 2023/04/08 02:26:55 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ parsing/syntax.c \
 parsing/expanding.c \
 parsing/expanding_tools.c \
 parsing/parse_start.c \
-parsing/parse_tools.c
+parsing/parse_tools.c \
+queue/queue.c
 
 OBJS = ${AF:.c=.o}
 

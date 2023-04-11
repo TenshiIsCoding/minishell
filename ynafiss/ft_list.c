@@ -46,17 +46,17 @@ t_env	*ft_lstlast(t_env *lst)
 	return (lst);
 }
 
-t_env	*ft_lstnew(char *element)
-{
-	t_env	*new;
+// t_env	*ft_lstnew(char *element)
+// {
+// 	t_env	*new;
 
-	new = (t_env *)malloc(sizeof(t_env));
-	if (!new)
-		return (NULL);
-	new->element = element;
-	new->next = NULL;
-	return (new);
-}
+// 	new = (t_env *)malloc(sizeof(t_env));
+// 	if (!new)
+// 		return (NULL);
+// 	new->element = element;
+// 	new->next = NULL;
+// 	return (new);
+// }
 
 int	ft_lstsize(t_env *lst)
 {
