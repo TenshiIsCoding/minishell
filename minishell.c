@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/11 02:44:54 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/11 03:38:18 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	print_queue(t_queue *queue)
 			i++;
 		}
 		printf("\n");
+		printf("COMMANDs: %d\n", queue->len);
 		node = node->next;
 	}
 }
@@ -96,8 +97,8 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	(void)env;
 	vars = malloc(sizeof(t_data));
+	vars->env = full_env(env);
 	while (1)
 	{
 		vars->line = readline("minishell$ ");
@@ -107,8 +108,8 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (parse_start(vars))
 			continue ;
-		// multipipe(vars->cmds, vars->cmdcount, env);
-		print_queue(&vars->commands);
+		multipipe(&vars->commands, env);
+		// print_queue(&vars->commands);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
