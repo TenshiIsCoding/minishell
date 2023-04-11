@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/11 03:41:11 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/11 03:42:40 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct t_env
 typedef struct t_list
 {
 	int				content;
-	
 	struct t_list	*next;
 }t_list;
 
@@ -72,6 +71,7 @@ typedef struct t_data{
 	int		cmdcount;
 	t_node	*cmds;
 	t_node	*ndtmp;
+	t_env	*env;
 	t_queue	commands;
 	char	**splt;
 	char	*line;
@@ -84,7 +84,7 @@ typedef struct t_data{
 	int		pipedex;
 }t_data;
 
-void    multipipe(t_queue *line, char **env);
+void	multipipe(t_queue *line, char **env);
 t_env	*full_env(char **env);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
@@ -139,7 +139,7 @@ t_env	*full_env(char **env);
 // void	ft_env(t_env *env);
 void	ft_pwd(void);
 // void	ft_echo(char **print, char *flag);
-void 	ft_cd(char *path, char **env);
+void	ft_cd(char *path, char **env);
 
 //              Parsing prototypes Structs              //
 
