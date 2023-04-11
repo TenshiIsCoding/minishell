@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/11 03:41:11 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/11 03:43:57 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 
 typedef struct t_env
 {
-	char			*element;
+	char			*name;
+	char			*value;
 	struct t_env	*next;
 }t_env;
 
@@ -72,6 +73,7 @@ typedef struct t_data{
 	int		cmdcount;
 	t_node	*cmds;
 	t_node	*ndtmp;
+	t_env	*env;
 	t_queue	commands;
 	char	**splt;
 	char	*line;
@@ -135,7 +137,6 @@ char	*get_next_line(int fd);
 char	*ft_ft(int fd, char *str);
 char	*ft_fr(char *str);
 char	*ft_l1(char *s);
-t_env	*full_env(char **env);
 // void	ft_env(t_env *env);
 void	ft_pwd(void);
 // void	ft_echo(char **print, char *flag);
