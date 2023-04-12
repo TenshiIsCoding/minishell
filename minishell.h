@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/11 03:46:19 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/12 06:20:07 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,5 +164,12 @@ t_file	*create_file(char *filename, char *filetype);
 t_file	**fill_files(t_queue *files);
 t_cmd	*get_cmd(char **splt, t_data *v);
 void	free_data(void *t);
+char	*get_varname(char *token);
+int		var_len(char *token);
+char	*ft_free_strjoin(char *s1, char *s2);
+char	*ft_strjoin_c(char *str, char c);
+char	*get_envalue(char *name, t_env *env);
+char	*expand_basic(char *token, t_env *env);
+char	*get_envalue(char *name, t_env *env);
 
 #endif

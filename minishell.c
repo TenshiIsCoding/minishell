@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/11 03:38:18 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/12 06:56:43 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,15 @@ void	free_cmd(void *v)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*vars;
+	// char	*exp;
 
 	(void)argc;
 	(void)argv;
 	vars = malloc(sizeof(t_data));
 	vars->env = full_env(env);
+	// exp = expand_basic("hi im $daDADADd----$USER", vars->env);
+	// // system("leaks minishell");
+	// printf("%s\n", exp);
 	while (1)
 	{
 		vars->line = readline("minishell$ ");
