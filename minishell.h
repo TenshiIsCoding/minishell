@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 00:31:01 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/14 01:10:18 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ char	*ft_l1(char *s);
 // void	ft_env(t_env *env);
 void	ft_pwd(int ch);
 void	ft_echo(char **print);
-void 	ft_cd(char *path, char **env);
+void	ft_cd(char *path, char **env);
 
 //              Parsing prototypes Structs              //
 
@@ -179,5 +179,12 @@ t_file	*create_file(char *filename, char *filetype);
 t_file	**fill_files(t_queue *files);
 t_cmd	*get_cmd(char **splt, t_data *v);
 void	free_data(void *t);
+char	*get_varname(char *token);
+int		var_len(char *token);
+char	*ft_free_strjoin(char *s1, char *s2);
+char	*ft_strjoin_c(char *str, char c);
+char	*get_envalue(char *name, t_env *env);
+char	*expand_basic(char *token, t_env *env);
+char	*get_envalue(char *name, t_env *env);
 
 #endif
