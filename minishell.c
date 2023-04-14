@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/11 03:38:18 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/14 00:44:02 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (parse_start(vars))
 			continue ;
-		multipipe(&vars->commands, env);
-		// print_queue(&vars->commands);
+		// multipipe(&vars->commands, env);
+		print_queue(&vars->commands);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
