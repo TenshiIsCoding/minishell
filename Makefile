@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
+#    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/12 06:54:39 by azaher           ###   ########.fr        #
+#    Updated: 2023/04/14 01:08:43 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra
 AF= minishell.c \
 ynafiss/builtins.c	\
 ynafiss/ft_list.c	\
@@ -22,6 +22,9 @@ ynafiss/env_pwd.c	\
 ynafiss/export.c	\
 ynafiss/unset.c	\
 ynafiss/multipipe.c	\
+ynafiss/exec_cmds.c	\
+ynafiss/wait_ch.c	\
+ynafiss/exec_bult.c	\
 parsing/upgraded_split_tools.c \
 parsing/upgraded_split.c \
 parsing/syntax_tools.c \

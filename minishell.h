@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 14:33:59 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/14 19:47:45 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ typedef struct t_list
 	int				content;
 	struct t_list	*next;
 }t_list;
+
+typedef struct t_vars
+{
+	int	pi[2];
+	int	fd;
+}t_vars;
 
 //              Parsing Structs              //
 
@@ -92,6 +98,14 @@ typedef struct t_data{
 
 void	multipipe(t_queue *line, char **env);
 t_env	*full_env(char **env);
+void	com_n(char *cmd);
+char	*pipe_strjoin(char const *s1, char const *s2);
+char	*get(char **env, char *cmd);
+int		is_builtin(char **cmd);
+void	exec_built(char **cmd, char **env, int ch);
+void	one_cmd(char **cmd, char **env, int ch);
+void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch);
+void	last_cmd(int fd, t_cmd *cmd, char **env, int ch);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_calloc(size_t count, size_t size);
@@ -103,6 +117,7 @@ void	ft_bzero(void *str, size_t n);
 char	**ft_unset(char **env, char *name, int size);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
+void	wait_child(int i, int *ch);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
@@ -142,8 +157,8 @@ char	*ft_ft(int fd, char *str);
 char	*ft_fr(char *str);
 char	*ft_l1(char *s);
 // void	ft_env(t_env *env);
-void	ft_pwd(void);
-// void	ft_echo(char **print, char *flag);
+void	ft_pwd(int ch);
+void	ft_echo(char **print);
 void	ft_cd(char *path, char **env);
 
 //              Parsing prototypes Structs              //

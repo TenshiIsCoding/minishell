@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_pwd.c                                          :+:      :+:    :+:   */
+/*   wait_ch.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/19 09:15:02 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 01:05:01 by ynafiss          ###   ########.fr       */
+/*   Created: 2023/04/14 00:31:35 by ynafiss           #+#    #+#             */
+/*   Updated: 2023/04/14 01:07:23 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	ft_env(t_env *env)
-// {
-// 	while (env)
-// 	{
-// 		ft_putstr_fd(env->name, 1);
-// 		ft_putstr_fd(env->value, 1);
-// 		env = env->next;
-// 	}
-// }
-
-void	ft_pwd(int ch)
+void	wait_child(int i, int *ch)
 {
-	char	s[1000];
+	int	j;
 
-	printf("%s\n", getcwd(s, 1000));
-	if (ch == 0)
-		exit(0);
+	j = 0;
+	waitpid(ch[i], NULL, 0);
+	while (j < i)
+	{
+		waitpid(ch[j], NULL, 0);
+		j++;
+	}
 }

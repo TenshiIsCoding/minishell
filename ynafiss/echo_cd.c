@@ -6,55 +6,57 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/06 02:58:36 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/13 00:56:33 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_echo(char **print, char *flag)
+void	ft_echo(char **print)
 {
 	int	i;
 	int	j;
-	int k;
+	int	r;
 
-	i = 0;
+	i = 1;
+	r = 0;
 	j = 1;
-	while (flag[j])
-	{
-		if (flag[j] != 'n')
-			break ;
-		j++;
-	}
-	k = j;
-	if (flag[j] != '\0')
-	{
-		j = 0;
-		while (flag[j])
-		{
-			write(1, &flag[j], 1);
-			j++;
-		}
-	}
-	i = 0;
-	j = 2;
 	while (print[j])
 	{
-		while(print[j][i])
+		while (print[j][i++])
 		{
-			write(1, &print[i], 1);
-			i++;
+			if (print[j][0] != '-')
+				break ;
+			if (print[j][i] != 'n')
+				break ;
 		}
+		if (print[j][i] != '\0')
+			break ;
+		else
+			r = 1;
+		i = 1;
 		j++;
 	}
-	if (flag[k] != '\0' && (flag == NULL || ft_strcmp(flag, "-n") != 0))
+	if (print[j][i] != '\0')
+	{
+		ft_putstr_fd(print[j], 1);
+		if (print[j + 1])
+			write(1, " ", 1);
+	}
+	while (print[j++])
+	{
+		ft_putstr_fd(print[j], 1);
+		if (print[j + 1])
+			write(1, " ", 1);
+	}
+	if (r == 0)
 		write(1, "\n", 1);
 }
 
 char	*get_env(char **env, char *src)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	if (ft_strcmp(src, "~") == 0)
 	{
@@ -76,7 +78,8 @@ char	*get_env(char **env, char *src)
 	}
 	return ("null");
 }
-void ft_cd(char *path, char **env)
+
+void	ft_cd(char *path, char **env)
 {
 	if (ft_strcmp(path, "~") == 0)
 		chdir(get_env(env, path));
