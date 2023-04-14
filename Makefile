@@ -6,13 +6,13 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/14 01:08:43 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/04/14 10:02:33 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g
 AF= minishell.c \
 ynafiss/builtins.c	\
 ynafiss/ft_list.c	\
@@ -25,6 +25,7 @@ ynafiss/multipipe.c	\
 ynafiss/exec_cmds.c	\
 ynafiss/wait_ch.c	\
 ynafiss/exec_bult.c	\
+ynafiss/new_export.c	\
 parsing/upgraded_split_tools.c \
 parsing/upgraded_split.c \
 parsing/syntax_tools.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:12:54 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/11 03:39:28 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/14 09:56:28 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 // {
 // 	int	i;
 // 	t_env	*tmp;
+//     t_env   *ee;
 // 	int j;
 
 // 	j = ft_strlen(add) - 1;
@@ -50,7 +51,7 @@
 // 	tmp = (*env);
 // 	while (*env)
 // 	{
-// 		if (strncmp((*env)->element, add, ft_strlen(add) - 1) == 0)
+// 		if (strncmp((*env)->name, add, ft_strlen(add) - 1) == 0)
 // 		{
 // 			i = 1;
 // 			break ;
@@ -61,7 +62,10 @@
 // 	if (i == 1)
 // 		return ;
 // 	else if (i == 0 && add[j] == '=')
+//     {	ee->name = ft_substr(env[i], 0, j);
+// 		ee->value = ft_strdup(env[i] + j);
 // 		ft_lstadd_front(env, ft_lstnew(add));
+//     }
 // }
 
 // char **ft_export(t_env *env, int limit, char *add, int unst)

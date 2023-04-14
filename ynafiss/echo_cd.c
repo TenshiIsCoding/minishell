@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/13 00:56:33 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/14 08:12:21 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,39 +18,43 @@ void	ft_echo(char **print)
 	int	j;
 	int	r;
 
-	i = 1;
+	i = 0;
 	r = 0;
 	j = 1;
-	while (print[j])
+	if (print[1])
 	{
-		while (print[j][i++])
+		while (print[j])
 		{
-			if (print[j][0] != '-')
+			while (print[j][i])
+			{
+				if (print[j][0] != '-')
+					break ;
+				if (print[j][i] != 'n' && i != 0)
+					break ;
+				i++;
+			}
+			if (print[j][i] != '\0')
 				break ;
-			if (print[j][i] != 'n')
-				break ;
+			else
+				r = 1;
+			i = 0;
+			j++;
 		}
 		if (print[j][i] != '\0')
-			break ;
-		else
-			r = 1;
-		i = 1;
-		j++;
+		{
+			ft_putstr_fd(print[j], 1);
+			if (print[j + 1])
+				write(1, " ", 1);
+		}
+		while (print[j++])
+		{
+			ft_putstr_fd(print[j], 1);
+			if (print[j + 1])
+				write(1, " ", 1);
+		}
+		if (r == 0)
+			write(1, "\n", 1);
 	}
-	if (print[j][i] != '\0')
-	{
-		ft_putstr_fd(print[j], 1);
-		if (print[j + 1])
-			write(1, " ", 1);
-	}
-	while (print[j++])
-	{
-		ft_putstr_fd(print[j], 1);
-		if (print[j + 1])
-			write(1, " ", 1);
-	}
-	if (r == 0)
-		write(1, "\n", 1);
 }
 
 char	*get_env(char **env, char *src)
