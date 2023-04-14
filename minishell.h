@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/12 06:20:07 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/14 14:33:59 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ enum
 	IN,
 	OUT,
 	APND,
-	HERE
+	HERE,
+	AMBIG
 };
 
 typedef struct t_file
@@ -76,6 +77,7 @@ typedef struct t_data{
 	t_queue	commands;
 	char	**splt;
 	char	*line;
+	char	*lineptr;
 	char	*mask;
 	int		dquote;
 	int		squote;
@@ -83,6 +85,9 @@ typedef struct t_data{
 	char	*ret;
 	int		status;
 	int		pipedex;
+	char	*freeptr;
+	char	*varname;
+	char	*expenv;
 }t_data;
 
 void	multipipe(t_queue *line, char **env);
@@ -145,6 +150,7 @@ void	ft_cd(char *path, char **env);
 
 void	maskgen(t_data *vars);
 int		token_count(t_data *vars);
+void	print_ret(char **ret);
 char	**upgraded_split(t_data *vars);
 void	ft_free(char **ret);
 int		check_mix_meta(char *token);
@@ -155,7 +161,7 @@ int		triple_rredirections(char *token);
 int		triple_lredirections(char *token);
 int		syntax_checker(char	**tokens);
 void	pass_data(t_data *v);
-int		parse_start(t_data *vars);
+int		parse_start(t_data *vars, t_env *env);
 void	ft_lstback_add(t_node **lst, t_node *new);
 t_node	*ft_lstlastnode(t_node *lst);
 char	**rllc(char **tab, char *arg);
@@ -169,7 +175,7 @@ int		var_len(char *token);
 char	*ft_free_strjoin(char *s1, char *s2);
 char	*ft_strjoin_c(char *str, char c);
 char	*get_envalue(char *name, t_env *env);
-char	*expand_basic(char *token, t_env *env);
+char	*expand_init(char *line, t_env *env, t_data *v);
 char	*get_envalue(char *name, t_env *env);
 
 #endif
