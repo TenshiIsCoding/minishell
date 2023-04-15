@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 04:31:36 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/14 14:24:22 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/15 20:04:15 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ char	*expand_init(char *line, t_env *env, t_data *v)
 	while (line[i])
 	{
 		if (line[i] == '\'' && !v->dquote)
-			v->squote = !v->dquote;
+			v->squote = !v->squote;
 		else if (line[i] == '\"' && !v->squote)
-			v->dquote = !v->squote;
+			v->dquote = !v->dquote;
 		else if (line[i] == '$' && !v->squote)
 		{
 			v->varname = get_varname(line + i + 1);
