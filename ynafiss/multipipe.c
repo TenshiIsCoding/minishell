@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 10:02:05 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/15 02:19:24 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*get(char **env, char *cmd)
 	return (cmd);
 }
 
-void	multipipe(t_queue *line, char **env, t_env *eenv)
+void	multipipe(t_queue *line, char **env, t_env **eenv)
 {
 	int				i;
 	t_queue_node	*node;

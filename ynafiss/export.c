@@ -5,110 +5,71 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/19 09:12:54 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 09:56:28 by ynafiss          ###   ########.fr       */
+/*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
+/*   Updated: 2023/04/15 19:58:12 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	ft_putstr_export(char *s, int fd)
-// {
-// 	int	i;
-// 	int	co;
+void	add_var(t_env **env, char *var)
+{
+	t_env	*new;
+	int		i;
 
-// 	i = 0;
-// 	co = 0;
-// 	if (!s)
-// 		return ;
-// 	while (s[i])
-// 	{
-// 		if (co == 1 && s[i] == '\'' && s[i - 1] != '=')
-// 			write(fd, &s[i], 1);
-// 		if ( s[i] != '\'')
-// 			write(fd, &s[i], 1);
-// 		if (s[i] == '=' && co == 0)
-// 		{
-// 			write(1, "\"", 1);
-// 			co = 1;
-// 		}
-// 		i++;
-// 	}
-// 	if (co == 1)
-// 		write(1, "\"", 1);
-	
-// }
+	i = 0;
+	new = malloc(sizeof(t_env));
+	while (var[i] != '\0' && var[i] != '=')
+			i++;
+	if (var[i] == '=')
+			i++;
+	new->name = ft_substr(var, 0, i);
+	new->value = ft_strdup(var + i);
+	new->next = NULL;
+	ft_lstadd_back(env, new);
+}
 
-// void	add_to_env(char *add, t_env **env)
-// {
-// 	int	i;
-// 	t_env	*tmp;
-//     t_env   *ee;
-// 	int j;
+void	update_value(t_env *env, char *new_value)
+{
+	free(env->value);
+	env->value = strdup(new_value);
+}
 
-// 	j = ft_strlen(add) - 1;
-// 	i = 0;
-// 	tmp = (*env);
-// 	while (*env)
-// 	{
-// 		if (strncmp((*env)->name, add, ft_strlen(add) - 1) == 0)
-// 		{
-// 			i = 1;
-// 			break ;
-// 		}
-// 		(*env) = (*env)->next;
-// 	}
-// 	*env = tmp;
-// 	if (i == 1)
-// 		return ;
-// 	else if (i == 0 && add[j] == '=')
-//     {	ee->name = ft_substr(env[i], 0, j);
-// 		ee->value = ft_strdup(env[i] + j);
-// 		ft_lstadd_front(env, ft_lstnew(add));
-//     }
-// }
+void	over_add(t_env **env, char *var)
+{
+	int		i;
+	char	*un;
+	t_env	*new;
 
-// char **ft_export(t_env *env, int limit, char *add, int unst)
-// {
-// 	char	**str;
-// 	char	**new_env;
-// 	int i = 0;
-// 	int j = 0;
-// 	int size = ft_lstsize(env);
-// 	char	*alpha;
+	i = 0;
+	new = *env;
+	while (var[i] != '\0' && var[i] != '=')
+		i++;
+	if (var[i] == '=')
+			i++;
+	un = ft_substr(var, 0, i);
+	while (*env != NULL && strcmp((*env)->name, un) != 0)
+		*env = (*env)->next;
+	update_value((*env), var + i);
+	(*env) = new;
+}
 
-// 	if (add && unst == 0)
-// 		add_to_env(add, &env);
-// 	str = (char **)malloc(sizeof (char *) * (ft_lstsize((env)) + 1));
-// 	while (env)
-// 	{
-// 		str[i] = (env)->element;
-// 		(env) = (env)->next;
-// 		i++;
-// 	}
-// 	str[i] = NULL;
-// 	i = 0;
-// 	while (limit >= i)
-// 	{
-// 		j = 0;
-// 		while (limit - 1 >= j)
-// 		{
-// 			if(strcmp(str[j], str[j + 1]) > 0)
-// 			{
-// 				alpha = str[j];
-// 				str[j] = str[j + 1];
-// 				str[j + 1] = alpha;;
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	if (unst == 1)
-// 	{
-// 		new_env = malloc(sizeof(char *) * (ft_lstsize(env) + 1));
-// 		new_env = ft_unset(str, add, size);
-// 		new_env[limit] = NULL;
-// 		return (new_env);
-// 	}
-// 	return (str);
-// }
+void	export(char **cmd, t_env **env)
+{
+	int	i;
+
+	i = 1;
+	if (cmd[1] == NULL)
+		export_print((*env), (ft_lstsize(*env) - 1));
+	else
+	{
+		while (cmd[i])
+		{
+			if (check_exist((*env), cmd[i]) == 0)
+				add_var(env, cmd[i]);
+			else
+				over_add(env, cmd[i]);
+			i++;
+		}
+	}
+}

@@ -6,11 +6,32 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 04:09:08 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/12 06:55:41 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/14 12:54:36 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// int	in_quotes(char *token, int dollar_index)
+// {
+// 	int	i;
+// 	int	j;
+// 	int	ret;
+
+// 	i = dollar_index;
+// 	j = dollar_index;
+// 	ret = 0;
+// 	while (token[j] && i <= 0 && token[i] != "$" && token[j] != "$")
+// 	{
+// 		if (token[i] == "\'" || token[j] == "\'")
+// 			ret++;
+// 		else if (token[i] == "\"" || token[j] == "\"")
+// 			ret += 2;
+// 		j++;
+// 		i--;
+// 	}
+// }
+
 
 int	var_len(char *token)
 {

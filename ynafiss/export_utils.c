@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_export.c                                       :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 19:49:15 by ynafiss          ###   ########.fr       */
+/*   Created: 2023/04/15 02:43:18 by ynafiss           #+#    #+#             */
+/*   Updated: 2023/04/15 06:30:53 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,28 @@ void	export_print(t_env *env, int limit)
 	}
 	env = tmp;
 	cmp_print(env, str);
+	// ft_free(str);
 }
 
-void	export(char **cmd, t_env *env)
+int	check_exist(t_env *env, char *var)
 {
-	(void)cmd;
-		export_print(env, (ft_lstsize(env) - 1));
+	t_env	*tmp;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	tmp = env;
+	while (var[j] && var[j] != '=')
+	{
+		j++;
+	}
+	while (env)
+	{
+		if (ft_strncmp(env->name, var, j) == 0)
+			return (1);
+		env = env->next;
+	}
+	env = tmp;
+	return (0);
 }

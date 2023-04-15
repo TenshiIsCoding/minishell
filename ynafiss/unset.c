@@ -6,38 +6,37 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:18:45 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/22 17:52:10 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/15 09:08:02 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**ft_unset(char **env, char *name, int size)
+void	ft_unset(t_env **env, char *name)
 {
-	// t_env	*pre;
-	// t_env	*cur;
-	(void)size;
-	char **tmp;
-	int i = 0;
+	t_env	*tmp;
+	t_env	*pr;
+	t_env	*cur;
 
-	while (env[i])
-		i++;
-	tmp = malloc(sizeof(char *) * i + 1);
-
-	// cur = *env;
-	// pre = NULL;
-	i = 0;
-	while (env[i])
+	pr = NULL;
+	cur = *env;
+	if (*env != NULL && ft_strcmp((*env)->name, name) == 0)
 	{
-		tmp[i] = ft_strdup(env[i]);
-		i++;
+		tmp = *env;
+		*env = (*env)->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+		return ;
 	}
-	i = 0;
-	while (tmp[i] != NULL && ft_strncmp(tmp[i], name, ft_strlen(name) - 1) != 0)
+	while (cur != NULL && ft_strcmp(cur->name, name) != 0)
 	{
-		i++;
+		pr = cur;
+		cur = cur->next;
 	}
-	tmp[i][0] = '\0';
-	i = 0;
-	return (tmp);
+	if (cur == NULL)
+		return ;
+	pr->next = cur->next;
+	(free(cur->name), free(cur->value));
+	free(cur);
 }

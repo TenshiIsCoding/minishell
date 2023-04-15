@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 06:53:03 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/12 03:47:18 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/14 14:45:12 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ void	pass_data(t_data *v)
 	}
 }
 
-int	parse_start(t_data *vars)
+int	parse_start(t_data *vars, t_env *env)
 {
+	vars->lineptr = vars->line;
+	vars->line = expand_init(vars->line, env, vars);
 	vars->splt = upgraded_split(vars);
+	// print_ret(vars->splt);
 	if (syntax_checker(vars->splt))
 	{
 		write(2, "minishell: syntax error near unexpected token\n", 46);

@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 08:12:21 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/14 20:06:10 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	ft_echo(char **print)
 		if (r == 0)
 			write(1, "\n", 1);
 	}
+	else
+		write(1, "\n", 1);
 }
 
 char	*get_env(char **env, char *src)

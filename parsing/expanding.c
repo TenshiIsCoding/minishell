@@ -6,36 +6,39 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 04:31:36 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/12 06:48:53 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/14 14:24:22 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*expand_basic(char *token, t_env *env)
+char	*expand_init(char *line, t_env *env, t_data *v)
 {
 	int		i;
-	char	*freeptr;
 	char	*ret;
-	char	*varname;
-	char	*expenv;
 
 	i = 0;
+	v->squote = 0;
+	v->dquote = 0;
 	ret = ft_strdup("");
-	while (token[i])
+	while (line[i])
 	{
-		if ((token[i] == '$' && !var_len(token + i + 1)) || token[i] != '$')
-			ret = ft_strjoin_c(ret, token[i]);
-		else if (token[i] == '$')
+		if (line[i] == '\'' && !v->dquote)
+			v->squote = !v->dquote;
+		else if (line[i] == '\"' && !v->squote)
+			v->dquote = !v->squote;
+		else if (line[i] == '$' && !v->squote)
 		{
-			varname = get_varname(token + i + 1);
-			expenv = get_envalue(varname, env);
-			freeptr = ret;
-			ret = ft_strjoin(ret, expenv);
-			(free(varname), free(expenv), free(freeptr));
-			i += var_len(token + i + 1) + 1;
+			v->varname = get_varname(line + i + 1);
+			v->expenv = get_envalue(v->varname, env);
+			v->freeptr = ret;
+			ret = ft_strjoin(ret, v->expenv);
+			(free(v->varname), free(v->expenv), free(v->freeptr));
+			i += var_len(line + i + 1) + 1;
 			continue ;
 		}
+		else
+			ret = ft_strjoin_c(ret, line[i]);
 		i++;
 	}
 	return (ret);

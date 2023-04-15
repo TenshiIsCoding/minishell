@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/14 10:03:04 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/15 02:24:33 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	vars = malloc(sizeof(t_data));
 	vars->env = full_env(env);
-	// exp = expand_basic("hi im $daDADADd----$USER", vars->env);
+	// exp = expand_init("echo \"$USER\"", vars->env, vars);
 	// // system("leaks minishell");
 	// printf("%s\n", exp);
 	while (1)
@@ -110,12 +110,13 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		if (!vars->line[0])
 			continue ;
-		if (parse_start(vars))
+		if (parse_start(vars, vars->env))
 			continue ;
-		multipipe(&vars->commands, env, vars->env);
+		multipipe(&vars->commands, env, &vars->env);
 		// print_queue(&vars->commands);
 		queue_free(&vars->commands, free_cmd);
-		add_history(vars->line);
+		add_history(vars->lineptr);
 		free(vars->line);
+		free(vars->lineptr);
 	}
 }

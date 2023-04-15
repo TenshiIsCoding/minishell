@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 10:04:21 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/15 02:02:45 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	open_in_out(t_file **file)
 	return (j);
 }
 
-void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env *eenv)
+void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 {
 	char		*path;
 
@@ -102,7 +102,7 @@ void	last_cmd(int fd, t_cmd *cmd, char **env, int ch)
 	}
 }
 
-void	one_cmd(char **cmd, char **env, int ch, t_env *eenv)
+void	one_cmd(char **cmd, char **env, int ch, t_env **eenv)
 {
 	char		*path;
 
