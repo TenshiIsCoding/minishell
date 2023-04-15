@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 19:47:45 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/15 03:25:17 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,25 +96,28 @@ typedef struct t_data{
 	char	*expenv;
 }t_data;
 
-void	multipipe(t_queue *line, char **env);
+void	multipipe(t_queue *line, char **env, t_env **eenv);
 t_env	*full_env(char **env);
 void	com_n(char *cmd);
+void	cmp_print(t_env *env, char **str);
+void	export_print(t_env *env, int limit);
+int		check_exist(t_env *env, char *var);
 char	*pipe_strjoin(char const *s1, char const *s2);
 char	*get(char **env, char *cmd);
 int		is_builtin(char **cmd);
-void	exec_built(char **cmd, char **env, int ch);
-void	one_cmd(char **cmd, char **env, int ch);
-void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch);
+void	exec_built(char **cmd, char **env, int ch, t_env **eenv);
+void	one_cmd(char **cmd, char **env, int ch, t_env **eenv);
+void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv);
 void	last_cmd(int fd, t_cmd *cmd, char **env, int ch);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memset(void *str, int c, size_t n);
-void	ft_putstr_export(char *s, int fd);
+void	ft_putstr_export(char *name, char *value);
 void	*ft_memchr(const void *s, int c, size_t n);
-char	**ft_export(t_env *env, int limit, char *add, int unst);
+void	export(char **cmd, t_env **env);
 void	ft_bzero(void *str, size_t n);
-char	**ft_unset(char **env, char *name, int size);
+void	ft_unset(t_env **env, char *var);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	wait_child(int i, int *ch);

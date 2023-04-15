@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/15 00:13:46 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/15 20:38:12 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (parse_start(vars, vars->env))
 			continue ;
-		multipipe(&vars->commands, env);
+		multipipe(&vars->commands, env, &vars->env);
 		// print_queue(&vars->commands);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->lineptr);

@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 01:03:31 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/15 02:19:24 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*get(char **env, char *cmd)
 	return (cmd);
 }
 
-void	multipipe(t_queue *line, char **env)
+void	multipipe(t_queue *line, char **env, t_env **eenv)
 {
 	int				i;
 	t_queue_node	*node;
@@ -93,7 +93,7 @@ void	multipipe(t_queue *line, char **env)
 		cmd = node->ptr;
 		if (is_builtin(cmd->args) == 0)
 			ch[i] = fork();
-		one_cmd(cmd->args, env, ch[i]);
+		one_cmd(cmd->args, env, ch[i], eenv);
 	}
 	else
 	{
@@ -102,7 +102,7 @@ void	multipipe(t_queue *line, char **env)
 			pipe(t.pi);
 			cmd = node->ptr;
 			ch[i] = fork();
-			mid_cmd(&t, cmd, env, ch[i]);
+			mid_cmd(&t, cmd, env, ch[i], eenv);
 			node = node->next;
 			i++;
 		}
