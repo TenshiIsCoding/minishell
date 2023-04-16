@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/08 05:38:19 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/16 09:44:19 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@ t_file	*create_file(char *filename, char *filetype)
 
 	new_file = malloc(sizeof(t_file));
 	new_file->filename = ft_strdup(filename);
-	if (filetype[0] == '>' && filetype[1] == '>')
+	if (filetype[0] == '!')
+		new_file->type = AMBIG;
+	else if (filetype[0] == '>' && filetype[1] == '>')
 		new_file->type = APND;
 	if (filetype[0] == '<' && filetype[1] == '<')
 		new_file->type = HERE;
-	if (filetype[0] == '>' && filetype[1] == '\0')
+	else if (filetype[0] == '>' && filetype[1] == '\0')
 		new_file->type = OUT;
-	if (filetype[0] == '<' && filetype[1] == '\0')
+	else if (filetype[0] == '<' && filetype[1] == '\0')
 		new_file->type = IN;
 	return (new_file);
 }
@@ -63,7 +65,7 @@ t_file	**fill_files(t_queue *files)
 	return (ret);
 }
 
-t_cmd	*get_cmd(char **splt, t_data *v)
+t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 {
 	int		i;
 	t_queue	argqueue;
@@ -78,12 +80,24 @@ t_cmd	*get_cmd(char **splt, t_data *v)
 	{
 		if (is_redir(splt[i]))
 		{
-			queue_insert(&flqueue, create_file(splt[i + 1], splt[i]));
+			if (ambig_test(splt[i + 1], env))
+			{
+				queue_insert(&flqueue, create_file(splt[i + 1], "!"));
+			}
+			else
+			{
+				remove_quotes(splt[i]);
+				splt[i] = expand_init(splt[i], env, v);
+				queue_insert(&flqueue, create_file(splt[i + 1], splt[i]));
+			}
 			i += 2;
 			continue ;
 		}
 		else
+		{
+			splt[i] = expand_argument(splt[i], v, env);
 			queue_insert(&argqueue, splt[i]);
+		}
 		i++;
 	}
 	v->pipedex = i;

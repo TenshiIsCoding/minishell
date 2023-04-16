@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/15 03:25:17 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/16 09:38:17 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int		double_pipe(char *token);
 int		triple_rredirections(char *token);
 int		triple_lredirections(char *token);
 int		syntax_checker(char	**tokens);
-void	pass_data(t_data *v);
+void	pass_data(t_data *v, t_env *env);
 int		parse_start(t_data *vars, t_env *env);
 void	ft_lstback_add(t_node **lst, t_node *new);
 t_node	*ft_lstlastnode(t_node *lst);
@@ -186,7 +186,7 @@ char	**rllc(char **tab, char *arg);
 int		is_redir(char *token);
 t_file	*create_file(char *filename, char *filetype);
 t_file	**fill_files(t_queue *files);
-t_cmd	*get_cmd(char **splt, t_data *v);
+t_cmd	*get_cmd(char **splt, t_data *v, t_env *env);
 void	free_data(void *t);
 char	*get_varname(char *token);
 int		var_len(char *token);
@@ -194,6 +194,13 @@ char	*ft_free_strjoin(char *s1, char *s2);
 char	*ft_strjoin_c(char *str, char c);
 char	*get_envalue(char *name, t_env *env);
 char	*expand_init(char *line, t_env *env, t_data *v);
+char	*expand_argument(char *line, t_data *v, t_env *env);
 char	*get_envalue(char *name, t_env *env);
+void	remove_index(char *string, int index);
+void	remove_quotes(char *token);
+void	insert_file(t_queue flqueue, char **splt, t_env *env, int i);
+void	insert_arg(char **splt, t_queue argqueue, int i);
+int		check_varname(char *filename, t_env *env);
+int		ambig_test(char *file, t_env *env);
 
 #endif
