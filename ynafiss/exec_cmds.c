@@ -6,52 +6,131 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/15 02:02:45 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/17 01:03:24 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	num_file(t_file **file)
+// int	num_file(t_file **file)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (file[i])
+// 		i++;
+// 	return (i);
+// }
+
+// int	open_in_out(t_file **file, int fd)
+// {
+// 	static int	i;
+// 	int			j;
+// 	int			fd_in;
+// 	int			fd_out;
+// 	// int			here_doc;
+
+// 	i = 0;
+// 	j = 0;
+// 	fd_in = -1;
+// 	fd_out = -1;
+// 	if (file[i++]->filename && file[i]->type == IN)
+// 	{
+// 		fd_in = open(file[i]->filename, O_RDONLY);
+// 		if (fd_in != -1)
+// 		{
+// 			dup2(fd_in, fd);
+// 			fd = fd_in;
+// 		}
+// 		else
+// 		{
+// 			write(1, "no such file or directory: ", 27);
+// 			ft_putstr_fd(file[i]->filename, 1);
+// 		}
+// 	}
+// 	if (file[i]->filename && file[i]->type == OUT && fd_in != -1)
+// 	{
+// 		fd_out = open (file[i]->filename, O_CREAT | O_RDWR);
+// 		if (fd_out != -1)
+// 			dup2(fd_out, 1);
+// 		else
+// 		{
+// 			write(1, "no such file or directory: ", 27);
+// 			ft_putstr_fd(file[i]->filename, 1);
+// 		}
+// 	}
+// 	if (file[i]->filename && file[i]->type == APND && fd_in != -1)
+// 		fd_out = open (file[i]->filename, O_CREAT | O_RDWR | O_APPEND);
+// 	i++;
+// 	return (j);
+// }
+
+int	open_in(t_file **file)
 {
 	int	i;
+	int	ret;
+	int	fd_in;
 
+	fd_in = -1;
+	ret = 0;
 	i = 0;
+	if (!file[i])
+		return (0);
 	while (file[i])
+	{
+		if (file[i]->filename && file[i]->type == IN)
+		{
+			fd_in = open(file[i]->filename, O_RDONLY);
+			if (fd_in == -1)
+			{
+				write(2, "no such file or directory: ", 27);
+				ft_putstr_fd(file[i]->filename, 2);
+				write(2, "\n", 1);
+				exit (127);
+			}
+			if (file[i + 1] && file[i + 1]->type == IN)
+				close (fd_in);
+			ret = 1;
+		}
 		i++;
-	return (i);
+	}
+	if (fd_in != -1)
+		dup2(fd_in, 0);
+	close (fd_in);
+	return (ret);
 }
 
-int	open_in_out(t_file **file)
+int	open_out(t_file **file)
 {
-	static int	i;
-	int			j;
-	int			fd_in;
-	int			fd_out;
-	// int			here_doc;
+	int	i;
+	int	ret;
+	int	fd_out;
 
+	if (file[0] == NULL)
+		return (0);
 	i = 0;
-	j = 0;
-	fd_in = -1;
+	ret = 0;
 	fd_out = -1;
-	if (file[i++]->filename && file[i]->type == IN)
-		fd_in = open(file[i]->filename, O_RDONLY);
-	if (file[i]->filename && file[i]->type == OUT && fd_in != -1)
-		fd_out = open (file[i]->filename, O_CREAT | O_RDWR);
-	if (file[i]->filename && file[i]->type == APND && fd_in != -1)
-		fd_out = open (file[i]->filename, O_CREAT | O_RDWR | O_APPEND);
-	if (fd_in != -1)
+	while (file[i])
 	{
-		dup2(fd_in, 0);
-		j++;
+		if (file[i]->filename && file[i]->type == OUT)
+		{
+			fd_out = open (file[i]->filename, O_CREAT | O_TRUNC | \
+			O_WRONLY | O_RDONLY, 0777);
+			if (fd_out == -1)
+			{
+				write(2, "open filed: ", 12);
+				(ft_putstr_fd(file[i]->filename, 2), exit (127));
+			}
+			if (file[i + 1] && file[i + 1]->type == OUT)
+				close (fd_out);
+			ret = 1;
+		}
+		i++;
 	}
 	if (fd_out != -1)
-	{
 		dup2(fd_out, 1);
-		j++;
-	}
-	i++;
-	return (j);
+	return (ret);
 }
 
 void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
@@ -64,11 +143,16 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 			path = cmd->args[0];
 		else
 			path = get(env, cmd->args[0]);
-		close(t->pi[0]);
+		if (t->open == 0)
+			open_in(cmd->files);
+		else
+		{
+			close(t->pi[0]);
+			dup2(t->fd, 0);
+			close(t->fd);
+		}
 		dup2(t->pi[1], 1);
 		close (t->pi[1]);
-		dup2(t->fd, 0);
-		close(t->fd);
 		if (is_builtin(cmd->args) == 0)
 			execve(path, cmd->args, env);
 		else
@@ -92,8 +176,11 @@ void	last_cmd(int fd, t_cmd *cmd, char **env, int ch)
 			path = cmd->args[0];
 		else
 			path = get(env, cmd->args[0]);
-		dup2(fd, 0);
-		close (fd);
+		if (open_out(cmd->files) == 0)
+		{
+			dup2(fd, 0);
+			close (fd);
+		}
 		execve(path, cmd->args, env);
 	}
 	else
@@ -102,20 +189,23 @@ void	last_cmd(int fd, t_cmd *cmd, char **env, int ch)
 	}
 }
 
-void	one_cmd(char **cmd, char **env, int ch, t_env **eenv)
+void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv)
 {
 	char		*path;
 
-	if (ch == 0 || is_builtin(cmd) != 0)
+	if (ch == 0 || is_builtin(cmd->args) != 0)
 	{
-		if (cmd[0][0] == '/' && access(cmd[0], X_OK) == 0)
-			path = cmd[0];
-		if (is_builtin(cmd) == 0)
+		if (is_builtin(cmd->args) == 0)
 		{			
-			path = get(env, cmd[0]);
-			execve(path, cmd, env);
+			if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
+				path = cmd->args[0];
+			else
+				path = get(env, cmd->args[0]);
+			open_in(cmd->files);
+			open_out(cmd->files);
+			execve(path, cmd->args, env);
 		}
 		else
-			exec_built(cmd, env, ch, eenv);
+			exec_built(cmd->args, env, ch, eenv);
 	}
 }
