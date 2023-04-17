@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/16 06:17:44 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/17 02:49:31 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_queue(t_queue *queue)
 		cmd = node->ptr;
 		printf("Args: ");
 		while (cmd->args[i])
-			printf("%s ", cmd->args[i++]);
+			printf("(%s) ", cmd->args[i++]);
 		printf("\n");
 		i = 0;
 		printf("Files: ");
@@ -94,15 +94,11 @@ void	free_cmd(void *v)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*vars;
-	// char	*exp;
 
 	(void)argc;
 	(void)argv;
 	vars = malloc(sizeof(t_data));
 	vars->env = full_env(env);
-	// exp = expand_init("echo \"$USER\"", vars->env, vars);
-	// // system("leaks minishell");
-	// printf("%s\n", exp);
 	while (1)
 	{
 		vars->line = readline("minishell$ ");
@@ -113,10 +109,9 @@ int	main(int argc, char **argv, char **env)
 		if (parse_start(vars, vars->env))
 			continue ;
 		multipipe(&vars->commands, env, &vars->env);
-		// print_queue(&vars->commands);
+		print_queue(&vars->commands);
 		queue_free(&vars->commands, free_cmd);
-		add_history(vars->lineptr);
+		add_history(vars->line);
 		free(vars->line);
-		free(vars->lineptr);
 	}
 }

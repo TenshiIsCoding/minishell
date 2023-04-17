@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 03:44:29 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/28 00:30:16 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/16 09:06:19 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,32 @@ int	triple_lredirections(char *token)
 		return (1);
 	else
 		return (0);
+}
+
+void	remove_index(char *string, int index)
+{
+	int	i;
+
+	i = index;
+	while (string[i])
+	{
+		string[i] = string[i + 1];
+		i++;
+	}
+}
+
+void	remove_quotes(char *token)
+{
+	int	i;
+
+	i = 0;
+	while (token[i])
+	{
+		if (token[i] == '\'' || token[i] == '\"')
+		{
+			remove_index(token, i);
+			i--;
+		}
+		i++;
+	}
 }

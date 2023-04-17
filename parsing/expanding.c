@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 04:31:36 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/14 14:24:22 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/16 09:43:04 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,9 @@ char	*expand_init(char *line, t_env *env, t_data *v)
 	ret = ft_strdup("");
 	while (line[i])
 	{
-		if (line[i] == '\'' && !v->dquote)
-			v->squote = !v->dquote;
-		else if (line[i] == '\"' && !v->squote)
-			v->dquote = !v->squote;
-		else if (line[i] == '$' && !v->squote)
+		if ((line[i] == '$' && !var_len(line + i + 1)) || line[i] != '$')
+			ret = ft_strjoin_c(ret, line[i]);
+		else if (line[i] == '$')
 		{
 			v->varname = get_varname(line + i + 1);
 			v->expenv = get_envalue(v->varname, env);
@@ -37,9 +35,8 @@ char	*expand_init(char *line, t_env *env, t_data *v)
 			i += var_len(line + i + 1) + 1;
 			continue ;
 		}
-		else
-			ret = ft_strjoin_c(ret, line[i]);
 		i++;
 	}
+	free(line);
 	return (ret);
 }

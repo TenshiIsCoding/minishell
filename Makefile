@@ -6,7 +6,7 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/16 04:51:12 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/04/17 02:49:41 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,9 @@ parsing/expanding.c \
 parsing/expanding_tools.c \
 parsing/parse_start.c \
 parsing/parse_tools.c \
+parsing/parse_tools_2.c \
+parsing/parse_tools_3.c \
+parsing/parse_tools_4.c \
 queue/queue.c
 
 OBJS = ${AF:.c=.o}
