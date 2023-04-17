@@ -6,13 +6,13 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/16 09:45:49 by azaher           ###   ########.fr        #
+#    Updated: 2023/04/16 23:43:41 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 AF= minishell.c \
 ynafiss/builtins.c	\
 ynafiss/ft_list.c	\
@@ -36,6 +36,8 @@ parsing/expanding_tools.c \
 parsing/parse_start.c \
 parsing/parse_tools.c \
 parsing/parse_tools_2.c \
+parsing/parse_tools_3.c \
+parsing/parse_tools_4.c \
 queue/queue.c
 
 OBJS = ${AF:.c=.o}

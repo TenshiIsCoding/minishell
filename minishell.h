@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/16 09:38:17 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/17 01:15:31 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ typedef struct t_data{
 	char	*freeptr;
 	char	*varname;
 	char	*expenv;
+	char	**spltargs;
+	int		spltargdex;
+	char	*argmask;
 }t_data;
 
 void	multipipe(t_queue *line, char **env, t_env **eenv);
@@ -167,6 +170,7 @@ void	ft_cd(char *path, char **env);
 //              Parsing prototypes Structs              //
 
 void	maskgen(t_data *vars);
+char	*maskgen_01(char *token, t_data *vars);
 int		token_count(t_data *vars);
 void	print_ret(char **ret);
 char	**upgraded_split(t_data *vars);
@@ -201,6 +205,9 @@ void	remove_quotes(char *token);
 void	insert_file(t_queue flqueue, char **splt, t_env *env, int i);
 void	insert_arg(char **splt, t_queue argqueue, int i);
 int		check_varname(char *filename, t_env *env);
-int		ambig_test(char *file, t_env *env);
+int		ambig_test(char *file, t_env *env, t_data *v);
+char	**ambig_upgraded_split(char *token, char *mask, t_data *vars);
+void	replace_quotes(char *varvalue);
+int		is_splitable(char **varvalue);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/16 09:44:19 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/17 02:27:23 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,15 @@ t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 	{
 		if (is_redir(splt[i]))
 		{
-			if (ambig_test(splt[i + 1], env))
+			if (ambig_test(splt[i + 1], env, v))
 			{
 				queue_insert(&flqueue, create_file(splt[i + 1], "!"));
 			}
 			else
 			{
-				remove_quotes(splt[i]);
-				splt[i] = expand_init(splt[i], env, v);
+				splt[i + 1] = expand_argument(splt[i + 1], v, env);
+				remove_quotes(splt[i + 1]);
+				printf("splt[i] = (%s)\n", splt[i + 1]);
 				queue_insert(&flqueue, create_file(splt[i + 1], splt[i]));
 			}
 			i += 2;
@@ -96,7 +97,15 @@ t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 		else
 		{
 			splt[i] = expand_argument(splt[i], v, env);
-			queue_insert(&argqueue, splt[i]);
+			v->argmask = maskgen_01(splt[i], v);
+			v->spltargs = ambig_upgraded_split(splt[i], v->argmask, v);
+			v->spltargdex = 0;
+			while (v->spltargs[v->spltargdex])
+			{
+				remove_quotes(v->spltargs[v->spltargdex]);
+				queue_insert(&argqueue, v->spltargs[v->spltargdex++]);
+			}
+			free(v->argmask);
 		}
 		i++;
 	}
