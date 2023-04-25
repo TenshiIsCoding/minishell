@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 22:28:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/17 02:06:03 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:17:40 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,13 @@ int	ambig_token_fill(char **token, char *mask, char *str, int i)
 	return (i);
 }
 
-char	**ambig_upgraded_split(char *token, char *mask, t_data *vars)
+char	**ambig_upgraded_split(char *token, char *mask)
 {
 	char	**ret;
 	char	temp;
 	int		i;
 	int		j;
 
-	maskgen_01(token, vars);
 	i = ambig_token_count(mask);
 	ret = malloc((i + 1) * sizeof(char *));
 	i = 0;

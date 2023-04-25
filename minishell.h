@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/17 03:15:34 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/25 12:11:43 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct t_data{
 	char	*varname;
 	char	*expenv;
 	char	**spltargs;
-	int		spltargdex;
+	int		argdex;
 	char	*argmask;
 }t_data;
 
@@ -212,7 +212,7 @@ void	insert_file(t_queue flqueue, char **splt, t_env *env, int i);
 void	insert_arg(char **splt, t_queue argqueue, int i);
 int		check_varname(char *filename, t_env *env);
 int		ambig_test(char *file, t_env *env, t_data *v);
-char	**ambig_upgraded_split(char *token, char *mask, t_data *vars);
+char	**ambig_upgraded_split(char *token, char *mask);
 void	replace_quotes(char *varvalue);
 int		is_splitable(char **varvalue);
 

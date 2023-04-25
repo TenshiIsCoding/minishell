@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 06:37:53 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/17 02:31:21 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/17 03:02:29 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	hardcases(char *filetoken, t_data *vars)
 	char	*mask;
 
 	mask = maskgen_01(filetoken, vars);
-	filesplt = ambig_upgraded_split(filetoken, mask, vars);
+	filesplt = ambig_upgraded_split(filetoken, mask);
 	remove_quotes(filetoken);
 	if (filetoken[0] == '\0')
 		return (1);
@@ -102,7 +102,7 @@ int	ambig_test(char *file, t_env *env, t_data *v)
 	filetoken = ft_strdup(file);
 	filetoken = expand_argument(filetoken, v, env);
 	newmask = maskgen_01(filetoken, v);
-	filesplit = ambig_upgraded_split(filetoken, newmask, v);
+	filesplit = ambig_upgraded_split(filetoken, newmask);
 	// print_ret(filesplit);
 	if (is_splitable(filesplit))
 	{
