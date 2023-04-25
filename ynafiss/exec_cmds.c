@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/17 01:03:24 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/18 00:56:09 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,49 @@
 // 	return (j);
 // }
 
-int	open_in(t_file **file)
+int	open_heardoc(t_file **file)
 {
 	int	i;
 	int	ret;
+	int	fd_out;
+
+	if (file[0] == NULL)
+		return (0);
+	i = 0;
+	ret = 0;
+	fd_out = -1;
+	while (file[i])
+	{
+		if (file[i]->type == HERE)
+				fd_out = open (file[i]->filename, O_CREAT |\
+			O_WRONLY | O_RDONLY, 0777);
+			if (fd_out == -1)
+			{
+				write(2, "open filed: ", 12);
+				(ft_putstr_fd(file[i]->filename, 2), exit (127));
+			}
+			if (file[i + 1] && file[i + 1]->type == OUT)
+				close (fd_out);
+			ret = 1;
+		}
+		i++;
+	}
+	if (fd_out != -1)
+		dup2(fd_out, 1);
+	
+}
+int	open_in(t_file **file)
+{
+	int	ret;
 	int	fd_in;
+	int	i;
 
 	fd_in = -1;
 	ret = 0;
 	i = 0;
 	if (!file[i])
 		return (0);
+	open_heardoc(file);
 	while (file[i])
 	{
 		if (file[i]->filename && file[i]->type == IN)
@@ -94,9 +126,8 @@ int	open_in(t_file **file)
 		}
 		i++;
 	}
-	if (fd_in != -1)
-		dup2(fd_in, 0);
-	close (fd_in);
+	(fd_in != -1) && dup2(fd_in, 0);
+	(fd_in != -1) && close (fd_in);
 	return (ret);
 }
 
@@ -113,9 +144,13 @@ int	open_out(t_file **file)
 	fd_out = -1;
 	while (file[i])
 	{
-		if (file[i]->filename && file[i]->type == OUT)
+		if (file[i]->type == OUT || file[i]->type == APND)
 		{
-			fd_out = open (file[i]->filename, O_CREAT | O_TRUNC | \
+			if (file[i]->type == OUT)
+				fd_out = open (file[i]->filename, O_CREAT | O_TRUNC | \
+			O_WRONLY | O_RDONLY, 0777);
+			if (file[i]->type == APND)
+				fd_out = open (file[i]->filename, O_CREAT | O_APPEND | \
 			O_WRONLY | O_RDONLY, 0777);
 			if (fd_out == -1)
 			{
@@ -133,6 +168,31 @@ int	open_out(t_file **file)
 	return (ret);
 }
 
+void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t)
+{
+	char		*path;
+
+	if (ch == 0)
+	{
+		if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
+			path = cmd->args[0];
+		else
+			path = get(env, cmd->args[0]);
+		dup2(t->pi[1], 1);
+		close (t->pi[1]);
+		if (is_builtin(cmd->args) == 0)
+			execve(path, cmd->args, env);
+		else
+			exec_built(cmd->args, env, ch, eenv);
+	}
+	else
+	{
+		close(t->pi[1]);
+		close(t->fd);
+		t->fd = t->pi[0];
+	}
+}
+
 void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 {
 	char		*path;
@@ -143,14 +203,10 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 			path = cmd->args[0];
 		else
 			path = get(env, cmd->args[0]);
-		if (t->open == 0)
-			open_in(cmd->files);
-		else
-		{
-			close(t->pi[0]);
-			dup2(t->fd, 0);
-			close(t->fd);
-		}
+		close(t->pi[0]);
+		dup2(t->fd, 0);
+		close(t->fd);
+		open_in(cmd->files);
 		dup2(t->pi[1], 1);
 		close (t->pi[1]);
 		if (is_builtin(cmd->args) == 0)
@@ -176,11 +232,10 @@ void	last_cmd(int fd, t_cmd *cmd, char **env, int ch)
 			path = cmd->args[0];
 		else
 			path = get(env, cmd->args[0]);
-		if (open_out(cmd->files) == 0)
-		{
-			dup2(fd, 0);
-			close (fd);
-		}
+		open_out(cmd->files);
+		dup2(fd, 0);
+		close(fd);
+		open_in(cmd->files);
 		execve(path, cmd->args, env);
 	}
 	else

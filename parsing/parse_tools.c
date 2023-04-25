@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/17 02:27:23 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/17 06:47:53 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 			{
 				splt[i + 1] = expand_argument(splt[i + 1], v, env);
 				remove_quotes(splt[i + 1]);
-				printf("splt[i] = (%s)\n", splt[i + 1]);
+				// printf("splt[i] = (%s)\n", splt[i + 1]);
 				queue_insert(&flqueue, create_file(splt[i + 1], splt[i]));
 			}
 			i += 2;
