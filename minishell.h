@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/25 12:11:43 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/26 12:00:50 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t);
 char	*expo_substr(char const *s, unsigned int start, size_t len);
 void	com_n(char *cmd);
 int		export_strcmp(const char *s1, const char *s2);
-int		open_in(t_file **file);
+void	open_in(t_file **file);
 int		export_strncmp(const char *s1, const char *s2, size_t n);
 void	cmp_print(t_env *env, char **str);
 void	export_print(t_env *env, int limit);
