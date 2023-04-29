@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/17 03:28:53 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/29 09:45:00 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**fill_args(t_queue *args)
 {
 	int		i;
 	char	**ret;
-	char	*freeptr;
+	// char	*freeptr;
 	char	*ptr;
 
 	i = 0;
@@ -52,9 +52,9 @@ char	**fill_args(t_queue *args)
 	ret[args->len] = NULL;
 	while (args->len)
 	{
-		freeptr = ptr;
+		// freeptr = ptr;
 		ret[i++] = ft_strdup(queue_pop(args));
-		free(freeptr);
+		// free(freeptr);
 	}
 	return (ret);
 }
