@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/25 12:11:43 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/28 13:01:59 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,19 +105,20 @@ t_env	*full_env(char **env);
 void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t);
 char	*expo_substr(char const *s, unsigned int start, size_t len);
 void	com_n(char *cmd);
+void	ft_exit(int i);
 int		export_strcmp(const char *s1, const char *s2);
-int		open_in(t_file **file);
+void	open_in(t_file **file);
 int		export_strncmp(const char *s1, const char *s2, size_t n);
 void	cmp_print(t_env *env, char **str);
 void	export_print(t_env *env, int limit);
 int		check_exist(t_env *env, char *var);
 char	*pipe_strjoin(char const *s1, char const *s2);
-char	*get(char **env, char *cmd);
+char	*get(t_env *env, char *cmd);
 int		is_builtin(char **cmd);
 void	exec_built(char **cmd, char **env, int ch, t_env **eenv);
 void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv);
 void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv);
-void	last_cmd(int fd, t_cmd *cmd, char **env, int ch);
+void	last_cmd(int fd, t_cmd *cmd, char **env, int ch, t_env **eenv);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_calloc(size_t count, size_t size);

@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/29 10:11:34 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/29 10:15:49 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,19 @@ void	com_n(char *cmd)
 	exit(127);
 }
 
-char	*get(char **env, char *cmd)
+char	*get(t_env *env, char *cmd)
 {
 	int		i;
 	char	**path;
 	char	*path_f;
-	char	*envv;
 
 	i = 0;
 	if (cmd == NULL)
 		com_n(cmd);
-	while (ft_strncmp(env[i], "PATH=", 5) != 0)
-		i++;
-	envv = env[i] + 5;
+	while (ft_strcmp(env->name, "PATH=") != 0)
+		env = env->next;
 	i = 0;
-	path = ft_split(envv, ':');
+	path = ft_split(env->value, ':');
 	path_f = pipe_strjoin(path[i++], cmd);
 	while (access(path_f, X_OK) != 0 && path[i])
 	{
@@ -75,6 +73,34 @@ char	*get(char **env, char *cmd)
 	else
 		com_n(cmd);
 	return (cmd);
+}
+
+void	ft_else(t_queue *line, char **env, t_env **eenv, t_vars *t)
+{
+	int				i;
+	t_queue_node	*node;
+	t_cmd			*cmd;
+	int				ch[line->len];
+
+	i = 0;
+	while (i < line->len - 1)
+	{
+		pipe(t->pi);
+		cmd = node->ptr;
+		ch[i] = fork();
+		if (ch[i] == 0)
+			open_in(cmd->files);
+		if (i == 0)
+			first_cmd(cmd, ch[i], eenv, env, t);
+		else
+			mid_cmd(t, cmd, env, ch[i], eenv);
+		node = node->next;
+		t->open++;
+		i++;
+	}
+	cmd = node->ptr;
+	ch[i] = fork();
+	last_cmd(t->fd, cmd, env, ch[i], eenv);
 }
 
 void	multipipe(t_queue *line, char **env, t_env **eenv)
@@ -103,7 +129,8 @@ void	multipipe(t_queue *line, char **env, t_env **eenv)
 			pipe(t.pi);
 			cmd = node->ptr;
 			ch[i] = fork();
-			(ch[i] == 0) && open_in(cmd->files);
+			if (ch[i] == 0)
+				open_in(cmd->files);
 			if (i == 0)
 				first_cmd(cmd, ch[i], eenv, env, &t);
 			else
@@ -114,8 +141,7 @@ void	multipipe(t_queue *line, char **env, t_env **eenv)
 		}
 		cmd = node->ptr;
 		ch[i] = fork();
-		// (ch[i] == 0) && ;
-		last_cmd(t.fd, cmd, env, ch[i]);
+		last_cmd(t.fd, cmd, env, ch[i], eenv);
 	}
 	wait_child(i, ch);
 }

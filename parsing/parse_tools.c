@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/29 10:09:15 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/29 11:15:17 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,13 @@ char	**fill_args(t_queue *args)
 {
 	int		i;
 	char	**ret;
-	// char	*freeptr;
-	char	*ptr;
 
 	i = 0;
-	ptr = args->head->ptr;
+	printf("HEEEEEEEEERE\n");
 	ret = malloc((args->len + 1) * sizeof(char *));
 	ret[args->len] = NULL;
 	while (args->len)
-	{
-		// freeptr = ptr;
 		ret[i++] = ft_strdup(queue_pop(args));
-		// free(freeptr);
-	}
 	return (ret);
 }
 
@@ -95,7 +89,6 @@ t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 			{
 				splt[i + 1] = expand_argument(splt[i + 1], v, env);
 				remove_quotes(splt[i + 1]);
-				printf("splt[i] = (%s)\n", splt[i + 1]);
 				queue_insert(&flqueue, create_file(splt[i + 1], splt[i]));
 			}
 			i += 2;
