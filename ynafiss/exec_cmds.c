@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/26 12:02:18 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/28 14:27:54 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t)
 		if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
 			path = cmd->args[0];
 		else
-			path = get(env, cmd->args[0]);
+			path = get((*eenv), cmd->args[0]);
 		dup2(t->pi[1], 1);
 		close (t->pi[1]);
 		if (is_builtin(cmd->args) == 0)
@@ -111,7 +111,7 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 		if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
 			path = cmd->args[0];
 		else
-			path = get(env, cmd->args[0]);
+			path = get((*eenv), cmd->args[0]);
 		close(t->pi[0]);
 		dup2(t->fd, 0);
 		close(t->fd);
@@ -131,21 +131,26 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 	}
 }
 
-void	last_cmd(int fd, t_cmd *cmd, char **env, int ch)
+void	last_cmd(int fd, t_cmd *cmd, char **env, int ch, t_env **eenv)
 {
 	char		*path;
 
 	if (ch == 0)
 	{
-		if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
-			path = cmd->args[0];
+		if (is_builtin(cmd->args) == 0)
+		{
+			if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
+				path = cmd->args[0];
+			else
+				path = get((*eenv), cmd->args[0]);
+			open_out(cmd->files);
+			dup2(fd, 0);
+			close(fd);
+			open_in(cmd->files);
+			execve(path, cmd->args, env);
+		}
 		else
-			path = get(env, cmd->args[0]);
-		open_out(cmd->files);
-		dup2(fd, 0);
-		close(fd);
-		open_in(cmd->files);
-		execve(path, cmd->args, env);
+			exec_built(cmd->args, env, ch, eenv);
 	}
 	else
 	{	
@@ -164,7 +169,7 @@ void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv)
 			if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
 				path = cmd->args[0];
 			else
-				path = get(env, cmd->args[0]);
+				path = get((*eenv), cmd->args[0]);
 			open_in(cmd->files);
 			open_out(cmd->files);
 			execve(path, cmd->args, env);
