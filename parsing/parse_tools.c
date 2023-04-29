@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/28 15:32:20 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/29 10:11:05 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**fill_args(t_queue *args)
 {
 	int		i;
 	char	**ret;
-	char	*freeptr;
+	// char	*freeptr;
 	char	*ptr;
 
 	i = 0;
@@ -52,9 +52,9 @@ char	**fill_args(t_queue *args)
 	ret[args->len] = NULL;
 	while (args->len)
 	{
-		freeptr = ptr;
+		// freeptr = ptr;
 		ret[i++] = ft_strdup(queue_pop(args));
-		free(freeptr);
+		// free(freeptr);
 	}
 	return (ret);
 }
