@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multipipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/29 10:15:49 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/29 11:55:27 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ char	*get(t_env *env, char *cmd)
 	i = 0;
 	if (cmd == NULL)
 		com_n(cmd);
-	while (ft_strcmp(env->name, "PATH=") != 0)
+	while (env && ft_strcmp(env->name, "PATH=") != 0)
 		env = env->next;
 	i = 0;
+	if (ft_strcmp(env->name, "PATH=") != 0)
+		com_n(cmd);
 	path = ft_split(env->value, ':');
 	path_f = pipe_strjoin(path[i++], cmd);
 	while (access(path_f, X_OK) != 0 && path[i])

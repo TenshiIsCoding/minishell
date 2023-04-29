@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:15:02 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/28 13:01:45 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/29 11:46:59 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_env(t_env *env)
 	{
 		ft_putstr_fd(env->name, 1);
 		ft_putstr_fd(env->value, 1);
+		write(1, "\n", 1);
 		env = env->next;
 	}
 }
@@ -31,7 +32,7 @@ void	ft_pwd(int ch)
 		exit(0);
 }
 
-void	ft_exit(int i)
+void	ft_exit(char *i)
 {
-	exit(i);
+	exit(ft_atoi(i));
 }

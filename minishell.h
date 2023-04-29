@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/28 13:01:59 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/29 11:44:53 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ typedef struct t_data{
 	char	*line;
 	char	*lineptr;
 	char	*mask;
+	int		status;
 	int		dquote;
 	int		squote;
 	char	*temp;
 	char	*ret;
-	int		status;
 	int		pipedex;
 	char	*freeptr;
 	char	*varname;
@@ -105,7 +105,7 @@ t_env	*full_env(char **env);
 void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t);
 char	*expo_substr(char const *s, unsigned int start, size_t len);
 void	com_n(char *cmd);
-void	ft_exit(int i);
+void	ft_exit(char *i);
 int		export_strcmp(const char *s1, const char *s2);
 void	open_in(t_file **file);
 int		export_strncmp(const char *s1, const char *s2, size_t n);
@@ -169,7 +169,7 @@ char	*get_next_line(int fd);
 char	*ft_ft(int fd, char *str);
 char	*ft_fr(char *str);
 char	*ft_l1(char *s);
-// void	ft_env(t_env *env);
+void	ft_env(t_env *env);
 void	ft_pwd(int ch);
 void	ft_echo(char **print);
 void	ft_cd(char *path, char **env);
