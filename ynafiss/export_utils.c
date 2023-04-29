@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 02:43:18 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/15 06:30:53 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/16 06:30:28 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	export_print(t_env *env, int limit)
 	str = (char **)malloc(sizeof (char *) * (ft_lstsize((env)) + 1));
 	while (env)
 	{
-		str[i] = env->name;
+		str[i] = ft_strdup(env->name);
 		env = env->next;
 		i++;
 	}
@@ -102,7 +102,7 @@ void	export_print(t_env *env, int limit)
 		j = 0;
 		while (limit - 1 >= j)
 		{
-			if (strcmp(str[j], str[j + 1]) > 0)
+			if (ft_strcmp(str[j], str[j + 1]) > 0)
 			{
 				alpha = str[j];
 				str[j] = str[j + 1];
@@ -114,7 +114,7 @@ void	export_print(t_env *env, int limit)
 	}
 	env = tmp;
 	cmp_print(env, str);
-	// ft_free(str);
+	ft_free(str);
 }
 
 int	check_exist(t_env *env, char *var)
@@ -132,7 +132,7 @@ int	check_exist(t_env *env, char *var)
 	}
 	while (env)
 	{
-		if (ft_strncmp(env->name, var, j) == 0)
+		if (ft_strncmp(env->name, var, j - 1) == 0)
 			return (1);
 		env = env->next;
 	}

@@ -6,11 +6,12 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/15 19:58:12 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/16 05:53:37 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 void	add_var(t_env **env, char *var)
 {
@@ -23,7 +24,7 @@ void	add_var(t_env **env, char *var)
 			i++;
 	if (var[i] == '=')
 			i++;
-	new->name = ft_substr(var, 0, i);
+	new->name = expo_substr(var, 0, i);
 	new->value = ft_strdup(var + i);
 	new->next = NULL;
 	ft_lstadd_back(env, new);

@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/29 09:45:00 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/29 10:09:15 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 			{
 				splt[i + 1] = expand_argument(splt[i + 1], v, env);
 				remove_quotes(splt[i + 1]);
+				printf("splt[i] = (%s)\n", splt[i + 1]);
 				queue_insert(&flqueue, create_file(splt[i + 1], splt[i]));
 			}
 			i += 2;
