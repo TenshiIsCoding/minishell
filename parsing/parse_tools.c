@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/29 11:15:17 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/29 11:15:58 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char	**fill_args(t_queue *args)
 	char	**ret;
 
 	i = 0;
-	printf("HEEEEEEEEERE\n");
 	ret = malloc((args->len + 1) * sizeof(char *));
 	ret[args->len] = NULL;
 	while (args->len)
