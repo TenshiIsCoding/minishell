@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multipipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/18 00:36:29 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/29 10:11:34 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	multipipe(t_queue *line, char **env, t_env **eenv)
 		{
 			pipe(t.pi);
 			cmd = node->ptr;
-			ch[i] = fork();3
+			ch[i] = fork();
 			(ch[i] == 0) && open_in(cmd->files);
 			if (i == 0)
 				first_cmd(cmd, ch[i], eenv, env, &t);
