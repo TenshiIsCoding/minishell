@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/29 11:15:58 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/30 17:20:37 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,23 @@ int	is_redir(char *token)
 		return (0);
 }
 
-t_file	*create_file(char *filename, char *filetype)
+t_file	*create_file(char *filename, char *filetype, int inquotes)
 {
 	t_file	*new_file;
 
 	new_file = malloc(sizeof(t_file));
 	new_file->filename = ft_strdup(filename);
+	new_file->inqt = 0;
 	if (filetype[0] == '!')
 		new_file->type = AMBIG;
 	else if (filetype[0] == '>' && filetype[1] == '>')
 		new_file->type = APND;
 	if (filetype[0] == '<' && filetype[1] == '<')
+	{
 		new_file->type = HERE;
+		if (inquotes)
+			new_file->inqt = 1;
+	}
 	else if (filetype[0] == '>' && filetype[1] == '\0')
 		new_file->type = OUT;
 	else if (filetype[0] == '<' && filetype[1] == '\0')
@@ -48,7 +53,10 @@ char	**fill_args(t_queue *args)
 	ret = malloc((args->len + 1) * sizeof(char *));
 	ret[args->len] = NULL;
 	while (args->len)
-		ret[i++] = ft_strdup(queue_pop(args));
+	{
+		printf("");
+		ret[i++] = queue_pop(args);
+	}
 	return (ret);
 }
 
@@ -82,13 +90,13 @@ t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 		{
 			if (ambig_test(splt[i + 1], env, v))
 			{
-				queue_insert(&flqueue, create_file(splt[i + 1], "!"));
+				queue_insert(&flqueue, create_file(splt[i + 1], "!", 0));
 			}
 			else
 			{
 				splt[i + 1] = expand_argument(splt[i + 1], v, env);
-				remove_quotes(splt[i + 1]);
-				queue_insert(&flqueue, create_file(splt[i + 1], splt[i]));
+				v->q = remove_quotes(splt[i + 1]);
+				queue_insert(&flqueue, create_file(splt[i + 1], splt[i], v->q));
 			}
 			i += 2;
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/29 10:16:09 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/30 17:07:56 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	print_queue(t_queue *queue)
 		printf("Files: ");
 		while (cmd->files[i])
 		{
-			printf("(%s type: %d) ", cmd->files[i]->filename,
-				cmd->files[i]->type);
+			printf("(%s type: %d, in quotes: %d) ", cmd->files[i]->filename,
+				cmd->files[i]->type, cmd->files[i]->inqt);
 			i++;
 		}
 		printf("\n");
