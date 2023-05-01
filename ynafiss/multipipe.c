@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/29 11:55:27 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/30 16:45:03 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,28 @@ void	ft_else(t_queue *line, char **env, t_env **eenv, t_vars *t)
 	last_cmd(t->fd, cmd, env, ch[i], eenv);
 }
 
+int	cmd_num(t_queue *line)
+{
+	int				i;
+	t_queue_node	*node;
+	t_cmd			*cmd;
+
+	i = 0;
+	node = line->head;
+	while (node)
+	{
+		cmd = node->ptr;
+		if (cmd->args[0])
+			i++;
+		node = node->next;
+	}
+	return (i);
+}
+
 void	multipipe(t_queue *line, char **env, t_env **eenv)
 {
 	int				i;
+	t_list			fd_h;
 	t_queue_node	*node;
 	t_cmd			*cmd;
 	t_vars			t;
@@ -117,16 +136,17 @@ void	multipipe(t_queue *line, char **env, t_env **eenv)
 	node = line->head;
 	t.fd = dup (0);
 	t.open = 0;
-	if (line->len == 1)
+	here_doc(line, &fd_h);
+	if (cmd_num(line) == 1)
 	{
 		cmd = node->ptr;
 		if (is_builtin(cmd->args) == 0)
 			ch[i] = fork();
 		one_cmd(cmd, env, ch[i], eenv);
 	}
-	else
+	else if (cmd_num(line) > 1)
 	{
-		while (i < line->len - 1)
+		while (i < cmd_num(line) - 1)
 		{
 			pipe(t.pi);
 			cmd = node->ptr;

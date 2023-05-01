@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/29 11:44:53 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/30 16:21:14 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ typedef struct t_vars
 	int	fd;
 	int	open;
 }t_vars;
+typedef struct t_here
+{
+	int				fd;
+	struct t_here	*next;
+}t_here;
 
 //              Parsing Structs              //
 
@@ -64,6 +69,7 @@ typedef struct t_file
 	int		type;
 	char	*filename;
 }t_file;
+
 
 typedef struct t_cmd {
 	char	**args;
@@ -101,6 +107,7 @@ typedef struct t_data{
 }t_data;
 
 void	multipipe(t_queue *line, char **env, t_env **eenv);
+void	here_doc(t_queue *line, t_list *fd_h);
 t_env	*full_env(char **env);
 void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t);
 char	*expo_substr(char const *s, unsigned int start, size_t len);
@@ -164,6 +171,8 @@ void	ft_lstadd_back(t_env **lst, t_env *new);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 t_env	*ft_lstlast(t_env *lst);
 t_env	*ft_lstnew(char *element);
+t_list	*ft_lstnew_nor(int content);
+void	ft_lstadd_back_nor(t_list **lst, t_list *new);
 int		ft_lstsize(t_env *lst);
 char	*get_next_line(int fd);
 char	*ft_ft(int fd, char *str);

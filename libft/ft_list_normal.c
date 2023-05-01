@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list.c                                          :+:      :+:    :+:   */
+/*   ft_list_normal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 16:31:23 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/03/14 18:39:57 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/04/30 15:46:13 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_lstadd_back_nor(t_list **lst, t_list *new)
 {
 	t_list	*lst1;
 
@@ -46,7 +46,7 @@ t_list	*ft_lstlast(t_list *lst)
 	return (lst);
 }
 
-t_list	*ft_lstnew(int content)
+t_list	*ft_lstnew_nor(int content)
 {
 	t_list	*new;
 

@@ -6,13 +6,13 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/29 10:12:37 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/04/30 13:43:07 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 AF= minishell.c \
 ynafiss/builtins.c	\
 ynafiss/ft_list.c	\
@@ -25,6 +25,7 @@ ynafiss/exec_cmds.c	\
 ynafiss/wait_ch.c	\
 ynafiss/exec_bult.c	\
 ynafiss/export.c	\
+ynafiss/here_doc.c	\
 ynafiss/export_utils.c	\
 parsing/upgraded_split_tools.c \
 parsing/upgraded_split.c \
@@ -51,6 +52,6 @@ ${NAME} : ${OBJS}
 clean :
 		rm -f ${OBJS} ${BOBJS}
 fclean : clean
-		rm -f ${NAME} ${BNAME}
+		rm -f ${NAME} ${BNAME} ${LIBFT}
 
 re : fclean all
