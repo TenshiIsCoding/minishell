@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/30 16:21:14 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/01 15:08:08 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ enum
 
 typedef struct t_file
 {
+	int		inqt;
 	int		type;
 	char	*filename;
 }t_file;
@@ -95,6 +96,7 @@ typedef struct t_data{
 	int		status;
 	int		dquote;
 	int		squote;
+	int		q;
 	char	*temp;
 	char	*ret;
 	int		pipedex;
@@ -204,7 +206,7 @@ void	ft_lstback_add(t_node **lst, t_node *new);
 t_node	*ft_lstlastnode(t_node *lst);
 char	**rllc(char **tab, char *arg);
 int		is_redir(char *token);
-t_file	*create_file(char *filename, char *filetype);
+t_file	*create_file(char *filename, char *filetype, int inquotes);
 t_file	**fill_files(t_queue *files);
 t_cmd	*get_cmd(char **splt, t_data *v, t_env *env);
 void	free_data(void *t);
@@ -217,7 +219,7 @@ char	*expand_init(char *line, t_env *env, t_data *v);
 char	*expand_argument(char *line, t_data *v, t_env *env);
 char	*get_envalue(char *name, t_env *env);
 void	remove_index(char *string, int index);
-void	remove_quotes(char *token);
+int		remove_quotes(char *token);
 void	insert_file(t_queue flqueue, char **splt, t_env *env, int i);
 void	insert_arg(char **splt, t_queue argqueue, int i);
 int		check_varname(char *filename, t_env *env);
