@@ -6,7 +6,7 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/04/30 20:54:05 by azaher           ###   ########.fr        #
+#    Updated: 2023/05/01 15:13:57 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ ynafiss/exec_cmds.c	\
 ynafiss/wait_ch.c	\
 ynafiss/exec_bult.c	\
 ynafiss/export.c	\
+ynafiss/here_doc.c	\
 ynafiss/export_utils.c	\
 parsing/upgraded_split_tools.c \
 parsing/upgraded_split.c \

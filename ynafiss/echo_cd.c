@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/15 20:27:21 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/01 15:05:11 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,13 @@ char	*get_env(char **env, char *src)
 
 void	ft_cd(char *path, char **env)
 {
-	if (ft_strcmp(path, "~") == 0)
-		chdir(get_env(env, path));
-	else if (ft_strcmp(path, "-") == 0)
-		chdir(get_env(env, path));
-	else if (chdir(path) == -1)
-		printf("cd: no such file or directory: %s", path);
+	if (path != NULL)
+	{
+		if (ft_strcmp(path, "~") == 0)
+			chdir(get_env(env, path));
+		else if (ft_strcmp(path, "-") == 0)
+			chdir(get_env(env, path));
+		else if (chdir(path) == -1)
+			printf("cd: no such file or directory: %s", path);
+	}
 }
