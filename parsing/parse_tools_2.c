@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 06:37:53 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/30 16:57:30 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/30 20:34:52 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ char	*expand_ambig(char *line, t_env *env, t_data *v)
 		{
 			v->varname = get_varname(line + i + 1);
 			v->expenv = get_envalue_ambig(v->varname, env);
-			v->freeptr = ret;
+			v->temp = ret;
 			ret = ft_strjoin(ret, v->expenv);
-			(free(v->varname), free(v->expenv), free(v->freeptr));
+			(free(v->varname), free(v->expenv), free(v->temp));
 			i += var_len(line + i + 1) + 1;
 			continue ;
 		}

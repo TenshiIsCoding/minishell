@@ -35,7 +35,7 @@ ft_split.c	\
 ft_putchar_fd.c	\
 ft_putstr_fd.c	\
 ft_putendl_fd.c	\
-ft_putnbr_fd.c	\
+ft_putnbr_fd.c	
 
 HLB=	$(AF:.c=.o)
 
@@ -45,7 +45,7 @@ $(NAME):	$(HLB)
 	ar rc $(NAME) $(HLB)
 
 $(HLB):	$(AF)
-	$(cc) $(CFLAGS) -c $?
+	$(cc) -Wall -Wextra -Werror -c $?
 
 clean:
 	rm -f $(HLB)

@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/30 17:20:37 by azaher           ###   ########.fr       */
+/*   Updated: 2023/04/30 18:32:14 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,3 +121,26 @@ t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 	cmd->files = fill_files(&flqueue);
 	return (cmd);
 }
+
+/*
+int	count_file_args(char **splt, t_data *vars)
+{
+	vars->files = 0;
+	vars->args = 0;
+	while(splt[i] && splt[i][0] != '|')
+	{
+		if(is_redirection(splt[i]))
+		{
+			vars->files++;
+			i += 2;
+			continue ;
+		}
+		else
+		{
+			vars->arg++;
+			i++;	
+		}
+	}
+	return (i);
+}
+*/
