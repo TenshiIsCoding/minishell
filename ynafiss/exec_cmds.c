@@ -6,13 +6,13 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/28 14:27:54 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/01 18:56:26 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	open_in(t_file **file)
+void	open_in(t_file **file, t_list *here)
 {
 	int	fd_in;
 	int	i;
@@ -21,7 +21,7 @@ void	open_in(t_file **file)
 	i = 0;
 	if (!file[i])
 		return ;
-	while (file[i++])
+	while (file[i])
 	{
 		if (file[i]->filename && file[i]->type == IN)
 		{
@@ -35,6 +35,9 @@ void	open_in(t_file **file)
 			if (file[i + 1] && file[i + 1]->type == IN)
 				close (fd_in);
 		}
+		if (file[i]->type == HERE)
+			fd_in = here->content;
+		i++;
 	}
 	(fd_in != -1) && dup2(fd_in, 0);
 	(fd_in != -1) && close (fd_in);
@@ -89,6 +92,7 @@ void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t)
 			path = get((*eenv), cmd->args[0]);
 		dup2(t->pi[1], 1);
 		close (t->pi[1]);
+		close (t->pi[0]);
 		if (is_builtin(cmd->args) == 0)
 			execve(path, cmd->args, env);
 		else
@@ -115,7 +119,7 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 		close(t->pi[0]);
 		dup2(t->fd, 0);
 		close(t->fd);
-		open_in(cmd->files);
+		// open_in(cmd->files);
 		dup2(t->pi[1], 1);
 		close (t->pi[1]);
 		if (is_builtin(cmd->args) == 0)
@@ -146,35 +150,36 @@ void	last_cmd(int fd, t_cmd *cmd, char **env, int ch, t_env **eenv)
 			open_out(cmd->files);
 			dup2(fd, 0);
 			close(fd);
-			open_in(cmd->files);
+			// open_in(cmd->files);
 			execve(path, cmd->args, env);
 		}
 		else
 			exec_built(cmd->args, env, ch, eenv);
 	}
 	else
-	{	
 		close (fd);
-	}
 }
 
-void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv)
+void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv, t_list *here)
 {
 	char		*path;
 
 	if (ch == 0 || is_builtin(cmd->args) != 0)
 	{
+		open_in(cmd->files, here);
+		open_out(cmd->files);
+		// close (here->content); 
 		if (is_builtin(cmd->args) == 0)
 		{			
 			if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
 				path = cmd->args[0];
 			else
 				path = get((*eenv), cmd->args[0]);
-			open_in(cmd->files);
-			open_out(cmd->files);
 			execve(path, cmd->args, env);
 		}
 		else
 			exec_built(cmd->args, env, ch, eenv);
 	}
+	else
+		close (here->content);
 }
