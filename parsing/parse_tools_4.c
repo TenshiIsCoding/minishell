@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 22:28:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/30 20:53:04 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/03 17:31:09 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 int	in_dollar(t_data *v, char *line, t_env *env)
 {
+	if (!var_len(line))
+	{
+		v->freeptr = v->ret;
+		v->ret = ft_strjoin(v->ret, "$");
+		free(v->freeptr);
+		return (var_len(line) + 1);
+	}
 	v->varname = get_varname(line);
 	v->expenv = get_envalue(v->varname, env);
 	v->freeptr = v->ret;

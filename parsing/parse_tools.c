@@ -6,43 +6,11 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/30 18:32:14 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/01 15:36:24 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	is_redir(char *token)
-{
-	if (token[0] == '<' || token[0] == '>')
-		return (1);
-	else
-		return (0);
-}
-
-t_file	*create_file(char *filename, char *filetype, int inquotes)
-{
-	t_file	*new_file;
-
-	new_file = malloc(sizeof(t_file));
-	new_file->filename = ft_strdup(filename);
-	new_file->inqt = 0;
-	if (filetype[0] == '!')
-		new_file->type = AMBIG;
-	else if (filetype[0] == '>' && filetype[1] == '>')
-		new_file->type = APND;
-	if (filetype[0] == '<' && filetype[1] == '<')
-	{
-		new_file->type = HERE;
-		if (inquotes)
-			new_file->inqt = 1;
-	}
-	else if (filetype[0] == '>' && filetype[1] == '\0')
-		new_file->type = OUT;
-	else if (filetype[0] == '<' && filetype[1] == '\0')
-		new_file->type = IN;
-	return (new_file);
-}
 
 char	**fill_args(t_queue *args)
 {
@@ -53,10 +21,7 @@ char	**fill_args(t_queue *args)
 	ret = malloc((args->len + 1) * sizeof(char *));
 	ret[args->len] = NULL;
 	while (args->len)
-	{
-		printf("");
 		ret[i++] = queue_pop(args);
-	}
 	return (ret);
 }
 
@@ -73,74 +38,55 @@ t_file	**fill_files(t_queue *files)
 	return (ret);
 }
 
+void	handle_files(t_data *v, char **splt, t_env *env, int i)
+{
+	if (ambig_test(splt[i + 1], env, v))
+		queue_insert(&v->flqueue, new_file(splt[i + 1], "!", 0));
+	else
+	{
+		splt[i + 1] = expand_argument(splt[i + 1], v, env);
+		v->q = remove_quotes(splt[i + 1]);
+		queue_insert(&v->flqueue, new_file(splt[i + 1], splt[i], v->q));
+	}
+}
+
+void	handle_args(t_data *v, char **splt, t_env *env, int i)
+{
+	splt[i] = expand_argument(splt[i], v, env);
+	v->argmask = maskgen_01(splt[i], v);
+	v->spltargs = ambig_upgraded_split(splt[i], v->argmask);
+	v->argdex = 0;
+	while (v->spltargs[v->argdex])
+	{
+		remove_quotes(v->spltargs[v->argdex]);
+		queue_insert(&v->argqueue, ft_strdup(v->spltargs[v->argdex++]));
+	}
+	(free(v->argmask), ft_free(v->spltargs));
+}
+
 t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 {
 	int		i;
-	t_queue	argqueue;
-	t_queue	flqueue;
 	t_cmd	*cmd;
 
-	queue_init(&argqueue);
-	queue_init(&flqueue);
+	queue_init(&v->argqueue);
+	queue_init(&v->flqueue);
 	i = v->pipedex;
 	cmd = malloc (sizeof(t_cmd));
 	while (splt[i] && splt[i][0] != '|')
 	{
 		if (is_redir(splt[i]))
 		{
-			if (ambig_test(splt[i + 1], env, v))
-			{
-				queue_insert(&flqueue, create_file(splt[i + 1], "!", 0));
-			}
-			else
-			{
-				splt[i + 1] = expand_argument(splt[i + 1], v, env);
-				v->q = remove_quotes(splt[i + 1]);
-				queue_insert(&flqueue, create_file(splt[i + 1], splt[i], v->q));
-			}
+			handle_files(v, splt, env, i);
 			i += 2;
 			continue ;
 		}
 		else
-		{
-			splt[i] = expand_argument(splt[i], v, env);
-			v->argmask = maskgen_01(splt[i], v);
-			v->spltargs = ambig_upgraded_split(splt[i], v->argmask);
-			v->argdex = 0;
-			while (v->spltargs[v->argdex])
-			{
-				remove_quotes(v->spltargs[v->argdex]);
-				queue_insert(&argqueue, ft_strdup(v->spltargs[v->argdex++]));
-			}
-			(free(v->argmask), ft_free(v->spltargs));
-		}
+			handle_args(v, splt, env, i);
 		i++;
 	}
 	v->pipedex = i;
-	cmd->args = fill_args(&argqueue);
-	cmd->files = fill_files(&flqueue);
+	cmd->args = fill_args(&v->argqueue);
+	cmd->files = fill_files(&v->flqueue);
 	return (cmd);
 }
-
-/*
-int	count_file_args(char **splt, t_data *vars)
-{
-	vars->files = 0;
-	vars->args = 0;
-	while(splt[i] && splt[i][0] != '|')
-	{
-		if(is_redirection(splt[i]))
-		{
-			vars->files++;
-			i += 2;
-			continue ;
-		}
-		else
-		{
-			vars->arg++;
-			i++;	
-		}
-	}
-	return (i);
-}
-*/

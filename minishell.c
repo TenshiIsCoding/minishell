@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/01 15:14:49 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/03 17:57:04 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,6 @@ void	print_ret(char **ret)
 		write(1, "\n", 1);
 		i++;
 	}
-}
-
-void	hard_list(t_node *node)
-{
-	t_node	*tmp;
-
-	if (node == NULL)
-		return ;
-	tmp = node->next->next;
-	node->content = node->next->content;
-	node->next = node->next->next;
-	free(tmp);
 }
 
 void	print_queue(t_queue *queue)
@@ -99,6 +87,8 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	vars = malloc(sizeof(t_data));
 	vars->env = full_env(env);
+	g_exit = 0;
+	handle_signals();
 	while (1)
 	{
 		vars->line = readline("minishell$ ");
@@ -107,9 +97,13 @@ int	main(int argc, char **argv, char **env)
 		if (!vars->line[0])
 			continue ;
 		if (parse_start(vars, vars->env))
+		{
+			add_history(vars->line);
+			free(vars->line);
 			continue ;
+		}
+		// print_queue(&vars->commands);
 		multipipe(&vars->commands, env, &vars->env);
-		print_queue(&vars->commands);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
