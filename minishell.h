@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/01 16:29:16 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/03 16:51:51 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct t_vars
 	int	pi[2];
 	int	fd;
 	int	open;
+	t_list			*fd_h;
+
 }t_vars;
 typedef struct t_here
 {
@@ -109,7 +111,7 @@ typedef struct t_data{
 }t_data;
 
 void	multipipe(t_queue *line, char **env, t_env **eenv);
-void	here_doc(t_queue *line, t_list **fd_h);
+void	here_doc(t_queue *line, t_vars *here);
 t_env	*full_env(char **env);
 void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t);
 char	*expo_substr(char const *s, unsigned int start, size_t len);
@@ -127,7 +129,7 @@ int		is_builtin(char **cmd);
 void	exec_built(char **cmd, char **env, int ch, t_env **eenv);
 void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv, t_list *here);
 void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv);
-void	last_cmd(int fd, t_cmd *cmd, char **env, int ch, t_env **eenv);
+void	last_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_calloc(size_t count, size_t size);

@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/01 16:35:50 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/04 11:32:50 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,23 @@ int	cmd_num(t_queue *line)
 	return (i);
 }
 
+int	check_here(t_file **file)
+{
+	int	i;
+
+	i = 0;
+	while (file[i])
+	{
+		if (file[i]->type == HERE)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	multipipe(t_queue *line, char **env, t_env **eenv)
 {
 	int				i;
-	t_list			*fd_h;
 	t_queue_node	*node;
 	t_cmd			*cmd;
 	t_vars			t;
@@ -136,13 +149,13 @@ void	multipipe(t_queue *line, char **env, t_env **eenv)
 	node = line->head;
 	t.fd = dup (0);
 	t.open = 0;
-	here_doc(line, &fd_h);
+	here_doc(line, &t);
 	if (cmd_num(line) == 1)
 	{
 		cmd = node->ptr;
-		if (is_builtin(cmd->args) == 0)
+		// if (is_builtin(cmd->args) == 0)
 			ch[i] = fork();
-		one_cmd(cmd, env, ch[i], eenv, fd_h);
+		one_cmd(cmd, env, ch[i], eenv, t.fd_h);
 	}
 	else if (cmd_num(line) > 1)
 	{
@@ -151,19 +164,23 @@ void	multipipe(t_queue *line, char **env, t_env **eenv)
 			pipe(t.pi);
 			cmd = node->ptr;
 			ch[i] = fork();
-			if (ch[i] == 0)
-				open_in(cmd->files, fd_h);
-			if (i == 0)
+			if (i == 0 && ch[i] == 0)
+			{
+				open_in(cmd->files, t.fd_h);
 				first_cmd(cmd, ch[i], eenv, env, &t);
+			}
 			else
 				mid_cmd(&t, cmd, env, ch[i], eenv);
 			node = node->next;
+			cmd = node->ptr;
+			// if (check_here(cmd->files) == 1)
+			t.fd_h = t.fd_h->next;
 			t.open++;
 			i++;
 		}
 		cmd = node->ptr;
 		ch[i] = fork();
-		last_cmd(t.fd, cmd, env, ch[i], eenv);
+		last_cmd(&t, cmd, env, ch[i], eenv);
 	}
 	wait_child(i, ch);
 }

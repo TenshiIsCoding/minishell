@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/01 18:56:26 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/04 11:35:27 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 		close(t->pi[0]);
 		dup2(t->fd, 0);
 		close(t->fd);
-		// open_in(cmd->files);
+		open_in(cmd->files, t->fd_h);
 		dup2(t->pi[1], 1);
 		close (t->pi[1]);
 		if (is_builtin(cmd->args) == 0)
@@ -135,7 +135,7 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 	}
 }
 
-void	last_cmd(int fd, t_cmd *cmd, char **env, int ch, t_env **eenv)
+void	last_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 {
 	char		*path;
 
@@ -148,16 +148,16 @@ void	last_cmd(int fd, t_cmd *cmd, char **env, int ch, t_env **eenv)
 			else
 				path = get((*eenv), cmd->args[0]);
 			open_out(cmd->files);
-			dup2(fd, 0);
-			close(fd);
-			// open_in(cmd->files);
+			dup2(t->fd, 0);
+			close(t->fd);
+			open_in(cmd->files, t->fd_h);
 			execve(path, cmd->args, env);
 		}
 		else
 			exec_built(cmd->args, env, ch, eenv);
 	}
 	else
-		close (fd);
+		close (t->fd);
 }
 
 void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv, t_list *here)
@@ -168,7 +168,6 @@ void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv, t_list *here)
 	{
 		open_in(cmd->files, here);
 		open_out(cmd->files);
-		// close (here->content); 
 		if (is_builtin(cmd->args) == 0)
 		{			
 			if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
