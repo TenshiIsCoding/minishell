@@ -6,13 +6,13 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/04 11:35:27 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/04 12:01:44 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	open_in(t_file **file, t_list *here)
+void	open_in(t_file **file)
 {
 	int	fd_in;
 	int	i;
@@ -35,8 +35,6 @@ void	open_in(t_file **file, t_list *here)
 			if (file[i + 1] && file[i + 1]->type == IN)
 				close (fd_in);
 		}
-		if (file[i]->type == HERE)
-			fd_in = here->content;
 		i++;
 	}
 	(fd_in != -1) && dup2(fd_in, 0);
@@ -92,7 +90,6 @@ void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t)
 			path = get((*eenv), cmd->args[0]);
 		dup2(t->pi[1], 1);
 		close (t->pi[1]);
-		close (t->pi[0]);
 		if (is_builtin(cmd->args) == 0)
 			execve(path, cmd->args, env);
 		else
@@ -119,7 +116,7 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 		close(t->pi[0]);
 		dup2(t->fd, 0);
 		close(t->fd);
-		open_in(cmd->files, t->fd_h);
+		open_in(cmd->files);
 		dup2(t->pi[1], 1);
 		close (t->pi[1]);
 		if (is_builtin(cmd->args) == 0)
@@ -135,7 +132,7 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 	}
 }
 
-void	last_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
+void	last_cmd(int fd, t_cmd *cmd, char **env, int ch, t_env **eenv)
 {
 	char		*path;
 
@@ -148,25 +145,27 @@ void	last_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 			else
 				path = get((*eenv), cmd->args[0]);
 			open_out(cmd->files);
-			dup2(t->fd, 0);
-			close(t->fd);
-			open_in(cmd->files, t->fd_h);
+			dup2(fd, 0);
+			close(fd);
+			open_in(cmd->files);
 			execve(path, cmd->args, env);
 		}
 		else
 			exec_built(cmd->args, env, ch, eenv);
 	}
 	else
-		close (t->fd);
+	{	
+		close (fd);
+	}
 }
 
-void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv, t_list *here)
+void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv)
 {
 	char		*path;
 
 	if (ch == 0 || is_builtin(cmd->args) != 0)
 	{
-		open_in(cmd->files, here);
+		open_in(cmd->files);
 		open_out(cmd->files);
 		if (is_builtin(cmd->args) == 0)
 		{			
@@ -179,6 +178,4 @@ void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv, t_list *here)
 		else
 			exec_built(cmd->args, env, ch, eenv);
 	}
-	else
-		close (here->content);
 }

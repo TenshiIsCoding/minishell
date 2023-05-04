@@ -1,0 +1,15 @@
+Makefile
+get_next_line
+libft
+lol
+minishell
+minishell.c
+minishell.dSYM
+minishell.h
+minishell.o
+minishell_guide.txt
+parsing
+path
+path2
+queue
+ynafiss

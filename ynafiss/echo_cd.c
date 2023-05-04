@@ -6,106 +6,63 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/03 16:51:47 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/01 15:05:11 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	ft_echo(char **print)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	r;
-// 	int	h;
-
-// 	i = 0;
-// 	r = 0;
-// 	j = 1;
-// 	h = 0;
-// 	while (print[h])
-// 		h++;
-// 	if (print[1])
-// 	{
-// 		while (print[j])
-// 		{
-// 			while (print[j][i])
-// 			{
-// 				if (print[j][0] != '-')
-// 					break ;
-// 				if (print[j][i] != 'n' && i != 0)
-// 					break ;
-// 				i++;
-// 			}
-// 			if (print[j][i] != '\0')
-// 			{
-// 				break ;
-// 				h = 1;
-// 			}
-// 			else
-// 				r = 1;
-// 			i = 0;
-// 			j++;
-// 		}
-// 		if (print[j][i] != '\0')
-// 		{
-// 			ft_putstr_fd(print[j], 1);
-// 			if (print[j + 1])
-// 				write(1, " ", 1);
-// 		}
-// 		while (print[j++])
-// 		{
-// 			ft_putstr_fd(print[j], 1);
-// 			if (j + 1 <= h)
-// 				write(1, " ", 1);
-// 		}
-// 		if (r == 0)
-// 			write(1, "\n", 1);
-// 	}
-// 	else
-// 		write(1, "\n", 1);
-// }
-
-
-
-int	is_n_flag(char *arg)
-{
-	int i;
-
-	if (arg && arg[0] == '-' && arg[1] == 'n')
-	{
-		i = 2;
-		while (arg[i])
-		{
-			if (arg[i] != 'n')
-				return (0);
-			i++;
-		}
-		return (1);
-	}
-	return (0);
-}
-
-void	ft_echo(char **args)
+void	ft_echo(char **print)
 {
 	int	i;
-	int	n_flag;
+	int	j;
+	int	r;
+	int	h;
 
-	i = 1;
-	n_flag = 0;
-	while (args[i] && is_n_flag(args[i]))
+	i = 0;
+	r = 0;
+	j = 1;
+	h = 0;
+	while (print[h])
+		h++;
+	if (print[1])
 	{
-		n_flag = 1;
-		i++;
+		while (print[j])
+		{
+			while (print[j][i])
+			{
+				if (print[j][0] != '-')
+					break ;
+				if (print[j][i] != 'n' && i != 0)
+					break ;
+				i++;
+			}
+			if (print[j][i] != '\0')
+			{
+				break ;
+				h = 1;
+			}
+			else
+				r = 1;
+			i = 0;
+			j++;
+		}
+		if (print[j][i] != '\0')
+		{
+			ft_putstr_fd(print[j], 1);
+			if (print[j + 1])
+				write(1, " ", 1);
+		}
+		while (print[j++])
+		{
+			ft_putstr_fd(print[j], 1);
+			if (j + 1 <= h)
+				write(1, " ", 1);
+		}
+		if (r == 0)
+			write(1, "\n", 1);
 	}
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], 1);
-		if (args[i + 1])
-			write(1, " ", 1);
-		i++;
-	}
-	if (!n_flag)
+	else
 		write(1, "\n", 1);
 }
 
