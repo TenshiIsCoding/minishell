@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/01 16:46:59 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/03 18:11:47 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,14 +164,14 @@ void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv)
 
 	if (ch == 0 || is_builtin(cmd->args) != 0)
 	{
+			open_in(cmd->files);
+			open_out(cmd->files);
 		if (is_builtin(cmd->args) == 0)
 		{			
 			if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
 				path = cmd->args[0];
 			else
 				path = get((*eenv), cmd->args[0]);
-			open_in(cmd->files);
-			open_out(cmd->files);
 			execve(path, cmd->args, env);
 		}
 		else

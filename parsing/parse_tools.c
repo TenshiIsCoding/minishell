@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/01 15:36:24 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/05 12:42:31 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	**fill_args(t_queue *args)
 	return (ret);
 }
 
+/*			fills up files qith queue_pop function			*/
+
 t_file	**fill_files(t_queue *files)
 {
 	int		i;
@@ -38,6 +40,8 @@ t_file	**fill_files(t_queue *files)
 	return (ret);
 }
 
+/*			Handles strings identified as files					*/
+
 void	handle_files(t_data *v, char **splt, t_env *env, int i)
 {
 	if (ambig_test(splt[i + 1], env, v))
@@ -49,6 +53,8 @@ void	handle_files(t_data *v, char **splt, t_env *env, int i)
 		queue_insert(&v->flqueue, new_file(splt[i + 1], splt[i], v->q));
 	}
 }
+
+/*			Handles strings identified as arguments					*/
 
 void	handle_args(t_data *v, char **splt, t_env *env, int i)
 {
@@ -63,6 +69,8 @@ void	handle_args(t_data *v, char **splt, t_env *env, int i)
 	}
 	(free(v->argmask), ft_free(v->spltargs));
 }
+
+/*		Fetches arguments and files from the split char**			*/
 
 t_cmd	*get_cmd(char **splt, t_data *v, t_env *env)
 {

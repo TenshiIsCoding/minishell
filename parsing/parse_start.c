@@ -6,11 +6,13 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 06:53:03 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/03 17:56:53 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/05 12:37:02 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/*			Fills queue			*/
 
 void	pass_data(t_data *v, t_env *env)
 {
@@ -26,6 +28,8 @@ void	pass_data(t_data *v, t_env *env)
 		queue_insert(&v->commands, get_cmd(v->splt, v, env));
 	}
 }
+
+/*			Initiates parser 			*/
 
 int	parse_start(t_data *vars, t_env *env)
 {
