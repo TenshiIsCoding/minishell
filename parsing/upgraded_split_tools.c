@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   upgraded_split_tools.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:08 by azaher            #+#    #+#             */
-/*   Updated: 2023/03/22 19:51:54 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/06 13:35:47 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ifelse(t_data *vars, int i)
 		vars->mask[i] = '0';
 	else
 	{
-		if (vars->line[i] == ' ')
+		if (vars->line[i] == ' ' || vars->line[i] == '\t')
 			vars->mask[i] = '1';
 		else if (vars->line[i] == '<' || vars->line[i] == '>'
 			|| vars->line[i] == '|')
@@ -78,7 +78,7 @@ void	maskgen(t_data *vars)
 	vars->mask = malloc((len + 1) * sizeof(char));
 	while (i < len)
 	{
-		if (vars->line[i] == ' ')
+		if (vars->line[i] == ' ' || vars->line[i] == '\t')
 			ifelse(vars, i);
 		else if (vars->line[i] == '<' || vars->line[i] == '>'
 			|| vars->line[i] == '|')

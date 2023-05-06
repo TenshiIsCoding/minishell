@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/04 11:42:08 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/04 18:16:26 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ typedef struct t_data{
 }t_data;
 
 void	multipipe(t_queue *line, char **env, t_env **eenv);
-// void	here_doc(t_queue *line, t_list *here);
+void here_doc(t_queue *line, t_vars *fd_h);
 t_env	*full_env(char **env);
 void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t);
 char	*expo_substr(char const *s, unsigned int start, size_t len);

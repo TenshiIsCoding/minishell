@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/04 11:42:59 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/06 13:47:51 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,15 @@ void	multipipe(t_queue *line, char **env, t_env **eenv)
 	node = line->head;
 	t.fd = dup (0);
 	t.open = 0;
-	// here_doc(line, t);
+	if (!node)
+		return ;
+	here_doc(line, &t);
+	// while (t.fd_h)
+	// {
+	// 	printf("%d\n" ,t.fd_h->content);
+	// 	t.fd_h = t.fd_h->next;
+	// }
+	// exit(0);
 	if (cmd_num(line) == 1)
 	{
 		cmd = node->ptr;

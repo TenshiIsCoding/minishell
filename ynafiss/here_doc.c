@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:31:22 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/01 15:03:35 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/06 13:23:32 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int	count_here(t_file **file)
+int	last_here(t_file **file)
 {
 	int	i;
 	int	j;
@@ -27,54 +27,78 @@ int	count_here(t_file **file)
 	while (file[i])
 	{
 		if (file[i]->type == HERE)
-			j++;
+			j = i;
 		i++;
 	}
 	return (j);
 }
 
-void	here_doc(t_queue *line, t_list *here)
+int	is_here(t_file **file)
 {
-	int				i;
-	int				j;
-	int				k;
-	t_queue_node	*node;
-	t_cmd			*cmd;
-	char			*line_r;
-	int				pi[2];
+	int	i;
 
 	i = 0;
-	j = 0;
-	k = 0;
+	while (file[i])
+	{
+		if (file[i]->type == HERE)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void here_doc(t_queue *line, t_vars *fd_h)
+{
+	t_list *here = NULL;
+	t_queue_node *node;
+	char *line_r = NULL;
+	t_cmd *cmd;
+	int pi[2];
+	int i;
+	int k;
+
 	node = line->head;
-	cmd = node->ptr;
+	if (!node)
+		return ;
 	while (node)
 	{
 		cmd = node->ptr;
 		i = 0;
-		while (cmd->files[i])
+		if (is_here(cmd->files))
 		{
-			if (cmd->files[i]->type == HERE)
+			pipe(pi);
+			while (cmd->files[i])
 			{
-				pipe(pi);
-				if (j == 0)
-					here = ft_lstnew_nor(pi[0]);
-				while (ft_strcmp(cmd->files[i]->filename, \
-				line_r) != 0)
+				if (cmd->files[i]->type == HERE)
 				{
-					line_r = readline("> ");
-					ft_putstr_fd(line_r, pi[1]);
-					if (ft_strcmp(cmd->files[i]->filename, line_r) == 0 \
-					|| line_r == NULL)
-						break ;
+					k = 0;
+					while (1)
+					{
+						line_r = readline("> ");
+						if (!line_r || \
+						!ft_strcmp(cmd->files[i]->filename, line_r))
+						{
+							free(line_r);
+							break ;
+						}
+						if (i == last_here(cmd->files))
+						{
+							ft_putstr_fd(line_r, pi[1]);
+							write(pi[1], "\n", 1);
+						}
+						free(line_r);
+						k++;
+					}
+					if (k > 0)
+					{
+						close(pi[1]);
+						here = ft_lstnew_nor(pi[0]);
+					}
 				}
-				k++;
+				i++;
 			}
-			i++;
 		}
 		node = node->next;
-		if (j > 0 && k != 0)
-			ft_lstadd_back_nor(&here, ft_lstnew_nor(pi[0]));
-		j++;
 	}
+	fd_h->fd_h = here;
 }
