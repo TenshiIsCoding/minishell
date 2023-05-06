@@ -6,7 +6,7 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/03 17:00:16 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/05/06 14:17:40 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,19 +14,19 @@ NAME = minishell
 LIBFT = libft/libft.a
 CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 AF= minishell.c \
-ynafiss/builtins.c	\
-ynafiss/ft_list.c	\
-ynafiss/ft_strcmp.c	\
-ynafiss/echo_cd.c	\
-ynafiss/env_pwd.c	\
-ynafiss/unset.c	\
-ynafiss/multipipe.c	\
-ynafiss/exec_cmds.c	\
-ynafiss/wait_ch.c	\
-ynafiss/exec_bult.c	\
-ynafiss/export.c	\
-ynafiss/here_doc.c	\
-ynafiss/export_utils.c	\
+execution/builtins.c	\
+execution/ft_list.c	\
+execution/ft_strcmp.c	\
+execution/echo_cd.c	\
+execution/env_pwd.c	\
+execution/unset.c	\
+execution/multipipe.c	\
+execution/exec_cmds.c	\
+execution/wait_ch.c	\
+execution/exec_bult.c	\
+execution/export.c	\
+execution/here_doc.c	\
+execution/export_utils.c	\
 parsing/upgraded_split_tools.c \
 parsing/upgraded_split.c \
 parsing/syntax_tools.c \
