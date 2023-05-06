@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:55:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/06 13:44:59 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/06 21:36:43 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@ int	ifelse_ret(char *token, char *next_token)
 {
 	if (ft_strchr("><|", token[0]))
 	{
-		if (check_mix_meta(token))
-			return (1);
 		if (token[0] == '|')
-			return (double_pipe(token));
+			return (double_pipe(token) || two_pipe_tokens(token, next_token));
 		else if (token[0] == '>')
 			return (triple_rredirections(token) || next_token == NULL);
 		else if (token[0] == '<')

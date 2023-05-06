@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   upgraded_split_tools.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:17:08 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/06 13:35:47 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/06 21:07:57 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ void	ifelse(t_data *vars, int i)
 	{
 		if (vars->line[i] == ' ' || vars->line[i] == '\t')
 			vars->mask[i] = '1';
-		else if (vars->line[i] == '<' || vars->line[i] == '>'
-			|| vars->line[i] == '|')
+		else if (vars->line[i] == '<' || vars->line[i] == '>')
 			vars->mask[i] = '2';
+		else if (vars->line[i] == '|')
+			vars->mask[i] = '3';
 	}
 }
 
@@ -110,6 +111,8 @@ int	token_count(t_data *vars)
 		if (vars->mask[i] == '0' && prev_mask != '0')
 			count++;
 		else if (vars->mask[i] == '2' && prev_mask != '2')
+			count++;
+		else if (vars->mask[i] == '3' && prev_mask != '3')
 			count++;
 		prev_mask = vars->mask[i];
 		i++;

@@ -6,13 +6,13 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/06 18:24:11 by azaher           ###   ########.fr        #
+#    Updated: 2023/05/06 22:57:09 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra
 AF= minishell.c \
 execution/builtins.c	\
 execution/ft_list.c	\
@@ -45,15 +45,17 @@ queue/queue.c \
 signal_handler.c
 
 OBJS = ${AF:.c=.o}
-
+.SILENT:
 all : ${NAME}
-
 ${NAME} : ${OBJS}
+	echo "\033[0;33m"LIBFT is compiling...
 	make -C libft
-	cc ${CFLAGS} ${AF} -o ${NAME} ${LIBFT} -I /goinfre/azaher/homebrew/opt/readline/include -lreadline -L /goinfre/azaher/homebrew/opt/readline/lib
+	echo  "\033[0;33m"${NAME} is compiling...
+	cc ${CFLAGS} ${OBJS} -o ${NAME} ${LIBFT} -I /goinfre/azaher/homebrew/opt/readline/include -lreadline -L /goinfre/azaher/homebrew/opt/readline/lib
 
+	echo "\033[0;32m"${NAME} is compiled!
 clean :
-		rm -f ${OBJS} ${BOBJS} libft/*.o
+		rm -f ${OBJS} ${BOBJS}
 fclean : clean
 		make fclean -C libft
 		rm -f ${NAME} ${BNAME}

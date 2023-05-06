@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/06 18:24:48 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/06 22:24:57 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "queue/queue.h"
-
+# define GREEN "\033[0;32m"
+# define RESET "\033[0m" 
 // 				Global variable				   //
 
 int	g_exit;
@@ -49,10 +50,10 @@ typedef struct t_list
 
 typedef struct t_vars
 {
-	int	pi[2];
-	int	fd;
-	int	open;
-	t_list			*fd_h;
+	int		pi[2];
+	int		fd;
+	int		open;
+	t_list	*fd_h;
 
 }t_vars;
 typedef struct t_here
@@ -203,7 +204,7 @@ int		token_count(t_data *vars);
 void	print_ret(char **ret);
 char	**upgraded_split(t_data *vars);
 void	ft_free(char **ret);
-int		check_mix_meta(char *token);
+int		two_pipe_tokens(char	*first_token, char *last_token);
 int		check_quotes(char *token);
 int		pipe_ends(char	*first_token, char *last_token);
 int		double_pipe(char *token);

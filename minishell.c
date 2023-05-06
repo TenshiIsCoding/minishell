@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/06 18:24:24 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/06 23:11:29 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,11 @@ void	free_cmd(void *v)
 	free(p);
 }
 
-int	main(int argc, char **argv, char **env)
+void	while_1(t_data *vars, char **env)
 {
-	t_data	*vars;
-
-	(void)argc;
-	(void)argv;
-	vars = malloc(sizeof(t_data));
-	vars->env = full_env(env);
-	g_exit = 0;
-	handle_signals();
 	while (1)
 	{
-		vars->line = readline("minishell$ ");
+		vars->line = readline(GREEN"minishell "RESET"→ ");
 		if (!vars->line)
 			break ;
 		if (!vars->line[0])
@@ -102,11 +94,24 @@ int	main(int argc, char **argv, char **env)
 			free(vars->line);
 			continue ;
 		}
-		// print_queue(&vars->commands);
+		print_queue(&vars->commands);
 		multipipe(&vars->commands, env, &vars->env);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
 		close(24);
 	}
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_data	*vars;
+
+	(void)argc;
+	(void)argv;
+	vars = malloc(sizeof(t_data));
+	vars->env = full_env(env);
+	g_exit = 0;
+	handle_signals();
+	while_1(vars, env);
 }

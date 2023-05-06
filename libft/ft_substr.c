@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/16 21:01:20 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/16 02:26:13 by ynafiss          ###   ########.fr       */
+/*   Created: 2022/10/15 16:53:12 by azaher            #+#    #+#             */
+/*   Updated: 2023/05/06 21:52:46 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char			*sub;
-	unsigned int	i;
+	char	*dest;
+	size_t	i;
 
+	if (s == NULL)
+		return (0);
 	i = 0;
-	if (!s)
-		return (NULL);
-	if (start > ft_strlen(s))
-		len = 0;
-	if (len > (ft_strlen(s) - start))
-		len = ft_strlen(s) - start;
-	sub = malloc (sizeof (char) * (len + 1));
-	if (!sub)
-		return (NULL);
-	while (s && s[i] != '\0' && len != 0)
+	if (ft_strlen(s) < start || s == NULL)
+		return (ft_calloc(1, 1));
+	if (len >= SIZE_MAX || len + start > ft_strlen(s))
+		dest = ft_calloc(ft_strlen(&s[start]) + 1, sizeof(char));
+	else
+		dest = ft_calloc(len + 1, sizeof(char));
+	if (dest == 0)
+		return (0);
+	while (i < len && start + i < ft_strlen(s))
 	{
-		sub[i] = s[start + i];
+		dest[i] = s[start + i];
 		i++;
-		len--;
 	}
-	sub[i] = '\0';
-	return (sub);
+	return (dest);
 }
 
 char	*expo_substr(char const *s, unsigned int start, size_t len)
