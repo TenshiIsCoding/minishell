@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:55:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/16 07:47:54 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/06 13:44:59 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	syntax_checker(char	**tokens)
 	int	ret;
 
 	i = token_len(tokens);
+	if (i == 0)
+		return (0);
 	if (pipe_ends(tokens[0], tokens[i - 1]))
 		return (1);
 	i = -1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tools_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:56:35 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/17 01:33:21 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/06 13:36:08 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*maskgen_01(char *token, t_data *vars)
 	ret = malloc((len + 1) * sizeof(char));
 	while (i < len)
 	{
-		if (token[i] == ' ')
+		if (token[i] == ' ' || token[i] == '\t')
 			ambig_ifelse(ret, vars, i);
 		else if (token[i] == '\'')
 			ambig_sifelse(vars, ret, i);

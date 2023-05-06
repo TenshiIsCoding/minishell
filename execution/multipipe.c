@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/06 13:47:51 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/06 18:15:11 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,39 +139,36 @@ void	multipipe(t_queue *line, char **env, t_env **eenv)
 	if (!node)
 		return ;
 	here_doc(line, &t);
-	// while (t.fd_h)
-	// {
-	// 	printf("%d\n" ,t.fd_h->content);
-	// 	t.fd_h = t.fd_h->next;
-	// }
-	// exit(0);
 	if (cmd_num(line) == 1)
 	{
 		cmd = node->ptr;
 		if (is_builtin(cmd->args) == 0)
 			ch[i] = fork();
-		one_cmd(cmd, env, ch[i], eenv);
+		one_cmd(cmd, env, ch[i], eenv, &t);
 	}
 	else if (cmd_num(line) > 1)
 	{
+		cmd = node->ptr;
 		while (i < cmd_num(line) - 1)
 		{
 			pipe(t.pi);
-			cmd = node->ptr;
 			ch[i] = fork();
 			if (ch[i] == 0)
-				open_in(cmd->files);
+				open_in(cmd->files, t.fd_h);
 			if (i == 0)
 				first_cmd(cmd, ch[i], eenv, env, &t);
 			else
 				mid_cmd(&t, cmd, env, ch[i], eenv);
+			cmd = node->ptr;
 			node = node->next;
+			if(is_here(cmd->files) == 1)
+				t.fd_h = t.fd_h->next;
 			t.open++;
 			i++;
 		}
 		cmd = node->ptr;
 		ch[i] = fork();
-		last_cmd(t.fd, cmd, env, ch[i], eenv);
+		last_cmd(&t, cmd, env, ch[i], eenv);
 	}
 	wait_child(i, ch);
 }

@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:31:22 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/06 13:23:32 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/06 16:16:24 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void here_doc(t_queue *line, t_vars *fd_h)
 	int k;
 
 	node = line->head;
+	k = 0;
 	if (!node)
 		return ;
 	while (node)
@@ -71,7 +72,6 @@ void here_doc(t_queue *line, t_vars *fd_h)
 			{
 				if (cmd->files[i]->type == HERE)
 				{
-					k = 0;
 					while (1)
 					{
 						line_r = readline("> ");
@@ -87,15 +87,20 @@ void here_doc(t_queue *line, t_vars *fd_h)
 							write(pi[1], "\n", 1);
 						}
 						free(line_r);
-						k++;
-					}
-					if (k > 0)
-					{
-						close(pi[1]);
-						here = ft_lstnew_nor(pi[0]);
 					}
 				}
 				i++;
+			}
+			if (k == 0)
+			{
+				close(pi[1]);
+				here = ft_lstnew_nor(pi[0]);
+				k++;
+			}
+			else
+			{
+				close(pi[1]);
+				ft_lstadd_back_nor(&here, ft_lstnew_nor(pi[0]));
 			}
 		}
 		node = node->next;

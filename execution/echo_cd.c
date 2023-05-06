@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/01 15:05:11 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/06 18:07:25 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	ft_echo(char **print)
 	r = 0;
 	j = 1;
 	h = 0;
-	while (print[h])
-		h++;
 	if (print[1])
 	{
+		while (print[h])
+			h++;
 		while (print[j])
 		{
 			while (print[j][i])

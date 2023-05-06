@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/03 17:57:04 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/06 18:24:24 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ int	main(int argc, char **argv, char **env)
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
+		close(24);
 	}
 }
