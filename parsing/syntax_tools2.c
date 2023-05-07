@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_tools2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 03:44:29 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/03 16:23:10 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/07 20:00:04 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,19 @@ int	remove_quotes(char *token)
 	while (token[i])
 	{
 		if (token[i] == '\'' && !dquote)
-			squote_ifcondition(token, squote, tracker, i);
+		{
+			squote = !squote;
+			remove_index(token, i);
+			tracker = 1;
+			i--;
+		}
 		else if (token[i] == '\"' && !squote)
-			dquote_ifcondition(token, squote, tracker, i);
+		{
+			dquote = !dquote;
+			remove_index(token, i);
+			tracker = 1;
+			i--;
+		}
 		i++;
 	}
 	return (tracker);

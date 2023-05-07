@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/06 20:15:07 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/07 20:00:24 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,8 @@ void	ft_else(t_queue *line, char **env, t_env **eenv, t_vars *t)
 	{
 		pipe(t->pi);
 		t->ch[i] = fork();
-		if (t->ch[i] == 0)
-			open_in(cmd->files, t->fd_h);
-		// if (i == 0)
-		// 	first_cmd(cmd, t->ch[i], eenv, env, t);
-		// else
-			mid_cmd(t, cmd, env, t->ch[i], eenv);
+		mid_cmd(t, cmd, env, t->ch[i], eenv);
+		t->fd = t->pi[0];
 		cmd = node->ptr;
 		node = node->next;
 		if (is_here(cmd->files) == 1)
@@ -122,6 +118,8 @@ void	ft_else(t_queue *line, char **env, t_env **eenv, t_vars *t)
 	}
 	cmd = node->ptr;
 	t->ch[i] = fork();
+	if (is_here(cmd->files) == 1)
+			t->fd_h = t->fd_h->next;
 	last_cmd(t, cmd, env, t->ch[i], eenv);
 	wait_child(i, t->ch);
 }

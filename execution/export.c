@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/16 05:53:37 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/07 12:50:10 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	add_var(t_env **env, char *var)
 void	update_value(t_env *env, char *new_value)
 {
 	free(env->value);
-	env->value = strdup(new_value);
+	env->value = ft_strdup(new_value);
 }
 
 void	over_add(t_env **env, char *var)
@@ -49,7 +49,7 @@ void	over_add(t_env **env, char *var)
 	if (var[i] == '=')
 			i++;
 	un = ft_substr(var, 0, i);
-	while (*env != NULL && strcmp((*env)->name, un) != 0)
+	while (*env != NULL && ft_strcmp((*env)->name, un) != 0)
 		*env = (*env)->next;
 	update_value((*env), var + i);
 	(*env) = new;

@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 02:43:18 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/28 14:27:37 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/07 13:05:50 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,10 @@ int	check_exist(t_env *env, char *var)
 	j = 0;
 	tmp = env;
 	while (var[j] && var[j] != '=')
-	{
 		j++;
-	}
 	while (env)
 	{
-		if (ft_strncmp(env->name, var, j - 1) == 0)
+		if (ft_strncmp(env->name, var, j) == 0)
 			return (1);
 		env = env->next;
 	}

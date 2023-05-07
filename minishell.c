@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/07 11:55:33 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/07 19:54:52 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	while_1(t_data *vars, char **env)
 {
 	while (1)
 	{
-		vars->line = readline(GREEN"minishell "RESET"→ ");
+		vars->line = readline("minishell → ");
 		if (!vars->line)
 			break ;
 		if (!vars->line[0])
@@ -94,12 +94,11 @@ void	while_1(t_data *vars, char **env)
 			free(vars->line);
 			continue ;
 		}
-		print_queue(&vars->commands);
+		// print_queue(&vars->commands);
 		multipipe(&vars->commands, env, &vars->env);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
-		close(24);
 	}
 }
 

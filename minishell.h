@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/07 11:56:28 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/07 17:00:08 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct t_vars
 	int	pi[2];
 	int	fd;
 	int	open;
+	int	*ch;
 	t_list			*fd_h;
 
 }t_vars;
@@ -127,7 +128,7 @@ char	*expo_substr(char const *s, unsigned int start, size_t len);
 void	com_n(char *cmd);
 void	ft_exit(char *i);
 int		export_strcmp(const char *s1, const char *s2);
-void	open_in(t_file **file, t_list *here);
+int		open_in(t_file **file, t_list *here);
 int		export_strncmp(const char *s1, const char *s2, size_t n);
 void	cmp_print(t_env *env, char **str);
 void	export_print(t_env *env, int limit);
