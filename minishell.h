@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/06 22:24:57 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/07 19:50:43 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,11 @@ typedef struct t_data{
 	char	*lineptr;
 	char	*mask;
 	int		status;
+	int		sqt;
+	int		dqt;
 	int		dquote;
 	int		squote;
+	int		tracker;
 	int		q;
 	char	*temp;
 	char	*ret;
@@ -230,7 +233,7 @@ char	*expand_init(char *line, t_env *env, t_data *v);
 char	*expand_argument(char *line, t_data *v, t_env *env);
 char	*get_envalue(char *name, t_env *env);
 void	remove_index(char *string, int index);
-int		remove_quotes(char *token);
+int		remove_quotes(char *token, t_data *v);
 void	insert_file(t_queue flqueue, char **splt, t_env *env, int i);
 void	insert_arg(char **splt, t_queue argqueue, int i);
 int		ambig_test(char *file, t_env *env, t_data *v);
