@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 03:44:29 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/07 21:15:42 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/07 22:08:52 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,18 @@ int	remove_quotes(char *token)
 		if (token[i] == '\'' && !dquote)
 		{
 			squote = !squote;
+			// token[i] = SQUOTE;
 			remove_index(token, i);
 			tracker = 1;
-			i--;
 		}
 		else if (token[i] == '\"' && !squote)
 		{
 			dquote = !dquote;
+			// token[i] = DQUOTE;
 			remove_index(token, i);
 			tracker = 1;
-			i--;
 		}
 		i++;
 	}
-	return (v->tracker);
+	return (tracker);
 }
