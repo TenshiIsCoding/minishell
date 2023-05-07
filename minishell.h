@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/06 16:13:10 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/06 18:22:20 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ typedef struct t_list
 
 typedef struct t_vars
 {
-	int	pi[2];
-	int	fd;
-	int	open;
-	t_list			*fd_h;
+	int		pi[2];
+	int		*ch;
+	int		fd;
+	int		open;
+	t_list	*fd_h;
 
 }t_vars;
 typedef struct t_here
