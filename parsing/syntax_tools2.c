@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 03:44:29 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/07 22:08:52 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/07 22:24:20 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,31 @@ void	remove_index(char *string, int index)
 	}
 }
 
-int	remove_quotes(char *token)
+int	remove_quotes(char *token, t_data *v)
 {
 	int	i;
-	int	tracker;
-	int	squote;
-	int	dquote;
 
 	i = 0;
-	squote = 0;
-	dquote = 0;
-	tracker = 0;
+	v->sqt = 0;
+	v->dqt = 0;
+	v->tracker = 0;
 	while (token[i])
 	{
-		if (token[i] == '\'' && !dquote)
+		if (token[i] == '\'' && !v->dqt)
 		{
-			squote = !squote;
-			// token[i] = SQUOTE;
+			v->sqt = !v->sqt;
 			remove_index(token, i);
-			tracker = 1;
+			v->tracker = 1;
+			i--;
 		}
-		else if (token[i] == '\"' && !squote)
+		else if (token[i] == '\"' && !v->sqt)
 		{
-			dquote = !dquote;
-			// token[i] = DQUOTE;
+			v->dqt = !v->dqt;
 			remove_index(token, i);
-			tracker = 1;
+			v->tracker = 1;
+			i--;
 		}
 		i++;
 	}
-	return (tracker);
+	return (v->tracker);
 }

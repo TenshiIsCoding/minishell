@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/07 22:04:48 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/07 22:28:26 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	while_1(t_data *vars, char **env)
 			free(vars->line);
 			continue ;
 		}
-		print_queue(&vars->commands);
+		// print_queue(&vars->commands);
 		multipipe(&vars->commands, env, &vars->env);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
