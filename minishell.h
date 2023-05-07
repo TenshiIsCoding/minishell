@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/06 18:22:20 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/07 11:56:28 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,16 @@
 # include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
+# include <signal.h> 
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "queue/queue.h"
+# define GREEN "\033[0;32m"
+# define RESET "\033[0m" 
+// 				Global variable				   //
+
+int	g_exit;
+
 //              Execution Structs              //
 
 typedef struct t_env
@@ -43,11 +50,10 @@ typedef struct t_list
 
 typedef struct t_vars
 {
-	int		pi[2];
-	int		*ch;
-	int		fd;
-	int		open;
-	t_list	*fd_h;
+	int	pi[2];
+	int	fd;
+	int	open;
+	t_list			*fd_h;
 
 }t_vars;
 typedef struct t_here
@@ -73,7 +79,6 @@ typedef struct t_file
 	int		type;
 	char	*filename;
 }t_file;
-
 
 typedef struct t_cmd {
 	char	**args;
@@ -109,6 +114,8 @@ typedef struct t_data{
 	char	**spltargs;
 	int		argdex;
 	char	*argmask;
+	t_queue	argqueue;
+	t_queue	flqueue;
 }t_data;
 
 void	multipipe(t_queue *line, char **env, t_env **eenv);
@@ -197,7 +204,7 @@ int		token_count(t_data *vars);
 void	print_ret(char **ret);
 char	**upgraded_split(t_data *vars);
 void	ft_free(char **ret);
-int		check_mix_meta(char *token);
+int		two_pipe_tokens(char	*first_token, char *last_token);
 int		check_quotes(char *token);
 int		pipe_ends(char	*first_token, char *last_token);
 int		double_pipe(char *token);
@@ -210,7 +217,7 @@ void	ft_lstback_add(t_node **lst, t_node *new);
 t_node	*ft_lstlastnode(t_node *lst);
 char	**rllc(char **tab, char *arg);
 int		is_redir(char *token);
-t_file	*create_file(char *filename, char *filetype, int inquotes);
+t_file	*new_file(char *filename, char *filetype, int inquotes);
 t_file	**fill_files(t_queue *files);
 t_cmd	*get_cmd(char **splt, t_data *v, t_env *env);
 void	free_data(void *t);
@@ -226,10 +233,11 @@ void	remove_index(char *string, int index);
 int		remove_quotes(char *token);
 void	insert_file(t_queue flqueue, char **splt, t_env *env, int i);
 void	insert_arg(char **splt, t_queue argqueue, int i);
-int		check_varname(char *filename, t_env *env);
 int		ambig_test(char *file, t_env *env, t_data *v);
 char	**ambig_upgraded_split(char *token, char *mask);
 void	replace_quotes(char *varvalue);
 int		is_splitable(char **varvalue);
+void	handle_signals(void);
+void	rl_replace_line(const char *text, int clear_undo);
 
 #endif

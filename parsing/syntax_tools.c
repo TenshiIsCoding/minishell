@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 23:55:12 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/06 13:44:29 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/06 22:09:23 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,12 @@ int	check_quotes(char *token)
 	return (stracker || dtracker);
 }
 
-int	check_mix_meta(char *token)
+int	two_pipe_tokens(char	*first_token, char *next_token)
 {
-	int		i;
-	char	temp;
-
-	i = 0;
-	temp = token[i];
-	while (token[i])
-	{
-		if (token[i] != temp)
-			return (1);
-		i++;
-	}
-	return (0);
+	if (first_token[0] == '|' && next_token[0] == '|')
+		return (1);
+	else
+		return (0);
 }
 
 int	pipe_ends(char	*first_token, char *last_token)

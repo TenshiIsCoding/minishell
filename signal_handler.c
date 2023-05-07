@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_ch.c                                          :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 00:31:35 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/01 13:42:27 by ynafiss          ###   ########.fr       */
+/*   Created: 2023/05/01 16:23:25 by azaher            #+#    #+#             */
+/*   Updated: 2023/05/03 17:57:23 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-void	wait_child(int i, int *ch)
+void	handler(int signal)
 {
-	int	j;
+	(void)signal;
+	g_exit = 1;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
 
-	j = 0;
-	waitpid(ch[i], NULL, 0);
-	while (j < i)
-	{
-		waitpid(ch[j], NULL, 0);
-		j++;
-	}
+void	handle_signals(void)
+{
+	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
 }

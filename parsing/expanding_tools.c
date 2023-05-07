@@ -6,39 +6,19 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 04:09:08 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/16 07:33:05 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/03 17:57:34 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// int	in_quotes(char *token, int dollar_index)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	ret;
-
-// 	i = dollar_index;
-// 	j = dollar_index;
-// 	ret = 0;
-// 	while (token[j] && i <= 0 && token[i] != "$" && token[j] != "$")
-// 	{
-// 		if (token[i] == "\'" || token[j] == "\'")
-// 			ret++;
-// 		else if (token[i] == "\"" || token[j] == "\"")
-// 			ret += 2;
-// 		j++;
-// 		i--;
-// 	}
-// }
 
 int	var_len(char *token)
 {
 	int	i;
 
 	i = 0;
-	while (token[i] && (ft_isalnum(token[i]) || token[i] == '_'
-			|| token[i] == '?'))
+	while (token[i] && token[i] != '$' && (ft_isalnum(token[i])
+			|| token[i] == '_' || token[i] == '?'))
 		i++;
 	return (i);
 }
@@ -90,8 +70,13 @@ char	*get_envalue(char *name, t_env *env)
 	node = env;
 	while (node)
 	{
-		namelen = ft_strlen(name);
-		if (!ft_strncmp(node->name, name, namelen))
+		namelen = ft_strlen(node->name) - 1;
+		if (!ft_strcmp("?", name))
+		{
+			ret = ft_strdup(ft_itoa(g_exit));
+			return (ret);
+		}
+		else if (!ft_strncmp(node->name, name, namelen))
 		{
 			ret = ft_strdup(node->value);
 			return (ret);

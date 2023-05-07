@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/06 20:36:45 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/07 11:55:33 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,6 @@ void	print_ret(char **ret)
 		write(1, "\n", 1);
 		i++;
 	}
-}
-
-void	hard_list(t_node *node)
-{
-	t_node	*tmp;
-
-	if (node == NULL)
-		return ;
-	tmp = node->next->next;
-	node->content = node->next->content;
-	node->next = node->next->next;
-	free(tmp);
 }
 
 void	print_queue(t_queue *queue)
@@ -91,6 +79,30 @@ void	free_cmd(void *v)
 	free(p);
 }
 
+void	while_1(t_data *vars, char **env)
+{
+	while (1)
+	{
+		vars->line = readline(GREEN"minishell "RESET"→ ");
+		if (!vars->line)
+			break ;
+		if (!vars->line[0])
+			continue ;
+		if (parse_start(vars, vars->env))
+		{
+			add_history(vars->line);
+			free(vars->line);
+			continue ;
+		}
+		print_queue(&vars->commands);
+		multipipe(&vars->commands, env, &vars->env);
+		queue_free(&vars->commands, free_cmd);
+		add_history(vars->line);
+		free(vars->line);
+		close(24);
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*vars;
@@ -99,20 +111,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	vars = malloc(sizeof(t_data));
 	vars->env = full_env(env);
-	while (1)
-	{
-		vars->line = readline("minishell$ ");
-		if (!vars->line)
-			break ;
-		if (!vars->line[0])
-			continue ;
-		if (parse_start(vars, vars->env))
-			continue ;
-		multipipe(&vars->commands, env, &vars->env);
-		// print_queue(&vars->commands);
-		queue_free(&vars->commands, free_cmd);
-		add_history(vars->line);
-		free(vars->line);
-		close(24);
-	}
+	g_exit = 0;
+	handle_signals();
+	while_1(vars, env);
 }
