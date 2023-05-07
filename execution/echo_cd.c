@@ -6,11 +6,40 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/06 18:07:25 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/07 15:58:56 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_print_echo(char **print, int j, int i, int h)
+{
+	if (print[j][i] != '\0')
+	{
+		ft_putstr_fd(print[j], 1);
+		if (print[j + 1])
+			write(1, " ", 1);
+	}
+	while (print[j++])
+	{
+		ft_putstr_fd(print[j], 1);
+		if (j + 1 <= h)
+			write(1, " ", 1);
+	}
+}
+
+int	ft_echo_norm(char **print, int j, int i)
+{
+	while (print[j][i])
+	{
+		if (print[j][0] != '-')
+			break ;
+		if (print[j][i] != 'n' && i != 0)
+			break ;
+		i++;
+	}
+	return (i);
+}
 
 void	ft_echo(char **print)
 {
@@ -29,36 +58,15 @@ void	ft_echo(char **print)
 			h++;
 		while (print[j])
 		{
-			while (print[j][i])
-			{
-				if (print[j][0] != '-')
-					break ;
-				if (print[j][i] != 'n' && i != 0)
-					break ;
-				i++;
-			}
+			i = ft_echo_norm(print, j, i);
 			if (print[j][i] != '\0')
-			{
 				break ;
-				h = 1;
-			}
 			else
 				r = 1;
 			i = 0;
 			j++;
 		}
-		if (print[j][i] != '\0')
-		{
-			ft_putstr_fd(print[j], 1);
-			if (print[j + 1])
-				write(1, " ", 1);
-		}
-		while (print[j++])
-		{
-			ft_putstr_fd(print[j], 1);
-			if (j + 1 <= h)
-				write(1, " ", 1);
-		}
+		ft_print_echo(print, j, i, h);
 		if (r == 0)
 			write(1, "\n", 1);
 	}

@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/07 19:50:43 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/07 21:15:48 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ typedef struct t_list
 
 typedef struct t_vars
 {
-	int		pi[2];
-	int		fd;
-	int		open;
-	t_list	*fd_h;
+	int	pi[2];
+	int	fd;
+	int	open;
+	int	*ch;
+	t_list			*fd_h;
 
 }t_vars;
 typedef struct t_here
@@ -130,7 +131,7 @@ char	*expo_substr(char const *s, unsigned int start, size_t len);
 void	com_n(char *cmd);
 void	ft_exit(char *i);
 int		export_strcmp(const char *s1, const char *s2);
-void	open_in(t_file **file, t_list *here);
+int		open_in(t_file **file, t_list *here);
 int		export_strncmp(const char *s1, const char *s2, size_t n);
 void	cmp_print(t_env *env, char **str);
 void	export_print(t_env *env, int limit);
