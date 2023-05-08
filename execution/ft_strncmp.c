@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 18:03:44 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/29 21:49:26 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/08 13:59:04 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	unsigned char	*ss2;
 
 	i = 0;
-	if(!s1 || !s2)
+	if (!s1 || !s2)
 		return (0);
 	ss1 = (unsigned char *)s1;
 	ss2 = (unsigned char *)s2;

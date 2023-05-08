@@ -6,12 +6,11 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/07 12:50:10 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:01:59 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	add_var(t_env **env, char *var)
 {
@@ -55,7 +54,7 @@ void	over_add(t_env **env, char *var)
 	(*env) = new;
 }
 
-void	export(char **cmd, t_env **env)
+void	export(char **cmd, t_env **env, int ch)
 {
 	int	i;
 
@@ -73,4 +72,6 @@ void	export(char **cmd, t_env **env)
 			i++;
 		}
 	}
+	if (ch == 0)
+		exit (0);
 }

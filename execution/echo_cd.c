@@ -6,14 +6,27 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/07 15:58:56 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:02:55 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_print_echo(char **print, int j, int i, int h)
+int	ft_strlen_dub(char **str)
 {
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	ft_print_echo(char **print, int j, int i)
+{
+	int	h;
+
+	h = ft_strlen_dub(print);
 	if (print[j][i] != '\0')
 	{
 		ft_putstr_fd(print[j], 1);
@@ -41,21 +54,18 @@ int	ft_echo_norm(char **print, int j, int i)
 	return (i);
 }
 
-void	ft_echo(char **print)
+
+void	ft_echo(char **print, int ch)
 {
 	int	i;
 	int	j;
 	int	r;
-	int	h;
 
 	i = 0;
 	r = 0;
 	j = 1;
-	h = 0;
-	if (print[1])
+	if (print[1] && print[1][0] != '\0')
 	{
-		while (print[h])
-			h++;
 		while (print[j])
 		{
 			i = ft_echo_norm(print, j, i);
@@ -66,49 +76,12 @@ void	ft_echo(char **print)
 			i = 0;
 			j++;
 		}
-		ft_print_echo(print, j, i, h);
+		ft_print_echo(print, j, i);
 		if (r == 0)
 			write(1, "\n", 1);
 	}
 	else
 		write(1, "\n", 1);
-}
-
-char	*get_env(char **env, char *src)
-{
-	int	i;
-
-	i = 0;
-	if (ft_strcmp(src, "~") == 0)
-	{
-		while (ft_strncmp(env[i], "HOME=", 5))
-			i++;
-		if (ft_strncmp(env[i], "HOME=", 5) == 0)
-			return (env[i] + 5);
-		else
-			exit (0);
-	}
-	else if (ft_strcmp(src, "-") == 0)
-	{
-		while (ft_strncmp(env[i], "OLDPWD=", 7))
-			i++;
-		if (ft_strncmp(env[i], "OLDPWD=", 7) == 0)
-			return (env[i] + 7);
-		else
-			exit (0);
-	}
-	return ("null");
-}
-
-void	ft_cd(char *path, char **env)
-{
-	if (path != NULL)
-	{
-		if (ft_strcmp(path, "~") == 0)
-			chdir(get_env(env, path));
-		else if (ft_strcmp(path, "-") == 0)
-			chdir(get_env(env, path));
-		else if (chdir(path) == -1)
-			printf("cd: no such file or directory: %s", path);
-	}
+	if (ch == 0)
+		exit (0);
 }

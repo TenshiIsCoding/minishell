@@ -6,7 +6,7 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/07 17:08:12 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/05/08 13:16:51 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g
 AF= minishell.c \
 execution/builtins.c	\
 execution/ft_list.c	\
+execution/ft_list2.c	\
 execution/ft_strcmp.c	\
 execution/echo_cd.c	\
 execution/env_pwd.c	\
@@ -27,6 +28,9 @@ execution/exec_bult.c	\
 execution/export.c	\
 execution/here_doc.c	\
 execution/export_utils.c	\
+execution/open_files.c	\
+execution/cd.c	\
+execution/main_multi.c	\
 parsing/ft_itoa.c \
 parsing/upgraded_split_tools.c \
 parsing/upgraded_split.c \

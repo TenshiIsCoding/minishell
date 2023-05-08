@@ -6,13 +6,13 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:15:02 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/29 11:46:59 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/08 15:01:19 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_env(t_env *env)
+void	ft_env(t_env *env, int ch)
 {
 	while (env)
 	{
@@ -21,6 +21,8 @@ void	ft_env(t_env *env)
 		write(1, "\n", 1);
 		env = env->next;
 	}
+	if (ch == 0)
+		exit(0);
 }
 
 void	ft_pwd(int ch)
@@ -34,5 +36,7 @@ void	ft_pwd(int ch)
 
 void	ft_exit(char *i)
 {
+	if (!i)
+		exit (0);
 	exit(ft_atoi(i));
 }
