@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 02:43:18 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/08 13:57:42 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 17:28:31 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,13 @@ void	cmp_print(t_env *env, char **str)
 	}
 }
 
-void	export_print(t_env *env, int limit)
+char	**norm_expo( t_env *env)
 {
 	char	**str;
-	char	*alpha;
 	t_env	*tmp;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	tmp = env;
 	str = (char **)malloc(sizeof (char *) * (ft_lstsize((env)) + 1));
 	while (env)
@@ -104,7 +101,20 @@ void	export_print(t_env *env, int limit)
 		i++;
 	}
 	str[i] = NULL;
+	env = tmp;
+	return (str);
+}
+
+void	export_print(t_env *env, int limit)
+{
+	char	**str;
+	char	*alpha;
+	int		i;
+	int		j;
+
 	i = 0;
+	j = 0;
+	str = norm_expo(env);
 	while (limit >= i)
 	{
 		j = 0;
@@ -120,27 +130,5 @@ void	export_print(t_env *env, int limit)
 		}
 		i++;
 	}
-	env = tmp;
 	(cmp_print(env, str), ft_free(str));
-}
-
-int	check_exist(t_env *env, char *var)
-{
-	t_env	*tmp;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	tmp = env;
-	while (var[j] && var[j] != '=')
-		j++;
-	while (env)
-	{
-		if (ft_strncmp(env->name, var, j) == 0)
-			return (1);
-		env = env->next;
-	}
-	env = tmp;
-	return (0);
 }

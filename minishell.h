@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 15:05:27 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 17:17:23 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	ft_putstr_export(char *name, char *value);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	export(char **cmd, t_env **env, int ch);
 void	ft_bzero(void *str, size_t n);
-void	ft_unset(t_env **env, char *var, int ch);
+void	ft_unset(t_env **env, char *var);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	wait_child(int i, int *ch);

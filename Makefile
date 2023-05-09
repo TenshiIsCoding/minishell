@@ -6,7 +6,7 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/09 12:44:33 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/05/09 17:29:40 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,8 @@ execution/here_doc.c	\
 execution/export_utils.c	\
 execution/open_files.c	\
 execution/cd.c	\
+execution/export_utils2.c	\
+execution/open_files_no_cmd.c	\
 execution/main_multi.c	\
 parsing/ft_itoa.c \
 parsing/upgraded_split_tools.c \

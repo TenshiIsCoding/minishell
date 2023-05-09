@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:18:45 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/08 15:43:09 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 17:16:50 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	first_one(t_env **env, char *name, t_env *tmp)
 	}
 }
 
-void	ft_unset(t_env **env, char *name_p, int ch)
+void	ft_unset(t_env **env, char *name_p)
 {
 	t_env	*tmp;
 	t_env	*pr;
@@ -51,6 +51,4 @@ void	ft_unset(t_env **env, char *name_p, int ch)
 		return ;
 	pr->next = cur->next;
 	(free(cur->name), free(cur->value), free(cur));
-	if (ch == 0)
-		exit (0);
 }
