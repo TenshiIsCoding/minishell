@@ -6,13 +6,13 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/08 13:16:51 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/05/09 12:44:33 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 AF= minishell.c \
 execution/builtins.c	\
 execution/ft_list.c	\
@@ -48,6 +48,8 @@ parsing/parse_tools_6.c \
 queue/queue.c \
 signal_handler.c
 
+
+${USER} = $USER
 OBJS = ${AF:.c=.o}
 .SILENT:
 all : ${NAME}
@@ -55,7 +57,7 @@ ${NAME} : ${OBJS}
 	echo "\033[0;33m"LIBFT is compiling...
 	make -C libft
 	echo  "\033[0;33m"${NAME} is compiling...
-	cc ${CFLAGS} ${OBJS} -o ${NAME} ${LIBFT} -I /goinfre/ynafiss/homebrew/opt/readline/include -lreadline -L /goinfre/ynafiss/homebrew/opt/readline/lib
+	cc ${CFLAGS} ${OBJS} -o ${NAME} ${LIBFT} -I /goinfre/${USER}/homebrew/opt/readline/include -lreadline -L /goinfre/${USER}/homebrew/opt/readline/lib
 
 	echo "\033[0;32m"${NAME} is compiled!
 clean :

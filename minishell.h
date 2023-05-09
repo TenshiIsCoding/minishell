@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/08 15:03:27 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 15:05:27 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include "queue/queue.h"
 # define GREEN "\033[0;32m"
 # define RESET "\033[0m" 
+
 // 				Global variable				   //
 
 int	g_exit;
@@ -106,6 +107,9 @@ typedef struct t_data{
 	int		status;
 	int		dquote;
 	int		squote;
+	int		dqt;
+	int		sqt;
+	int		tracker;
 	int		q;
 	char	*temp;
 	char	*ret;
@@ -120,10 +124,13 @@ typedef struct t_data{
 	t_queue	flqueue;
 }t_data;
 
-void	multipipe(t_queue *line, char **env, t_env *eenv);
+void	multipipe(t_queue *line, char **env, t_env *eenv, t_vars t);
 int		open_in(t_file **file, t_list *here);
 int		open_out(t_file **file);
+int		open_out_no_cmd(t_file **file);
+int		open_in_no_cmd(t_file **file, t_list *here);
 void	here_doc(t_queue *line, t_vars *fd_h);
+char	**full_vars(char **env);
 int		is_here(t_file **file);
 t_env	*full_env(char **env);
 void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t);
@@ -140,9 +147,9 @@ char	*pipe_strjoin(char const *s1, char const *s2);
 char	*get(t_env *env, char *cmd);
 int		is_builtin(char **cmd);
 void	exec_built(char **cmd, char **env, int ch, t_env **eenv);
-void	one_cmd(t_cmd *cmd, char **env, int ch, t_vars *t, t_env **eenv);
-void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv);
-void	last_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv);
+void	one_cmd(t_cmd *cmd, int ch, t_vars *t, t_env **eenv);
+void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv);
+void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_calloc(size_t count, size_t size);
@@ -235,7 +242,7 @@ char	*expand_init(char *line, t_env *env, t_data *v);
 char	*expand_argument(char *line, t_data *v, t_env *env);
 char	*get_envalue(char *name, t_env *env);
 void	remove_index(char *string, int index);
-int		remove_quotes(char *token);
+int		remove_quotes(char *token, t_data *v);
 void	insert_file(t_queue flqueue, char **splt, t_env *env, int i);
 void	insert_arg(char **splt, t_queue argqueue, int i);
 int		ambig_test(char *file, t_env *env, t_data *v);

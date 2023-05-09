@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/08 15:02:55 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 11:26:26 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,22 @@ int	ft_echo_norm(char **print, int j, int i)
 	return (i);
 }
 
+void	norm_echo(char **print, int i, int j, int r)
+{
+	while (print[j])
+	{
+		i = ft_echo_norm(print, j, i);
+		if (print[j][i] != '\0')
+			break ;
+		else
+			r = 1;
+		i = 0;
+		j++;
+	}
+	ft_print_echo(print, j, i);
+	if (r == 0)
+		write(1, "\n", 1);
+}
 
 void	ft_echo(char **print, int ch)
 {
@@ -65,23 +81,14 @@ void	ft_echo(char **print, int ch)
 	r = 0;
 	j = 1;
 	if (print[1] && print[1][0] != '\0')
-	{
-		while (print[j])
-		{
-			i = ft_echo_norm(print, j, i);
-			if (print[j][i] != '\0')
-				break ;
-			else
-				r = 1;
-			i = 0;
-			j++;
-		}
-		ft_print_echo(print, j, i);
-		if (r == 0)
-			write(1, "\n", 1);
-	}
+		norm_echo(print, i, j, r);
 	else
 		write(1, "\n", 1);
 	if (ch == 0)
+	{
+		g_exit = 0;
 		exit (0);
+	}
+	else
+		g_exit = 0;
 }

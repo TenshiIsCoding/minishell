@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:03:03 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/14 01:04:27 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 14:43:15 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,20 @@ t_env	*full_env(char **env)
 		i++;
 	}
 	return (head);
+}
+
+char	**full_vars(char **env)
+{
+	char	**ee;
+	int		i;
+
+	i = 0;
+	ee = (char **)malloc(sizeof(char **) * 40);
+	while (env[i])
+	{
+		ee[i] = ft_strdup(env[i]);
+		i++;
+	}
+	ee[i] = NULL;
+	return (ee);
 }

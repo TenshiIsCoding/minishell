@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 06:37:53 by azaher            #+#    #+#             */
-/*   Updated: 2023/04/30 20:34:52 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/07 22:26:34 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	hardcases(char *filetoken, t_data *vars)
 
 	mask = maskgen_01(filetoken, vars);
 	filesplt = ambig_upgraded_split(filetoken, mask);
-	remove_quotes(filetoken);
+	remove_quotes(filetoken, vars);
 	if (filetoken[0] == '\0')
 	{
 		(free(mask), ft_free(filesplt));

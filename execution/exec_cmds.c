@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/08 14:03:22 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 14:43:50 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@
 // 	}
 // }
 
-void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
+void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 {
 	char		*path;
 
 	if (ch == 0)
 	{
-		if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
-			path = cmd->args[0];
+		if ((cmd->args[0][0] == '/' || cmd->args[0][0] == '.' ))
+			path = ft_strdup(cmd->args[0]);
 		else
 			path = get((*eenv), cmd->args[0]);
 		(close(t->pi[0]), dup2(t->fd, 0));
@@ -53,9 +53,9 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 		if (open_in(cmd->files, t->fd_h) == 1)
 			return ;
 		if (is_builtin(cmd->args) == 0)
-			execve(path, cmd->args, env);
+			execve(path, cmd->args, t->env);
 		else
-			exec_built(cmd->args, env, ch, eenv);
+			exec_built(cmd->args, t->env, ch, eenv);
 	}
 	else
 	{
@@ -64,7 +64,7 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 	}
 }
 
-void	last_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
+void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 {
 	char		*path;
 
@@ -81,16 +81,16 @@ void	last_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv)
 				path = cmd->args[0];
 			else
 				path = get((*eenv), cmd->args[0]);
-			execve(path, cmd->args, env);
+			execve(path, cmd->args, t->env);
 		}
 		else
-			exec_built(cmd->args, env, ch, eenv);
+			exec_built(cmd->args, t->env, ch, eenv);
 	}
 	else
 		close (t->fd);
 }
 
-void	one_cmd(t_cmd *cmd, char **env, int ch, t_vars *t, t_env **eenv)
+void	one_cmd(t_cmd *cmd, int ch, t_vars *t, t_env **eenv)
 {
 	char		*path;
 
@@ -101,13 +101,18 @@ void	one_cmd(t_cmd *cmd, char **env, int ch, t_vars *t, t_env **eenv)
 		open_out(cmd->files);
 		if (is_builtin(cmd->args) == 0)
 		{			
-			if (cmd->args[0][0] == '/' && access(cmd->args[0], X_OK) == 0)
+			if (cmd->args[0][0] == '/' || \
+			(cmd->args[0][0] == '.' && access(cmd->args[0], F_OK) == 0))
 				path = cmd->args[0];
 			else
 				path = get((*eenv), cmd->args[0]);
-			execve(path, cmd->args, env);
+			if (execve(path, cmd->args, t->env) == -1)
+			{
+				ft_putstr_fd(path, 2);
+				write(2, ": No such file or directory\n", 28);
+			}
 		}
 		else
-			exec_built(cmd->args, env, ch, eenv);
+			exec_built(cmd->args, t->env, ch, eenv);
 	}
 }

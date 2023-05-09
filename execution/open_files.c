@@ -6,13 +6,13 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:49:50 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/08 11:50:44 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 15:04:30 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	norm_open(t_file **file, t_list *here, int *fd_in, int i)
+int	norm_open_in(t_file **file, t_list *here, int *fd_in, int i)
 {
 	if (file[i]->filename && file[i]->type == AMBIG)
 	{
@@ -48,7 +48,7 @@ int	open_in(t_file **file, t_list *here)
 		return (0);
 	while (file[i])
 	{
-		if (norm_open(file, here, &fd_in, i) == 1)
+		if (norm_open_in(file, here, &fd_in, i) == 1)
 			return (1);
 		i++;
 	}

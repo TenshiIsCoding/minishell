@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/05 12:42:31 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/07 22:23:03 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	handle_files(t_data *v, char **splt, t_env *env, int i)
 	else
 	{
 		splt[i + 1] = expand_argument(splt[i + 1], v, env);
-		v->q = remove_quotes(splt[i + 1]);
+		v->q = remove_quotes(splt[i + 1], v);
 		queue_insert(&v->flqueue, new_file(splt[i + 1], splt[i], v->q));
 	}
 }
@@ -64,7 +64,7 @@ void	handle_args(t_data *v, char **splt, t_env *env, int i)
 	v->argdex = 0;
 	while (v->spltargs[v->argdex])
 	{
-		remove_quotes(v->spltargs[v->argdex]);
+		remove_quotes(v->spltargs[v->argdex], v);
 		queue_insert(&v->argqueue, ft_strdup(v->spltargs[v->argdex++]));
 	}
 	(free(v->argmask), ft_free(v->spltargs));
