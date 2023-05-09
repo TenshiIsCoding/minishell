@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 18:09:12 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 19:35:22 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ void	over_add(t_env **env, char *var)
 	while (var[i] != '\0' && var[i] != '=')
 		i++;
 	if (var[i] == '=')
-			i++;
-	un = ft_substr(var, 0, i);
-	printf("%s", un);
-	while (*env != NULL && ft_strcmp((*env)->name, un) != 0)
-		*env = (*env)->next;
-	update_value((*env), var + i);
-	(*env) = new;
+	{
+		i++;
+		un = ft_substr(var, 0, i);
+		while (*env != NULL && ft_strcmp((*env)->name, un) != 0)
+			*env = (*env)->next;
+		update_value((*env), var + i);
+		(*env) = new;
+	}
 }
 
 void	export(char **cmd, t_env **env, int ch)

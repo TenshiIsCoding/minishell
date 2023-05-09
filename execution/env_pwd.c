@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:15:02 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 18:13:15 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 18:35:16 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	ft_pwd(int ch)
 
 void	ft_exit(char *i)
 {
-	g_exit = i;
 	printf("exit\n");
 	if (!i)
 		exit (0);
+	g_exit = ft_atoi(i);
 	exit(ft_atoi(i));
 }

@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/08 13:59:20 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 20:58:23 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	*get(t_env *env, char *cmd)
 	char	*path_f;
 
 	i = 0;
+	if (!env)
+		com_n(cmd);
 	if (cmd == NULL)
 		com_n(cmd);
 	while (env && ft_strcmp(env->name, "PATH=") != 0)
