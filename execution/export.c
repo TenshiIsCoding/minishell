@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 17:38:47 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 18:09:12 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,25 @@ void	export(char **cmd, t_env **env, int ch)
 
 	i = 1;
 	if (cmd[1] == NULL)
+	{
 		export_print((*env), (ft_lstsize(*env) - 1));
+		g_exit = 0;
+	}
 	else
 	{
 		while (cmd[i])
 		{
-			if (check_exist((*env), cmd[i]) == 0)
-				add_var(env, cmd[i]);
-			else
-				over_add(env, cmd[i]);
+			g_exit = check_valid(cmd[1]);
+			if (g_exit == 0)
+			{
+				if (check_exist((*env), cmd[i]) == 0)
+					add_var(env, cmd[i]);
+				else
+					over_add(env, cmd[i]);
+			}
 			i++;
 		}
 	}
-	g_exit = 0;
 	if (ch == 0)
 		exit (0);
 }

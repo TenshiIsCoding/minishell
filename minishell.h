@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 17:17:23 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 18:14:45 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,10 @@ int		open_out(t_file **file);
 int		open_out_no_cmd(t_file **file);
 int		open_in_no_cmd(t_file **file, t_list *here);
 void	here_doc(t_queue *line, t_vars *fd_h);
+int		check_valid(char *var);
 char	**full_vars(char **env);
 int		is_here(t_file **file);
 t_env	*full_env(char **env);
-void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t);
 char	*expo_substr(char const *s, unsigned int start, size_t len);
 void	com_n(char *cmd);
 void	ft_exit(char *i);

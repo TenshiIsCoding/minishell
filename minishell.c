@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/09 14:36:23 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 18:15:17 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ void	while_1(t_data *vars, char **env)
 			free(vars->line);
 			continue ;
 		}
-		// print_queue(&vars->commands);
 		multipipe(&vars->commands, env, vars->env, t);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
 	}
 }
+		// print_queue(&vars->commands);
 
 int	main(int argc, char **argv, char **env)
 {
