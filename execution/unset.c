@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:18:45 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/07 16:08:27 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 17:16:50 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,11 @@ void	ft_unset(t_env **env, char *name_p)
 	pr = NULL;
 	cur = *env;
 	name = ft_strjoin(name_p, "=");
-	// first_one(env, name, tmp);
 	if (*env != NULL && ft_strcmp((*env)->name, name) == 0)
 	{
 		tmp = *env;
 		*env = (*env)->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
+		(free(tmp->name), free(tmp->value), free(tmp));
 		return ;
 	}
 	while (cur != NULL && ft_strcmp(cur->name, name) != 0)
@@ -53,6 +50,5 @@ void	ft_unset(t_env **env, char *name_p)
 	if (cur == NULL)
 		return ;
 	pr->next = cur->next;
-	(free(cur->name), free(cur->value));
-	free(cur);
+	(free(cur->name), free(cur->value), free(cur));
 }

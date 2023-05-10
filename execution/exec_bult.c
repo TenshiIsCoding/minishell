@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 01:03:08 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/04/30 13:44:24 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 17:17:32 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	exec_built(char **cmd, char **env, int ch, t_env **eenv)
 {
 	if (ft_strcmp(cmd[0], "cd") == 0)
-		ft_cd(cmd[1], env);
+		ft_cd(cmd[1], env, ch);
 	if (ft_strcmp(cmd[0], "echo") == 0)
-		ft_echo(cmd);
+		ft_echo(cmd, ch);
 	if (ft_strcmp(cmd[0], "export") == 0)
-		export(cmd, eenv);
+		export(cmd, eenv, ch);
 	if (ft_strcmp(cmd[0], "pwd") == 0)
 		ft_pwd(ch);
 	if (ft_strcmp(cmd[0], "unset") == 0)
@@ -27,9 +27,9 @@ void	exec_built(char **cmd, char **env, int ch, t_env **eenv)
 	if (ft_strcmp(cmd[0], "exit") == 0)
 		ft_exit(cmd[1]);
 	if (ft_strcmp(cmd[0], "env") == 0)
-		ft_env((*eenv));
-	else
-		return ;
+		ft_env((*eenv), ch);
+	if (ch == 0)
+		exit (0);
 }
 
 int	is_builtin(char **cmd)

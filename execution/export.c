@@ -6,12 +6,11 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/07 12:50:10 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 19:35:22 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	add_var(t_env **env, char *var)
 {
@@ -47,30 +46,41 @@ void	over_add(t_env **env, char *var)
 	while (var[i] != '\0' && var[i] != '=')
 		i++;
 	if (var[i] == '=')
-			i++;
-	un = ft_substr(var, 0, i);
-	while (*env != NULL && ft_strcmp((*env)->name, un) != 0)
-		*env = (*env)->next;
-	update_value((*env), var + i);
-	(*env) = new;
+	{
+		i++;
+		un = ft_substr(var, 0, i);
+		while (*env != NULL && ft_strcmp((*env)->name, un) != 0)
+			*env = (*env)->next;
+		update_value((*env), var + i);
+		(*env) = new;
+	}
 }
 
-void	export(char **cmd, t_env **env)
+void	export(char **cmd, t_env **env, int ch)
 {
 	int	i;
 
 	i = 1;
 	if (cmd[1] == NULL)
+	{
 		export_print((*env), (ft_lstsize(*env) - 1));
+		g_exit = 0;
+	}
 	else
 	{
 		while (cmd[i])
 		{
-			if (check_exist((*env), cmd[i]) == 0)
-				add_var(env, cmd[i]);
-			else
-				over_add(env, cmd[i]);
+			g_exit = check_valid(cmd[1]);
+			if (g_exit == 0)
+			{
+				if (check_exist((*env), cmd[i]) == 0)
+					add_var(env, cmd[i]);
+				else
+					over_add(env, cmd[i]);
+			}
 			i++;
 		}
 	}
+	if (ch == 0)
+		exit (0);
 }

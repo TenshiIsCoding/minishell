@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_ch.c                                          :+:      :+:    :+:   */
+/*   ft_list2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 00:31:35 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 20:14:13 by ynafiss          ###   ########.fr       */
+/*   Created: 2023/05/08 11:55:40 by ynafiss           #+#    #+#             */
+/*   Updated: 2023/05/08 13:58:44 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	wait_child(int i, int *ch)
+t_env	*ft_lstlast(t_env *lst)
 {
-	int	j;
-
-	j = 0;
-	waitpid(ch[i], NULL, 0);
-	while (j < i)
+	if (lst != NULL)
 	{
-		waitpid(ch[j], NULL, 0);
-		j++;
+		while (lst->next != NULL)
+			lst = lst->next;
 	}
+	return (lst);
 }
 
-void	close_all(void)
+int	ft_lstsize(t_env *lst)
 {
-	int	j;
+	int	i;
 
-	j = 3;
-	while (j <= 1024)
+	i = 0;
+	while (lst != NULL)
 	{
-		close (j);
-		j++;
+		lst = lst->next;
+		i++;
 	}
+	return (i);
 }

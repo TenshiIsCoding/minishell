@@ -6,11 +6,32 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 02:43:18 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/07 13:05:50 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/09 17:28:31 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	norm_export(int co, char *value)
+{
+	int	i;
+
+	i = 0;
+	while (value[i])
+	{
+		if (co == 1 && value[i] == '\'' && value[i - 1] != '=')
+			write(1, &value[i], 1);
+		if (value[i] != '\'')
+			write(1, &value[i], 1);
+		if (value[i] == '=' && co == 0)
+		{
+			write(1, "\"", 1);
+			co = 1;
+		}
+		i++;
+	}
+	return (co);
+}
 
 void	ft_putstr_export(char *name, char *value)
 {
@@ -32,20 +53,7 @@ void	ft_putstr_export(char *name, char *value)
 		}
 		i++;
 	}
-	i = 0;
-	while (value[i])
-	{
-		if (co == 1 && value[i] == '\'' && value[i - 1] != '=')
-			write(1, &value[i], 1);
-		if (value[i] != '\'')
-			write(1, &value[i], 1);
-		if (value[i] == '=' && co == 0)
-		{
-			write(1, "\"", 1);
-			co = 1;
-		}
-		i++;
-	}
+	co = norm_export(co, value);
 	if (co == 1)
 		write(1, "\"", 1);
 }
@@ -77,16 +85,13 @@ void	cmp_print(t_env *env, char **str)
 	}
 }
 
-void	export_print(t_env *env, int limit)
+char	**norm_expo( t_env *env)
 {
 	char	**str;
-	char	*alpha;
 	t_env	*tmp;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	tmp = env;
 	str = (char **)malloc(sizeof (char *) * (ft_lstsize((env)) + 1));
 	while (env)
@@ -96,7 +101,20 @@ void	export_print(t_env *env, int limit)
 		i++;
 	}
 	str[i] = NULL;
+	env = tmp;
+	return (str);
+}
+
+void	export_print(t_env *env, int limit)
+{
+	char	**str;
+	char	*alpha;
+	int		i;
+	int		j;
+
 	i = 0;
+	j = 0;
+	str = norm_expo(env);
 	while (limit >= i)
 	{
 		j = 0;
@@ -112,28 +130,5 @@ void	export_print(t_env *env, int limit)
 		}
 		i++;
 	}
-	env = tmp;
-	cmp_print(env, str);
-	ft_free(str);
-}
-
-int	check_exist(t_env *env, char *var)
-{
-	t_env	*tmp;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	tmp = env;
-	while (var[j] && var[j] != '=')
-		j++;
-	while (env)
-	{
-		if (ft_strncmp(env->name, var, j) == 0)
-			return (1);
-		env = env->next;
-	}
-	env = tmp;
-	return (0);
+	(cmp_print(env, str), ft_free(str));
 }

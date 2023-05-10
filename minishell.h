@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/07 22:24:50 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/09 18:14:45 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ typedef struct t_list
 
 typedef struct t_vars
 {
-	int	pi[2];
-	int	fd;
-	int	open;
-	int	*ch;
+	int				pi[2];
+	int				fd;
+	int				open;
+	int				*ch;
+	char			**env;
 	t_list			*fd_h;
 
 }t_vars;
@@ -123,11 +124,16 @@ typedef struct t_data{
 	t_queue	flqueue;
 }t_data;
 
-void	multipipe(t_queue *line, char **env, t_env **eenv);
+void	multipipe(t_queue *line, char **env, t_env *eenv, t_vars t);
+int		open_in(t_file **file, t_list *here);
+int		open_out(t_file **file);
+int		open_out_no_cmd(t_file **file);
+int		open_in_no_cmd(t_file **file, t_list *here);
 void	here_doc(t_queue *line, t_vars *fd_h);
+int		check_valid(char *var);
+char	**full_vars(char **env);
 int		is_here(t_file **file);
 t_env	*full_env(char **env);
-void	first_cmd(t_cmd *cmd, int ch, t_env **eenv, char **env, t_vars *t);
 char	*expo_substr(char const *s, unsigned int start, size_t len);
 void	com_n(char *cmd);
 void	ft_exit(char *i);
@@ -141,16 +147,16 @@ char	*pipe_strjoin(char const *s1, char const *s2);
 char	*get(t_env *env, char *cmd);
 int		is_builtin(char **cmd);
 void	exec_built(char **cmd, char **env, int ch, t_env **eenv);
-void	one_cmd(t_cmd *cmd, char **env, int ch, t_env **eenv, t_vars *t);
-void	mid_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv);
-void	last_cmd(t_vars *t, t_cmd *cmd, char **env, int ch, t_env **eenv);
+void	one_cmd(t_cmd *cmd, int ch, t_vars *t, t_env **eenv);
+void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv);
+void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memset(void *str, int c, size_t n);
 void	ft_putstr_export(char *name, char *value);
 void	*ft_memchr(const void *s, int c, size_t n);
-void	export(char **cmd, t_env **env);
+void	export(char **cmd, t_env **env, int ch);
 void	ft_bzero(void *str, size_t n);
 void	ft_unset(t_env **env, char *var);
 void	ft_putchar_fd(char c, int fd);
@@ -195,11 +201,12 @@ int		ft_lstsize(t_env *lst);
 char	*get_next_line(int fd);
 char	*ft_ft(int fd, char *str);
 char	*ft_fr(char *str);
+void	close_all(void);
 char	*ft_l1(char *s);
-void	ft_env(t_env *env);
+void	ft_env(t_env *env, int ch);
 void	ft_pwd(int ch);
-void	ft_echo(char **print);
-void	ft_cd(char *path, char **env);
+void	ft_echo(char **print, int ch);
+void	ft_cd(char *path, char **env, int ch);
 
 //              Parsing prototypes Structs              //
 

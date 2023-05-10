@@ -6,16 +6,17 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/09 20:29:55 by azaher           ###   ########.fr        #
+#    Updated: 2023/05/10 15:52:37 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra -I /Users/azaher/software/readline/include -fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 AF= minishell.c \
 execution/builtins.c	\
 execution/ft_list.c	\
+execution/ft_list2.c	\
 execution/ft_strcmp.c	\
 execution/echo_cd.c	\
 execution/env_pwd.c	\
@@ -27,6 +28,11 @@ execution/exec_bult.c	\
 execution/export.c	\
 execution/here_doc.c	\
 execution/export_utils.c	\
+execution/open_files.c	\
+execution/cd.c	\
+execution/export_utils2.c	\
+execution/open_files_no_cmd.c	\
+execution/main_multi.c	\
 parsing/ft_itoa.c \
 parsing/upgraded_split_tools.c \
 parsing/upgraded_split.c \
