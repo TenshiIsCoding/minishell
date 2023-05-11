@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 18:14:45 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/11 16:13:19 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "queue/queue.h"
-# define GREEN "\033[0;32m"
-# define RESET "\033[0m" 
 
 // 				Global variable				   //
 
@@ -125,13 +123,17 @@ typedef struct t_data{
 }t_data;
 
 void	multipipe(t_queue *line, char **env, t_env *eenv, t_vars t);
+int		*where_here(t_cmd *cmd, t_queue *line, t_queue_node *node);
 int		open_in(t_file **file, t_list *here);
 int		open_out(t_file **file);
+int		is_cmd(t_cmd *cmd);
+void	here_signal(void);
 int		open_out_no_cmd(t_file **file);
 int		open_in_no_cmd(t_file **file, t_list *here);
 void	here_doc(t_queue *line, t_vars *fd_h);
 int		check_valid(char *var);
 char	**full_vars(char **env);
+int		while_unset(t_env **env, char **cmd);
 int		is_here(t_file **file);
 t_env	*full_env(char **env);
 char	*expo_substr(char const *s, unsigned int start, size_t len);
@@ -156,9 +158,9 @@ void	*ft_calloc(size_t count, size_t size);
 void	*ft_memset(void *str, int c, size_t n);
 void	ft_putstr_export(char *name, char *value);
 void	*ft_memchr(const void *s, int c, size_t n);
-void	export(char **cmd, t_env **env, int ch);
+int		export(char **cmd, t_env **env);
 void	ft_bzero(void *str, size_t n);
-void	ft_unset(t_env **env, char *var);
+int		ft_unset(t_env **env, char *name_p);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	wait_child(int i, int *ch);
@@ -206,7 +208,7 @@ char	*ft_l1(char *s);
 void	ft_env(t_env *env, int ch);
 void	ft_pwd(int ch);
 void	ft_echo(char **print, int ch);
-void	ft_cd(char *path, char **env, int ch);
+int		ft_cd(char *path, char **env, int ch);
 
 //              Parsing prototypes Structs              //
 

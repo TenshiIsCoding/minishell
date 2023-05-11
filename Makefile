@@ -6,13 +6,13 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/09 20:47:07 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/05/11 16:59:05 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
 AF= minishell.c \
 execution/builtins.c	\
 execution/ft_list.c	\
@@ -20,6 +20,7 @@ execution/ft_list2.c	\
 execution/ft_strcmp.c	\
 execution/echo_cd.c	\
 execution/env_pwd.c	\
+execution/here_doc_utils.c	\
 execution/unset.c	\
 execution/multipipe.c	\
 execution/exec_cmds.c	\
@@ -61,7 +62,7 @@ ${NAME} : ${OBJS}
 	echo  "\033[0;33m"${NAME} is compiling...
 	cc ${CFLAGS} ${OBJS} -o ${NAME} ${LIBFT} -I /goinfre/${USER}/homebrew/opt/readline/include -lreadline -L /goinfre/${USER}/homebrew/opt/readline/lib
 
-	echo "\033[0;32m"${NAME} is compiled!
+	echo "\033[0;32m"${NAME} is compiled!"\033[0m" 
 clean :
 		rm -f ${OBJS} ${BOBJS}
 fclean : clean

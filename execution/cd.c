@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 12:04:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 19:31:50 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/10 17:59:16 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ char	*get_env(char **env, char *src)
 	return ("null");
 }
 
-void	ft_cd(char *path, char **env, int ch)
+int	ft_cd(char *path, char **env, int ch)
 {
-	if (path != NULL)
+	if (path != NULL && env[0] != NULL)
 	{
 		g_exit = 0;
 		if (ft_strcmp(path, "~") == 0 || path == NULL)
@@ -53,8 +53,15 @@ void	ft_cd(char *path, char **env, int ch)
 			g_exit = 1;
 		}
 	}
-	else
+	else if (env[0] != NULL)
 		chdir(get_env(env, "~"));
+	else
+		g_exit = 1;
 	if (ch == 0)
+	{
+		if (env)
+			g_exit = 0;
 		exit (0);
+	}
+	return (g_exit);
 }

@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:03:03 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 20:54:18 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/10 20:11:43 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_env	*full_env(char **env)
 	int		j;
 
 	i = 0;
+	head = NULL;
 	while (env[i])
 	{
 		ee = malloc(sizeof(t_env));

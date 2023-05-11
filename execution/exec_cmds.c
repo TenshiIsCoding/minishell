@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 14:43:50 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/11 14:39:22 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,16 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 		(close(t->pi[0]), dup2(t->fd, 0));
 		(close(t->fd), dup2(t->pi[1], 1));
 		close (t->pi[1]);
+		open_out(cmd->files);
 		if (open_in(cmd->files, t->fd_h) == 1)
-			return ;
-		if (is_builtin(cmd->args) == 0)
-			execve(path, cmd->args, t->env);
-		else
-			exec_built(cmd->args, t->env, ch, eenv);
+			exit(1);
+		if (cmd->args)
+		{
+			if (is_builtin(cmd->args) == 0)
+				execve(path, cmd->args, t->env);
+			else
+				exec_built(cmd->args, t->env, ch, eenv);
+		}
 	}
 	else
 	{
@@ -74,17 +78,22 @@ void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 		close(t->fd);
 		open_out(cmd->files);
 		if (open_in(cmd->files, t->fd_h) == 1)
-			return ;
-		if (is_builtin(cmd->args) == 0)
+			exit(1);
+		if (is_cmd(cmd) == 1)
 		{
-			if (cmd->args[0][0] == '/' || access(cmd->args[0], X_OK) == 0)
-				path = cmd->args[0];
+			if (is_builtin(cmd->args) == 0)
+			{
+				if (cmd->args[0][0] == '/' || access(cmd->args[0], X_OK) == 0)
+					path = cmd->args[0];
+				else
+					path = get((*eenv), cmd->args[0]);
+				execve(path, cmd->args, t->env);
+			}
 			else
-				path = get((*eenv), cmd->args[0]);
-			execve(path, cmd->args, t->env);
+				exec_built(cmd->args, t->env, ch, eenv);
 		}
 		else
-			exec_built(cmd->args, t->env, ch, eenv);
+			(open_out_no_cmd(cmd->files), open_in_no_cmd(cmd->files, t->fd_h), exit(0));
 	}
 	else
 		close (t->fd);
@@ -115,4 +124,6 @@ void	one_cmd(t_cmd *cmd, int ch, t_vars *t, t_env **eenv)
 		else
 			exec_built(cmd->args, t->env, ch, eenv);
 	}
+	if (is_builtin(cmd->args) == 0)
+		wait_child(0, t->ch);
 }
