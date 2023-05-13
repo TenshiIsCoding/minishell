@@ -6,13 +6,13 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/10 15:52:37 by azaher           ###   ########.fr        #
+#    Updated: 2023/05/13 14:22:17 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
 AF= minishell.c \
 execution/builtins.c	\
 execution/ft_list.c	\
@@ -60,6 +60,7 @@ ${NAME} : ${OBJS}
 	make -C libft
 	echo  "\033[0;33m"${NAME} is compiling...
 	cc ${CFLAGS} ${OBJS} -o ${NAME} ${LIBFT} -I /goinfre/${USER}/homebrew/opt/readline/include -lreadline -L /goinfre/${USER}/homebrew/opt/readline/lib
+	# cc ${CFLAGS} ${OBJS} -o ${NAME} ${LIBFT} -lreadline
 	echo "\033[0;32m"${NAME} is compiled!
 clean :
 		rm -f ${OBJS} ${BOBJS}

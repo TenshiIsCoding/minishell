@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/09 20:57:37 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/12 19:08:13 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ void	while_1(t_data *vars, char **env)
 	{
 		vars->line = readline("minishell → ");
 		if (!vars->line)
-			break ;
+		{
+			printf("exit\n");
+			exit(0);
+		}
 		if (!vars->line[0])
 			continue ;
 		if (parse_start(vars, vars->env))
