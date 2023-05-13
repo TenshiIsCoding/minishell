@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/12 19:08:13 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/13 14:25:47 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	while_1(t_data *vars, char **env)
 		if (!vars->line)
 		{
 			printf("exit\n");
-			exit(0);
+			exit (0);
 		}
 		if (!vars->line[0])
 			continue ;
@@ -117,6 +117,6 @@ int	main(int argc, char **argv, char **env)
 	vars = malloc(sizeof(t_data));
 	vars->env = full_env(env);
 	g_exit = 0;
-	// handle_signals();
+	handle_signals();
 	while_1(vars, env);
 }

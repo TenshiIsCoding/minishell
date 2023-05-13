@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:31:22 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 12:34:14 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/11 17:21:13 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ void	norm_here(t_cmd *cmd, int pi[2])
 			while (1)
 			{
 				line_r = readline("> ");
+				handle_signals();
+				if (g_exit == 444)
+					return ;
 				if (!line_r || \
 				!ft_strcmp(cmd->files[i]->filename, line_r))
 				{
@@ -95,6 +98,8 @@ void	here_doc(t_queue *line, t_vars *fd_h)
 		if (is_here(cmd->files))
 		{
 			(pipe(pi), norm_here(cmd, pi), close(pi[1]));
+			if (g_exit == 444)
+				return ;
 			if (k++ == 0)
 				here = ft_lstnew_nor(pi[0]);
 			else

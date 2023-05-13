@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 15:16:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 20:58:23 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/10 16:17:58 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,16 @@ void	com_n(char *cmd)
 	exit(127);
 }
 
+void	check_env(t_env *env, char *cmd)
+{
+	if (!env)
+		com_n(cmd);
+	if (cmd == NULL)
+		com_n(cmd);
+	if (env == NULL)
+		com_n(cmd);
+}
+
 char	*get(t_env *env, char *cmd)
 {
 	int		i;
@@ -55,12 +65,10 @@ char	*get(t_env *env, char *cmd)
 	char	*path_f;
 
 	i = 0;
-	if (!env)
-		com_n(cmd);
-	if (cmd == NULL)
-		com_n(cmd);
+	check_env(env, cmd);
 	while (env && ft_strcmp(env->name, "PATH=") != 0)
 		env = env->next;
+	check_env(env, cmd);
 	i = 0;
 	if (ft_strcmp(env->name, "PATH=") != 0)
 		com_n(cmd);

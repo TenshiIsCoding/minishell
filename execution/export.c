@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 19:35:22 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/11 17:40:02 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	add_var(t_env **env, char *var)
 	i = 0;
 	new = malloc(sizeof(t_env));
 	while (var[i] != '\0' && var[i] != '=')
-			i++;
+		i++;
 	if (var[i] == '=')
-			i++;
+		i++;
 	new->name = expo_substr(var, 0, i);
 	new->value = ft_strdup(var + i);
 	new->next = NULL;
@@ -31,32 +31,49 @@ void	add_var(t_env **env, char *var)
 
 void	update_value(t_env *env, char *new_value)
 {
-	free(env->value);
-	env->value = ft_strdup(new_value);
+	if (env != NULL)
+	{
+		if (env->value != NULL)
+			free(env->value);
+		if (new_value != NULL)
+			env->value = ft_strdup(new_value);
+		else
+			env->value = NULL;
+	}
 }
 
 void	over_add(t_env **env, char *var)
 {
 	int		i;
-	char	*un;
-	t_env	*new;
+	char	*str;
+	char	*app;
+	t_env	*current_env;
 
 	i = 0;
-	new = *env;
+	current_env = *env;
 	while (var[i] != '\0' && var[i] != '=')
 		i++;
 	if (var[i] == '=')
 	{
-		i++;
-		un = ft_substr(var, 0, i);
-		while (*env != NULL && ft_strcmp((*env)->name, un) != 0)
-			*env = (*env)->next;
-		update_value((*env), var + i);
-		(*env) = new;
+		str = ft_substr(var, 0, i);
+		while (current_env != NULL && \
+		ft_strcmp(current_env->name, str) != 0)
+			current_env = current_env->next;
+		if (current_env != NULL)
+		{
+			if (var[i - 1] == '+')
+			{
+				update_value(current_env, var);
+				app = ft_strjoin(current_env->value, var + i);
+			}
+			else
+				update_value(current_env, var + i);
+		}
+		free(str);
 	}
 }
 
-void	export(char **cmd, t_env **env, int ch)
+int	export(char **cmd, t_env **env)
 {
 	int	i;
 
@@ -70,7 +87,7 @@ void	export(char **cmd, t_env **env, int ch)
 	{
 		while (cmd[i])
 		{
-			g_exit = check_valid(cmd[1]);
+			g_exit = check_valid(cmd[i]);
 			if (g_exit == 0)
 			{
 				if (check_exist((*env), cmd[i]) == 0)
@@ -81,6 +98,5 @@ void	export(char **cmd, t_env **env, int ch)
 			i++;
 		}
 	}
-	if (ch == 0)
-		exit (0);
+	return (g_exit);
 }

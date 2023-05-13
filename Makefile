@@ -6,7 +6,7 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/13 14:22:17 by azaher           ###   ########.fr        #
+#    Updated: 2023/05/13 14:26:38 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ execution/ft_list2.c	\
 execution/ft_strcmp.c	\
 execution/echo_cd.c	\
 execution/env_pwd.c	\
+execution/here_doc_utils.c	\
 execution/unset.c	\
 execution/multipipe.c	\
 execution/exec_cmds.c	\
