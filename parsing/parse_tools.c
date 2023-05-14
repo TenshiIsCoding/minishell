@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tools.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 07:54:09 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/09 21:06:00 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/12 19:12:57 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,17 @@ void	handle_files(t_data *v, char **splt, t_env *env, int i)
 		queue_insert(&v->flqueue, new_file(splt[i + 1], "!", 0));
 	else
 	{
-		splt[i + 1] = expand_argument(splt[i + 1], v, env);
-		v->q = remove_quotes(splt[i + 1], v);
-		queue_insert(&v->flqueue, new_file(splt[i + 1], splt[i], v->q));
+		if (splt[i][0] == '<' && splt[i][1] == '<')
+		{
+			v->q = remove_quotes(splt[i + 1], v);
+			queue_insert(&v->flqueue, new_file(splt[i + 1], splt[i], v->q));
+		}
+		else
+		{
+			splt[i + 1] = expand_argument(splt[i + 1], v, env);
+			v->q = remove_quotes(splt[i + 1], v);
+			queue_insert(&v->flqueue, new_file(splt[i + 1], splt[i], v->q));
+		}
 	}
 }
 

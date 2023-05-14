@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
+#    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/11 16:59:05 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/05/13 14:26:38 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,15 +54,15 @@ signal_handler.c
 
 ${USER} = $USER
 OBJS = ${AF:.c=.o}
-.SILENT:
+# .SILENT:
 all : ${NAME}
 ${NAME} : ${OBJS}
 	echo "\033[0;33m"LIBFT is compiling...
 	make -C libft
 	echo  "\033[0;33m"${NAME} is compiling...
 	cc ${CFLAGS} ${OBJS} -o ${NAME} ${LIBFT} -I /goinfre/${USER}/homebrew/opt/readline/include -lreadline -L /goinfre/${USER}/homebrew/opt/readline/lib
-
-	echo "\033[0;32m"${NAME} is compiled!"\033[0m" 
+	# cc ${CFLAGS} ${OBJS} -o ${NAME} ${LIBFT} -lreadline
+	echo "\033[0;32m"${NAME} is compiled!
 clean :
 		rm -f ${OBJS} ${BOBJS}
 fclean : clean
