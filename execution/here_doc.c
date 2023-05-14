@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:31:22 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 16:27:59 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/14 17:26:29 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,9 @@ int	here_doc(t_queue *line, t_vars *fd_h, t_env *env, t_data *var)
 		{
 			(pipe(n.pi), n.ch = fork());
 			if (n.ch == 0)
+			{
 				norm_here(cmd, n.pi, n.ch, env, var);
+			}
 			(close(n.pi[1]), waitpid(n.ch, &n.status, 0));
 			if (WEXITSTATUS(n.status) == 44)
 				return (44);

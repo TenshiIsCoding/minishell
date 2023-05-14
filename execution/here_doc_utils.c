@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:00:32 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/13 13:48:27 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 17:02:20 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,5 @@ void	here_signal(struct termios term)
 {
 	term.c_cc[VQUIT] = _POSIX_VDISABLE;
 	term.c_lflag &= ~ECHOCTL;
-	(tcsetattr(0, TCSANOW, &term), signal(SIGINT, here_handel));
+	(tcsetattr(0, TCSANOW, &term)/*, signal(SIGINT, here_handel)*/);
 }

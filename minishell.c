@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 14:23:24 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 14:23:28 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 17:06:25 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void	while_1(t_data *vars, char **env)
 	t.env = full_vars(env);
 	while (1)
 	{
-		handle_signals();
 		vars->line = readline("minishell → ");
+		handle_signals();
 		if (!vars->line)
 		{
 			printf("exit\n");

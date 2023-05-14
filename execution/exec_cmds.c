@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 12:50:57 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 17:26:53 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 
 	if (ch == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if ((cmd->args[0][0] == '/' || cmd->args[0][0] == '.' ))
 			path = ft_strdup(cmd->args[0]);
 		else
@@ -88,6 +90,8 @@ void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 
 	if (ch == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		tcgetattr(STDIN_FILENO, &term);
 		cmd_signal(term);
 		dup2(t->fd, 0);
