@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/11 16:13:19 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 11:49:05 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
+# include <termios.h>
 # include <signal.h> 
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -64,6 +65,14 @@ typedef struct t_here
 }t_here;
 
 //              Parsing Structs              //
+
+typedef struct t_norm
+{
+	int				pi[2];
+	int				k;
+	int				ch;
+	int				status;
+}t_norm;
 
 enum
 {
@@ -122,15 +131,15 @@ typedef struct t_data{
 	t_queue	flqueue;
 }t_data;
 
-void	multipipe(t_queue *line, char **env, t_env *eenv, t_vars t);
+void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t);
 int		*where_here(t_cmd *cmd, t_queue *line, t_queue_node *node);
 int		open_in(t_file **file, t_list *here);
 int		open_out(t_file **file);
 int		is_cmd(t_cmd *cmd);
-void	here_signal(void);
+void	here_signal(struct termios term);
 int		open_out_no_cmd(t_file **file);
 int		open_in_no_cmd(t_file **file, t_list *here);
-void	here_doc(t_queue *line, t_vars *fd_h);
+int		here_doc(t_queue *line, t_vars *fd_h, t_env *env, t_data *var);
 int		check_valid(char *var);
 char	**full_vars(char **env);
 int		while_unset(t_env **env, char **cmd);
@@ -144,6 +153,7 @@ int		open_in(t_file **file, t_list *here);
 int		export_strncmp(const char *s1, const char *s2, size_t n);
 void	cmp_print(t_env *env, char **str);
 void	export_print(t_env *env, int limit);
+char	*check_exist_1(t_env *env, char *var);
 int		check_exist(t_env *env, char *var);
 char	*pipe_strjoin(char const *s1, char const *s2);
 char	*get(t_env *env, char *cmd);

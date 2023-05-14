@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/11 14:39:22 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 12:50:57 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,28 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 	}
 }
 
+void	cmd_handel(int sig)
+{
+	(void)sig;
+	exit (130);
+}
+
+void	cmd_signal(struct termios term)
+{
+	term.c_cc[VQUIT] = _POSIX_VDISABLE;
+	term.c_lflag &= ~ECHOCTL;
+	(tcsetattr(0, TCSANOW, &term), signal(SIGINT, SIG_DFL));
+}
+
 void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 {
-	char		*path;
+	char			*path;
+	struct termios	term;
 
 	if (ch == 0)
 	{
+		tcgetattr(STDIN_FILENO, &term);
+		cmd_signal(term);
 		dup2(t->fd, 0);
 		close(t->fd);
 		open_out(cmd->files);
@@ -101,10 +117,13 @@ void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 
 void	one_cmd(t_cmd *cmd, int ch, t_vars *t, t_env **eenv)
 {
-	char		*path;
+	char			*path;
+	struct termios	term;
 
 	if (ch == 0 || is_builtin(cmd->args) != 0)
 	{
+		tcgetattr(STDIN_FILENO, &term);
+		cmd_signal(term);
 		if (open_in(cmd->files, t->fd_h) == 1)
 			return ;
 		open_out(cmd->files);
