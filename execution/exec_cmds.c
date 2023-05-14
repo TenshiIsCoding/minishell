@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 17:26:53 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/14 17:31:23 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,28 @@
 // 		t->fd = t->pi[0];
 // 	}
 // }
+void	cmd_handel(int sig)
+{
+	(void)sig;
+	exit (130);
+}
+
+void	cmd_signal(struct termios term)
+{
+	term.c_cc[VQUIT] = _POSIX_VDISABLE;
+	term.c_lflag &= ~ECHOCTL;
+	(tcsetattr(0, TCSANOW, &term), signal(SIGINT, SIG_DFL));
+}
 
 void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 {
-	char		*path;
+	char			*path;
+	struct termios	term;
 
 	if (ch == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
+		tcgetattr(STDIN_FILENO, &term);
+		cmd_signal(term);
 		if ((cmd->args[0][0] == '/' || cmd->args[0][0] == '.' ))
 			path = ft_strdup(cmd->args[0]);
 		else
@@ -70,18 +83,6 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 	}
 }
 
-void	cmd_handel(int sig)
-{
-	(void)sig;
-	exit (130);
-}
-
-void	cmd_signal(struct termios term)
-{
-	term.c_cc[VQUIT] = _POSIX_VDISABLE;
-	term.c_lflag &= ~ECHOCTL;
-	(tcsetattr(0, TCSANOW, &term), signal(SIGINT, SIG_DFL));
-}
 
 void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 {
