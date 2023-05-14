@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:13:24 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 14:13:22 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 14:32:00 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	check_exist(t_env *env, char *var)
 		j++;
 	str = ft_substr(var, 0, j);
 	printf("22 %s\n", str);
-	printf("22 %s\n", var);
 	while (env)
 	{
 		if (ft_strcmp(env->name, str) == 0)

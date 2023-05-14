@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 14:19:25 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 14:29:48 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	over_add(t_env **env, char *var)
 {
 	int		i;
 	char	*str;
-	char	*app;
 	t_env	*current_env;
 
 	i = 0;
@@ -88,21 +87,14 @@ void	over_add(t_env **env, char *var)
 		i++;
 	if (var[i] == '=')
 	{
+		i++;
 		str = ft_substr(var, 0, i);
-		printf("%s\n", str);
+		printf("*** %s ***\n", str);
 		while (current_env != NULL && \
 		ft_strcmp(current_env->name, str) != 0)
 			current_env = current_env->next;
 		if (current_env != NULL)
-		{
-			if (var[i - 1] == '+')
-			{
-				update_value(current_env, var);
-				app = ft_strjoin(current_env->value, var + i);
-			}
-			else
-				update_value(current_env, var + i);
-		}
+			update_value(current_env, var + i);
 		free(str);
 	}
 }
