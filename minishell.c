@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:30:23 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/11 18:01:45 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/13 20:35:43 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	while_1(t_data *vars, char **env)
 	t.env = full_vars(env);
 	while (1)
 	{
+		handle_signals();
 		vars->line = readline("minishell → ");
 		if (!vars->line)
 		{
@@ -101,7 +102,7 @@ void	while_1(t_data *vars, char **env)
 			continue ;
 		}
 		// print_queue(&vars->commands);
-		multipipe(&vars->commands, env, vars->env, t);
+		multipipe(vars, env, vars->env, t);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
@@ -117,6 +118,5 @@ int	main(int argc, char **argv, char **env)
 	vars = malloc(sizeof(t_data));
 	vars->env = full_env(env);
 	g_exit = 0;
-	handle_signals();
 	while_1(vars, env);
 }

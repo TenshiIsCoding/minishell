@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:00:32 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/11 17:22:23 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/13 13:48:27 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int	*where_here(t_cmd *cmd, t_queue *line, t_queue_node *node)
 void	here_handel(int sig)
 {
 	(void)sig;
-	g_exit = 444;
+	g_exit = 44;
+	exit(44);
 }
 
-void	here_signal(void)
+void	here_signal(struct termios term)
 {
-	signal(SIGINT, here_handel);
-	signal(SIGQUIT, SIG_IGN);
+	term.c_cc[VQUIT] = _POSIX_VDISABLE;
+	term.c_lflag &= ~ECHOCTL;
+	(tcsetattr(0, TCSANOW, &term), signal(SIGINT, here_handel));
 }

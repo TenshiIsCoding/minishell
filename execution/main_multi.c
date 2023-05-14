@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:59:57 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/11 17:26:00 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 12:16:24 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	is_cmd(t_cmd *cmd)
 		return (1);
 	return (0);
 }
+
 
 void	ft_else(t_queue *line, t_vars *t, t_env **eenv)
 {
@@ -82,22 +83,23 @@ void	ft_else_if(t_queue *line, t_cmd *cmd, t_env *eenv, t_vars t)
 		(open_out_no_cmd(cmd->files), open_in_no_cmd(cmd->files, t.fd_h));
 }
 
-void	multipipe(t_queue *line, char **env, t_env *eenv, t_vars t)
+void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t)
 {
 	t_queue_node	*node;
 	t_cmd			*cmd;
 
-	if (line->head)
+	if (line->commands.head)
 	{
-		t.ch = malloc(sizeof(int) * line->len);
-		node = line->head;
+		t.ch = malloc(sizeof(int) * line->commands.len);
+		node = line->commands.head;
 		cmd = node->ptr;
 		t.fd = dup (0);
 		t.env = full_vars(env);
 		if (!node)
 			return ;
-		here_doc(line, &t);
-		if (cmd_num(line) == 1 && line->len == 1 /*&& g_exit != 444*/)
+		g_exit = here_doc(&line->commands, &t, eenv, line);
+		if (cmd_num(&line->commands) == 1 && \
+		line->commands.len == 1 && g_exit != 44)
 		{
 			if (is_builtin(cmd->args) == 0)
 				t.ch[0] = fork();
@@ -105,9 +107,9 @@ void	multipipe(t_queue *line, char **env, t_env *eenv, t_vars t)
 				t.ch[0] = 1;
 			one_cmd(cmd, t.ch[0], &t, &eenv);
 		}
-		else if (g_exit != 444)
-			ft_else_if(line, cmd, eenv, t);
-		if (g_exit == 444)
+		else if (g_exit != 44)
+			ft_else_if(&line->commands, cmd, eenv, t);
+		if (g_exit == 44)
 			g_exit = 1;
 		(free(t.ch), ft_free(t.env));
 	}

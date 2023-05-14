@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 13:34:15 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/06 21:47:29 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/13 21:14:32 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # include<stdlib.h>
 # include<unistd.h>
+# include<stdio.h>
 
 typedef struct t_list
 {
