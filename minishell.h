@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 11:49:05 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 19:15:40 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@
 
 // 				Global variable				   //
 
-int	g_exit;
+typedef struct s_global{
+	int	g_exit;
+	int	sigflag;
+}t_global;
+
+t_global	g_data;
 
 //              Execution Structs              //
 
@@ -111,6 +116,7 @@ typedef struct t_data{
 	char	*line;
 	char	*lineptr;
 	char	*mask;
+	int		sigtrack;
 	int		status;
 	int		dquote;
 	int		squote;
@@ -261,7 +267,7 @@ int		ambig_test(char *file, t_env *env, t_data *v);
 char	**ambig_upgraded_split(char *token, char *mask);
 void	replace_quotes(char *varvalue);
 int		is_splitable(char **varvalue);
-void	handle_signals(void);
+void		handle_signals(void);
 void	rl_replace_line(const char *text, int clear_undo);
 
 #endif

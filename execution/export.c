@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 14:29:48 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 17:54:22 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,14 +128,14 @@ int	export(char **cmd, t_env **env)
 	if (cmd[1] == NULL)
 	{
 		export_print((*env), (ft_lstsize(*env) - 1));
-		g_exit = 0;
+		g_data.g_exit = 0;
 	}
 	else
 	{
 		while (cmd[i])
 		{
-			g_exit = check_valid(cmd[i]);
-			if (g_exit == 0)
+			g_data.g_exit = check_valid(cmd[i]);
+			if (g_data.g_exit == 0)
 			{
 				cmp = check_exist_1((*env), cmd[i]);
 				printf("%s\n", cmp);
@@ -153,6 +153,6 @@ int	export(char **cmd, t_env **env)
 			i++;
 		}
 	}
-	return (g_exit);
+	return (g_data.g_exit);
 }
 

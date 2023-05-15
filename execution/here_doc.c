@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:31:22 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 17:26:29 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/14 17:54:38 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	here_doc(t_queue *line, t_vars *fd_h, t_env *env, t_data *var)
 	node = line->head;
 	n.k = 0;
 	if (!node)
-		return (g_exit);
+		return (g_data.g_exit);
 	while (node)
 	{
 		cmd = node->ptr;
@@ -126,5 +126,5 @@ int	here_doc(t_queue *line, t_vars *fd_h, t_env *env, t_data *var)
 		node = node->next;
 	}
 	fd_h->fd_h = here;
-	return (g_exit);
+	return (g_data.g_exit);
 }

@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 17:31:23 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/14 18:16:18 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 
 	if (ch == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
 		tcgetattr(STDIN_FILENO, &term);
 		cmd_signal(term);
 		dup2(t->fd, 0);

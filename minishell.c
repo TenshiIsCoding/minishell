@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 14:23:24 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 17:06:25 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/14 19:27:56 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,21 @@ void	while_1(t_data *vars, char **env)
 	t_vars	t;
 
 	t.env = full_vars(env);
+	handle_signals();
 	while (1)
 	{
+		g_data.sigflag = 0;
 		vars->line = readline("minishell → ");
-		handle_signals();
 		if (!vars->line)
 		{
 			printf("exit\n");
 			exit (0);
 		}
 		if (!vars->line[0])
+		{
+			free(vars->line);
 			continue ;
+		}
 		if (parse_start(vars, vars->env))
 		{
 			add_history(vars->line);
@@ -102,10 +106,12 @@ void	while_1(t_data *vars, char **env)
 			continue ;
 		}
 		// print_queue(&vars->commands);
+		g_data.sigflag = 1;
 		multipipe(vars, env, vars->env, t);
 		queue_free(&vars->commands, free_cmd);
 		add_history(vars->line);
 		free(vars->line);
+		g_data.sigflag = 0;
 	}
 }
 
@@ -117,6 +123,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	vars = malloc(sizeof(t_data));
 	vars->env = full_env(env);
-	g_exit = 0;
+	g_data.g_exit = 0;
+	g_data.sigflag = 0;
 	while_1(vars, env);
 }

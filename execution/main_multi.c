@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_multi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:59:57 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 12:16:24 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 20:23:17 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	cmd_num(t_queue *line)
 	while (node)
 	{
 		cmd = node->ptr;
-		if (cmd->args[0])
+		if (cmd->args[0][0] != '\0')
 			i++;
 		node = node->next;
 	}
@@ -36,7 +36,6 @@ int	is_cmd(t_cmd *cmd)
 		return (1);
 	return (0);
 }
-
 
 void	ft_else(t_queue *line, t_vars *t, t_env **eenv)
 {
@@ -97,9 +96,9 @@ void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t)
 		t.env = full_vars(env);
 		if (!node)
 			return ;
-		g_exit = here_doc(&line->commands, &t, eenv, line);
+		g_data.g_exit = here_doc(&line->commands, &t, eenv, line);
 		if (cmd_num(&line->commands) == 1 && \
-		line->commands.len == 1 && g_exit != 44)
+		line->commands.len == 1 && g_data.g_exit != 44)
 		{
 			if (is_builtin(cmd->args) == 0)
 				t.ch[0] = fork();
@@ -107,10 +106,10 @@ void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t)
 				t.ch[0] = 1;
 			one_cmd(cmd, t.ch[0], &t, &eenv);
 		}
-		else if (g_exit != 44)
+		else if (g_data.g_exit != 44)
 			ft_else_if(&line->commands, cmd, eenv, t);
-		if (g_exit == 44)
-			g_exit = 1;
+		if (g_data.g_exit == 44)
+			g_data.g_exit = 1;
 		(free(t.ch), ft_free(t.env));
 	}
 }

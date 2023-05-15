@@ -6,13 +6,13 @@
 #    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/14 17:08:16 by azaher           ###   ########.fr        #
+#    Updated: 2023/05/14 19:32:39 by azaher           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 AF= minishell.c \
 execution/builtins.c	\
 execution/ft_list.c	\
@@ -54,7 +54,7 @@ signal_handler.c
 
 ${USER} = $USER
 OBJS = ${AF:.c=.o}
-# .SILENT:
+.SILENT:
 all : ${NAME}
 ${NAME} : ${OBJS}
 	echo "\033[0;33m"LIBFT is compiling...

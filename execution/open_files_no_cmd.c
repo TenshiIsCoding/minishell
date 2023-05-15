@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_files_no_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:04:45 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/11 17:35:40 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 18:03:13 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	open_out_no_cmd(t_file **file)
 	int	ret;
 	int	fd_out;
 
-	if (file[0] == NULL)
+	if (!file)
 		return (0);
 	i = 0;
 	ret = 0;
@@ -55,7 +55,7 @@ int	norm_open_in_n(t_file **file, t_list *here, int *fd_in, int i)
 {
 	if (file[i]->filename && file[i]->type == AMBIG)
 	{
-		g_exit = 1;
+		g_data.g_exit = 1;
 		ft_putstr_fd(file[i]->filename, 2);
 		write(2, ": ambiguous redirect\n", 21);
 		return (1);
@@ -83,7 +83,7 @@ int	open_in_no_cmd(t_file **file, t_list *here)
 
 	fd_in = -1;
 	i = 0;
-	if (!file[i])
+	if (!file)
 		return (0);
 	while (file[i])
 	{

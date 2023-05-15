@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:18:45 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/10 18:32:03 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 17:55:07 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ int	while_unset(t_env **env, char **cmd)
 	while (cmd[i])
 	{
 		if (check_valid(cmd[i]) == 0)
-			g_exit = ft_unset(env, cmd[i]);
+			g_data.g_exit = ft_unset(env, cmd[i]);
 		else
-			g_exit = 1;
+			g_data.g_exit = 1;
 		i++;
 	}
-	return (g_exit);
+	return (g_data.g_exit);
 }
 
 int	len_equ(char *name)

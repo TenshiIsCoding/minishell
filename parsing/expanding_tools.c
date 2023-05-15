@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 04:09:08 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/09 21:12:19 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 19:03:10 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ char	*get_envalue(char *name, t_env *env)
 
 	if (!ft_strcmp("?", name))
 	{
-		ret = ft_strdup(ft_itoa(g_exit));
+		ret = ft_strdup(ft_itoa(g_data.g_exit));
 		return (ret);
 	}
 	node = env;
 	while (node)
 	{
-		namelen = ft_strlen(node->name) - 1;
-		if (!ft_strncmp(node->name, name, namelen))
+		namelen = ft_strlen(name);
+		if (!ft_strncmp(name, node->name, namelen))
 		{
 			ret = ft_strdup(node->value);
 			return (ret);
