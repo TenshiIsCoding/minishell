@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: azaher <azaher@student.42.fr>              +#+  +:+       +#+         #
+#    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/13 14:26:38 by azaher           ###   ########.fr        #
+#    Updated: 2023/05/14 20:48:07 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ signal_handler.c
 
 ${USER} = $USER
 OBJS = ${AF:.c=.o}
-# .SILENT:
+.SILENT:
 all : ${NAME}
 ${NAME} : ${OBJS}
 	echo "\033[0;33m"LIBFT is compiling...

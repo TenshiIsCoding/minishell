@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:31:22 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/13 20:28:39 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/14 19:02:01 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	norm_here(t_cmd *cmd, int pi[2], int ch, t_env *env, t_data *var)
 	struct termios	term;
 
 	i = 0;
-	(void)env;
-	(void)var;
 	line_r = NULL;
 	if (ch == 0)
 	{
@@ -74,9 +72,12 @@ void	norm_here(t_cmd *cmd, int pi[2], int ch, t_env *env, t_data *var)
 						free(line_r);
 						break ;
 					}
-					if (i == last_here(cmd->files))
+					if (i == last_here(cmd->files) && cmd->files[i]->inqt == 0)
+						(ft_putstr_fd(expand_argument(line_r, var, env), \
+						pi[1]), write(pi[1], "\n", 1));
+					if (i == last_here(cmd->files) && cmd->files[i]->inqt == 1)
 						(ft_putstr_fd(line_r, pi[1]), write(pi[1], "\n", 1));
-					free(line_r);
+					// free(line_r);
 				}
 			}
 			i++;
@@ -124,5 +125,6 @@ int	here_doc(t_queue *line, t_vars *fd_h, t_env *env, t_data *var)
 		node = node->next;
 	}
 	fd_h->fd_h = here;
+	// free(here);
 	return (g_exit);
 }

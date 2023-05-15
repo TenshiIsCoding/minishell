@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 18:51:29 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/15 10:23:39 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	norm_echo(char **print, int i, int j, int r)
 		i = 0;
 		j++;
 	}
+	if (!print[j])
+		return ;
 	ft_print_echo(print, j, i);
 	if (r == 0)
 		write(1, "\n", 1);

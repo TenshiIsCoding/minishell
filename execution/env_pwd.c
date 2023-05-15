@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:15:02 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/09 18:35:16 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/15 10:42:50 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ void	ft_exit(char *i)
 	printf("exit\n");
 	if (!i)
 		exit (0);
-	g_exit = ft_atoi(i);
-	exit(ft_atoi(i));
+	if (ft_isalpha(i[0]) == 1)
+	{
+		g_exit = 255;
+		printf("exit: fd: numeric argument required\n");
+		exit (g_exit);
+	}
+	else
+	{
+		g_exit = ft_atoi(i);
+		exit(g_exit);
+	}
 }
