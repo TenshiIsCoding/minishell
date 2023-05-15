@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:59:57 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 11:57:26 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/15 13:33:22 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ void	ft_else(t_queue *line, t_vars *t, t_env **eenv)
 	cmd = node->ptr;
 	t->open = 0;
 	here = where_here(cmd, line, node);
-	printf("%d\n", line->len);
 	while (i < line->len - 1)
 	{
 		pipe(t->pi);
-		ft_putstr_fd("ww\n", 2);
 		t->ch[i] = fork();
 		mid_cmd(t, cmd, t->ch[i], eenv);
 		t->fd = t->pi[0];
@@ -74,7 +72,7 @@ void	ft_else(t_queue *line, t_vars *t, t_env **eenv)
 	t->ch[i] = fork();
 	last_cmd(t, cmd, t->ch[i], eenv);
 	wait_child(i, t->ch);
-	(free (here));
+	(free (here), free(t->fd_h));
 }
 
 void	ft_else_if(t_queue *line, t_cmd *cmd, t_env *eenv, t_vars t)

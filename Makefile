@@ -6,7 +6,7 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/14 20:48:07 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/05/15 12:58:49 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,10 @@ execution/echo_cd.c	\
 execution/env_pwd.c	\
 execution/here_doc_utils.c	\
 execution/unset.c	\
+execution/signal_exec.c	\
 execution/multipipe.c	\
 execution/exec_cmds.c	\
+execution/exec_cmd_2.c	\
 execution/wait_ch.c	\
 execution/exec_bult.c	\
 execution/export.c	\

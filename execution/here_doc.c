@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:31:22 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 19:02:01 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/15 15:50:16 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,12 @@ int	here_doc(t_queue *line, t_vars *fd_h, t_env *env, t_data *var)
 			if (WEXITSTATUS(n.status) == 44)
 				return (44);
 			if (n.k++ == 0)
-				here = ft_lstnew_nor(n.pi[0]);
+				(fd_h->fd_h = ft_lstnew_nor(n.pi[0]), here = fd_h->fd_h);
 			else
-				ft_lstadd_back_nor(&here, ft_lstnew_nor(n.pi[0]));
+				ft_lstadd_back_nor(&fd_h->fd_h, ft_lstnew_nor(n.pi[0]));
 		}
 		node = node->next;
 	}
 	fd_h->fd_h = here;
-	// free(here);
 	return (g_exit);
 }

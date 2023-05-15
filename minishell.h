@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 21:15:13 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/15 12:57:09 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,10 @@ typedef struct t_data{
 
 void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t);
 int		*where_here(t_cmd *cmd, t_queue *line, t_queue_node *node);
+void	handel_cmd_signal(void);
+void	cmd_signal(struct termios term);
+void	dup_in(t_vars *t);
+void	norm_l_m_cmd(t_cmd *cmd, t_vars *t, t_env **eenv);
 int		open_in(t_file **file, t_list *here);
 int		open_out(t_file **file);
 int		export_strcmp(const char *s1, const char *s2);

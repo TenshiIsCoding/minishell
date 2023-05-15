@@ -6,44 +6,25 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 12:04:41 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/15 12:41:18 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	cmd_handel(int sig)
+void	norm_cmd(t_cmd *cmd, t_vars *t, t_env **eenv)
 {
-	(void)sig;
-	exit (130);
-}
+	char	*path;
 
-void	cmd_signal(struct termios term)
-{
-	term.c_cc[VQUIT] = _POSIX_VDISABLE;
-	term.c_lflag &= ~ECHOCTL;
-	(tcsetattr(0, TCSANOW, &term), signal(SIGINT, SIG_DFL));
-}
-
-void	dup_in(t_vars *t)
-{
-	(close(t->pi[0]), dup2(t->fd, 0));
-	(close(t->fd), dup2(t->pi[1], 1));
-	close (t->pi[1]);
-}
-
-void	handel_cmd_signal(void)
-{
-	struct termios	term;
-
-	tcgetattr(STDIN_FILENO, &term);
-	cmd_signal(term);
+	if (cmd->args[0][0] == '/' || access(cmd->args[0], X_OK) == 0)
+		path = cmd->args[0];
+	else
+		path = get((*eenv), cmd->args[0]);
+	execve(path, cmd->args, t->env);
 }
 
 void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 {
-	char			*path;
-
 	if (ch == 0)
 	{
 		handel_cmd_signal();
@@ -54,13 +35,7 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 		if (is_cmd(cmd) == 1)
 		{
 			if (is_builtin(cmd->args) == 0)
-			{
-				if (cmd->args[0][0] == '/' || access(cmd->args[0], X_OK) == 0)
-					path = cmd->args[0];
-				else
-					path = get((*eenv), cmd->args[0]);
-				execve(path, cmd->args, t->env);
-			}
+				norm_l_m_cmd(cmd, t, eenv);
 			else
 				exec_built(cmd->args, t->env, ch, eenv);
 		}
@@ -72,11 +47,8 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 		(close(t->pi[1]), close(t->fd), t->fd = t->pi[0]);
 }
 
-
 void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 {
-	char			*path;
-
 	if (ch == 0)
 	{
 		handel_cmd_signal();
@@ -88,13 +60,7 @@ void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 		if (is_cmd(cmd) == 1)
 		{
 			if (is_builtin(cmd->args) == 0)
-			{
-				if (cmd->args[0][0] == '/' || access(cmd->args[0], X_OK) == 0)
-					path = cmd->args[0];
-				else
-					path = get((*eenv), cmd->args[0]);
-				execve(path, cmd->args, t->env);
-			}
+				norm_l_m_cmd(cmd, t, eenv);
 			else
 				exec_built(cmd->args, t->env, ch, eenv);
 		}
@@ -106,9 +72,24 @@ void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 		close (t->fd);
 }
 
+void	norm_one(t_cmd *cmd, t_env **eenv, t_vars *t)
+{
+	char	*path;
+
+	if (cmd->args[0][0] == '/' || \
+	(cmd->args[0][0] == '.' && access(cmd->args[0], F_OK) == 0))
+		path = cmd->args[0];
+	else
+		path = get((*eenv), cmd->args[0]);
+	if (execve(path, cmd->args, t->env) == -1)
+	{
+		ft_putstr_fd(path, 2);
+		write(2, ": No such file or directory\n", 28);
+	}
+}
+
 void	one_cmd(t_cmd *cmd, int ch, t_vars *t, t_env **eenv)
 {
-	char			*path;
 	struct termios	term;
 
 	if (ch == 0 || is_builtin(cmd->args) != 0)
@@ -119,18 +100,7 @@ void	one_cmd(t_cmd *cmd, int ch, t_vars *t, t_env **eenv)
 			return ;
 		open_out(cmd->files);
 		if (is_builtin(cmd->args) == 0)
-		{			
-			if (cmd->args[0][0] == '/' || \
-			(cmd->args[0][0] == '.' && access(cmd->args[0], F_OK) == 0))
-				path = cmd->args[0];
-			else
-				path = get((*eenv), cmd->args[0]);
-			if (execve(path, cmd->args, t->env) == -1)
-			{
-				ft_putstr_fd(path, 2);
-				write(2, ": No such file or directory\n", 28);
-			}
-		}
+			norm_one(cmd, eenv, t);
 		else
 			exec_built(cmd->args, t->env, ch, eenv);
 	}
