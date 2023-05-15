@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:59:57 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 20:23:17 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/15 16:05:25 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	cmd_num(t_queue *line)
 
 int	is_cmd(t_cmd *cmd)
 {
-	if (cmd->args[0])
+	if (cmd->args[0][0] != '\0')
 		return (1);
 	return (0);
 }
@@ -51,9 +51,11 @@ void	ft_else(t_queue *line, t_vars *t, t_env **eenv)
 	cmd = node->ptr;
 	t->open = 0;
 	here = where_here(cmd, line, node);
+	printf("%d\n", line->len);
 	while (i < line->len - 1)
 	{
 		pipe(t->pi);
+		ft_putstr_fd("ww\n", 2);
 		t->ch[i] = fork();
 		mid_cmd(t, cmd, t->ch[i], eenv);
 		t->fd = t->pi[0];

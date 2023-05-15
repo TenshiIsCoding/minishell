@@ -6,7 +6,7 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:18:45 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 17:55:07 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/15 16:05:43 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,33 @@ void	first_one(t_env **env, char *name, t_env *tmp)
 	}
 }
 
+int	check_unset(char *var)
+{
+	int	i;
+
+	i = 1;
+	if (var == NULL)
+		return (0);
+	if (var[0] != '_' && ft_isalpha(var[0]) == 0)
+	{
+		ft_putstr_fd(var, 2);
+		write(2, ": not a valid identifier\n", 25);
+		return (1);
+	}
+	while (var[i] != '\0')
+	{
+		if ((ft_isalpha(var[i]) == 0 && ft_isdigit(var[i]) == 0 && \
+		var[i] != '_'))
+		{
+			ft_putstr_fd(var, 2);
+			write(2, ": not a valid identifier\n", 25);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	while_unset(t_env **env, char **cmd)
 {
 	int	i;
@@ -32,8 +59,8 @@ int	while_unset(t_env **env, char **cmd)
 	i = 1;
 	while (cmd[i])
 	{
-		if (check_valid(cmd[i]) == 0)
-			g_data.g_exit = ft_unset(env, cmd[i]);
+		if (check_unset(cmd[i]) == 0)
+			g_exit = ft_unset(env, cmd[i]);
 		else
 			g_data.g_exit = 1;
 		i++;

@@ -6,12 +6,11 @@
 /*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/14 17:54:22 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/15 16:05:04 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 char	*expo_substr(char const *s, unsigned int start, size_t len)
 {
@@ -39,6 +38,11 @@ char	*expo_substr(char const *s, unsigned int start, size_t len)
 		sub[i] = s[start + i];
 		i++;
 		len--;
+	}
+	if (sub[i - 1] != '=')
+	{
+		sub[i] = '=';
+		i++;
 	}
 	sub[i] = '\0';
 	return (sub);
@@ -91,7 +95,7 @@ void	over_add(t_env **env, char *var)
 		str = ft_substr(var, 0, i);
 		printf("*** %s ***\n", str);
 		while (current_env != NULL && \
-		ft_strcmp(current_env->name, str) != 0)
+		export_strcmp(current_env->name, str) != 0)
 			current_env = current_env->next;
 		if (current_env != NULL)
 			update_value(current_env, var + i);
@@ -113,9 +117,9 @@ void	append(t_env **env, char *var, char *cmp)
 		current_env = current_env->next;
 	if (current_env != NULL)
 	{
-		printf("%s\n", var);
 		app = ft_strjoin(current_env->value, var + i);
 		update_value(current_env, app);
+		free(app);
 	}
 }
 
@@ -141,7 +145,6 @@ int	export(char **cmd, t_env **env)
 				printf("%s\n", cmp);
 				if (cmp == NULL)
 				{
-					printf("%d\n", check_exist((*env), cmd[i]));
 					if (check_exist((*env), cmd[i]) == 0)
 						add_var(env, cmd[i]);
 					else
@@ -149,6 +152,7 @@ int	export(char **cmd, t_env **env)
 				}
 				else
 					append(env, cmd[i], cmp);
+				free (cmp);
 			}
 			i++;
 		}
