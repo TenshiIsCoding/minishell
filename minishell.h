@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 12:57:09 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/16 15:33:53 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@
 
 // 				Global variable				   //
 
-int	g_exit;
+typedef struct s_global{
+	int	g_exit;
+	int	sigflag;
+}t_global;
+
+t_global	g_data;
 
 //              Execution Structs              //
 
@@ -52,10 +57,11 @@ typedef struct t_vars
 {
 	int				pi[2];
 	int				fd;
-	int				open;
 	int				*ch;
 	char			**env;
 	t_list			*fd_h;
+	int				*here;
+	int				i;
 
 }t_vars;
 typedef struct t_here
@@ -63,6 +69,13 @@ typedef struct t_here
 	int				fd;
 	struct t_here	*next;
 }t_here;
+
+typedef struct t_tab
+{
+	int	i;
+	int	j;
+	int	c;
+}t_tab;
 
 //              Parsing Structs              //
 
@@ -72,6 +85,8 @@ typedef struct t_norm
 	int				k;
 	int				ch;
 	int				status;
+	int				i;
+	char			*line_r;
 }t_norm;
 
 enum
@@ -111,6 +126,7 @@ typedef struct t_data{
 	char	*line;
 	char	*lineptr;
 	char	*mask;
+	int		sigtrack;
 	int		status;
 	int		dquote;
 	int		squote;
@@ -134,14 +150,29 @@ typedef struct t_data{
 void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t);
 int		*where_here(t_cmd *cmd, t_queue *line, t_queue_node *node);
 void	handel_cmd_signal(void);
+void	pipes_fork(t_vars *t, t_cmd *cmd, t_env **env, int i);
 void	cmd_signal(struct termios term);
 void	dup_in(t_vars *t);
+void	print_here(t_norm n, t_cmd *cmd, t_data *var, t_env *env);
+void	main_while(t_norm n, t_cmd *cmd, t_data *var, t_env *env);
+void	norm_here(t_cmd *cmd, t_norm n, t_env *env, t_data *var);
+int		last_here(t_file **file);
+int		cmd_num(t_queue *line);
 void	norm_l_m_cmd(t_cmd *cmd, t_vars *t, t_env **eenv);
 int		open_in(t_file **file, t_list *here);
 int		open_out(t_file **file);
+void	over_add(t_env **env, char *var);
+void	append(t_env **env, char *var, char *cmp);
+void	add_var(t_env **env, char *var);
+void	creat_var(char *cmd, t_env **env);
+char	*full_cmp(char *var, int j);
+void	free_list(t_list *head);
+char	*export_strdup(const char *s1);
+int		export_strncmp(const char *s1, const char *s2, size_t n);
 int		export_strcmp(const char *s1, const char *s2);
 int		is_cmd(t_cmd *cmd);
 void	here_signal(struct termios term);
+char	*full_final(char *var, int j);
 int		open_out_no_cmd(t_file **file);
 int		open_in_no_cmd(t_file **file, t_list *here);
 int		here_doc(t_queue *line, t_vars *fd_h, t_env *env, t_data *var);
@@ -153,9 +184,7 @@ t_env	*full_env(char **env);
 char	*expo_substr(char const *s, unsigned int start, size_t len);
 void	com_n(char *cmd);
 void	ft_exit(char *i);
-int		export_strcmp(const char *s1, const char *s2);
 int		open_in(t_file **file, t_list *here);
-int		export_strncmp(const char *s1, const char *s2, size_t n);
 void	cmp_print(t_env *env, char **str);
 void	export_print(t_env *env, int limit);
 char	*check_exist_1(t_env *env, char *var);
@@ -267,6 +296,8 @@ char	**ambig_upgraded_split(char *token, char *mask);
 void	replace_quotes(char *varvalue);
 int		is_splitable(char **varvalue);
 void	handle_signals(void);
+int		in_dollar(t_data *v, char *line, t_env *env);
+char	*basic_expand(char *line, t_data *v, t_env *env);
 void	rl_replace_line(const char *text, int clear_undo);
 
 #endif

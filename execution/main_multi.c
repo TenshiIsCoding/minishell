@@ -6,81 +6,71 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:59:57 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 13:33:22 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/16 17:43:01 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	cmd_num(t_queue *line)
+void	last_one(t_vars *t, t_cmd *cmd, t_env **env)
 {
-	int				i;
-	t_queue_node	*node;
-	t_cmd			*cmd;
-
-	i = 0;
-	node = line->head;
-	while (node)
-	{
-		cmd = node->ptr;
-		if (cmd->args[0])
-			i++;
-		node = node->next;
-	}
-	return (i);
+	t->ch[t->i] = fork();
+	last_cmd(t, cmd, t->ch[t->i], env);
+	wait_child(t->i, t->ch);
 }
-
-int	is_cmd(t_cmd *cmd)
-{
-	if (cmd->args[0][0] != '\0')
-		return (1);
-	return (0);
-}
-
 
 void	ft_else(t_queue *line, t_vars *t, t_env **eenv)
 {
 	t_queue_node	*node;
 	t_cmd			*cmd;
-	int				i;
 	int				j;
-	int				*here;
 
-	i = 0;
+	t->i = 0;
 	j = 0;
 	node = line->head;
 	cmd = node->ptr;
-	t->open = 0;
-	here = where_here(cmd, line, node);
-	while (i < line->len - 1)
+	t->here = where_here(cmd, line, node);
+	while (t->i < line->len - 1)
 	{
-		pipe(t->pi);
-		t->ch[i] = fork();
-		mid_cmd(t, cmd, t->ch[i], eenv);
-		t->fd = t->pi[0];
+		pipes_fork(t, cmd, eenv, t->i);
 		node = node->next;
 		cmd = node->ptr;
-		if (here != NULL && i == here[j])
+		if (t->here != NULL && t->i == t->here[j])
 		{
 			t->fd_h = t->fd_h->next;
 			j++;
 		}
-		t->open++;
-		i++;
+		t->i++;
 	}
 	cmd = node->ptr;
-	t->ch[i] = fork();
-	last_cmd(t, cmd, t->ch[i], eenv);
-	wait_child(i, t->ch);
-	(free (here), free(t->fd_h));
+	(last_one(t, cmd, eenv), free (t->here));
+	node = line->head;
 }
 
 void	ft_else_if(t_queue *line, t_cmd *cmd, t_env *eenv, t_vars t)
 {
+	t_list	*tmp;
+
+	tmp = t.fd_h;
 	if (line->len > 1)
 		ft_else(line, &t, &eenv);
 	else if (cmd_num(line) == 0)
-		(open_out_no_cmd(cmd->files), open_in_no_cmd(cmd->files, t.fd_h));
+	{
+		if (open_in_no_cmd(cmd->files, t.fd_h) == 1)
+			exit (1);
+		open_out_no_cmd(cmd->files);
+		exit(0);
+	}
+	t.fd_h = tmp;
+}
+
+void	multi_norm(t_cmd *cmd, t_vars *t, t_env *env)
+{
+	if (is_builtin(cmd->args) == 0)
+		t->ch[0] = fork();
+	else
+		t->ch[0] = 1;
+	one_cmd(cmd, t->ch[0], t, &env);
 }
 
 void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t)
@@ -97,20 +87,14 @@ void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t)
 		t.env = full_vars(env);
 		if (!node)
 			return ;
-		g_exit = here_doc(&line->commands, &t, eenv, line);
+		g_data.g_exit = here_doc(&line->commands, &t, eenv, line);
 		if (cmd_num(&line->commands) == 1 && \
-		line->commands.len == 1 && g_exit != 44)
-		{
-			if (is_builtin(cmd->args) == 0)
-				t.ch[0] = fork();
-			else
-				t.ch[0] = 1;
-			one_cmd(cmd, t.ch[0], &t, &eenv);
-		}
-		else if (g_exit != 44)
+		line->commands.len == 1 && g_data.g_exit != 44)
+			multi_norm(cmd, &t, eenv);
+		else if (g_data.g_exit != 44)
 			ft_else_if(&line->commands, cmd, eenv, t);
-		if (g_exit == 44)
-			g_exit = 1;
-		(free(t.ch), ft_free(t.env));
+		if (g_data.g_exit == 44)
+			g_data.g_exit = 1;
+		(free(t.ch), ft_free(t.env), free_list(t.fd_h));
 	}
 }

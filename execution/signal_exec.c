@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:38:23 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 12:38:39 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:41:45 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	cmd_signal(struct termios term)
 {
 	term.c_cc[VQUIT] = _POSIX_VDISABLE;
 	term.c_lflag &= ~ECHOCTL;
+	signal(SIGQUIT, SIG_DFL);
 	(tcsetattr(0, TCSANOW, &term), signal(SIGINT, SIG_DFL));
 }
 

@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 14:23:24 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 15:48:46 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/16 17:37:43 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,44 +79,47 @@ void	free_cmd(void *v)
 	free(p);
 }
 
-void	while_1(t_data *vars, char **env)
+void	while_1(t_data *vars, char **env, t_vars t)
 {
-	t_vars	t;
-
 	t.env = full_vars(env);
+	handle_signals();
 	while (1)
 	{
-		handle_signals();
+		g_data.sigflag = 0;
 		vars->line = readline("minishell → ");
 		if (!vars->line)
 		{
 			printf("exit\n");
 			exit (0);
 		}
-		if (!vars->line[0])
-			continue ;
-		if (parse_start(vars, vars->env))
+		if (!vars->line[0] || parse_start(vars, vars->env))
 		{
-			add_history(vars->line);
-			free(vars->line);
+			if (vars->line[0])
+				(add_history(vars->line), free(vars->line));
+			else
+				free(vars->line);
 			continue ;
 		}
-		// print_queue(&vars->commands);
+		g_data.sigflag = 1;
 		multipipe(vars, env, vars->env, t);
-		queue_free(&vars->commands, free_cmd);
-		add_history(vars->line);
+		(queue_free(&vars->commands, free_cmd), add_history(vars->line));
 		free(vars->line);
+		g_data.sigflag = 0;
 	}
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*vars;
+	t_vars	*t;
 
 	(void)argc;
 	(void)argv;
+	t = malloc(sizeof(t_vars));
 	vars = malloc(sizeof(t_data));
 	vars->env = full_env(env);
-	g_exit = 0;
-	while_1(vars, env);
+	g_data.g_exit = 0;
+	g_data.sigflag = 0;
+	t->fd_h = NULL;
+	while_1(vars, env, *t);
 }

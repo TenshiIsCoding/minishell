@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 12:04:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 15:43:03 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/15 16:12:58 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_cd(char *path, char **env, int ch)
 {
 	if (path != NULL && env[0] != NULL)
 	{
-		g_exit = 0;
+		g_data.g_exit = 0;
 		if (ft_strcmp(path, "~") == 0 || path == NULL)
 			chdir(get_env(env, path));
 		else if (ft_strcmp(path, "-") == 0)
@@ -50,18 +50,18 @@ int	ft_cd(char *path, char **env, int ch)
 		else if (chdir(path) == -1)
 		{
 			printf("cd: no such file or directory: %s\n", path);
-			g_exit = 1;
+			g_data.g_exit = 1;
 		}
 	}
 	else if (env[0] != NULL)
 		chdir(get_env(env, "~"));
 	else
-		g_exit = 1;
+		g_data.g_exit = 1;
 	if (ch == 0)
 	{
 		if (env)
-			g_exit = 0;
+			g_data.g_exit = 0;
 		exit (0);
 	}
-	return (g_exit);
+	return (g_data.g_exit);
 }

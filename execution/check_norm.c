@@ -1,33 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   check_norm.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/01 16:23:25 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/15 17:32:53 by ynafiss          ###   ########.fr       */
+/*   Created: 2023/05/16 14:04:42 by ynafiss           #+#    #+#             */
+/*   Updated: 2023/05/16 14:04:59 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	handler(int signal)
+char	*full_cmp(char *var, int j)
 {
-	(void)signal;
-	if (g_data.sigflag == 0)
-	{	
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+	char	*cmp;
+	char	*str;
+
+	if (var[j] == '=')
+	{
+		j++;
+		str = ft_substr(var, 0, j);
+		cmp = ft_strdup(str);
 	}
 	else
-		write(1, "\n", 1);
+	{
+		str = ft_substr(var, 0, j);
+		cmp = ft_strjoin(str, "=");
+	}
+	free(str);
+	return (cmp);
 }
 
-void	handle_signals(void)
+char	*full_final(char *var, int j)
 {
-	signal(SIGINT, handler);
-	signal(SIGQUIT, SIG_IGN);
+	char	*str;
+	char	*final;
+
+	str = ft_substr(var, 0, j);
+	final = ft_strjoin(str, "=");
+	free(str);
+	return (final);
 }

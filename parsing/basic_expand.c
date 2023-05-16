@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   basic_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/22 16:08:37 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/15 17:29:07 by ynafiss          ###   ########.fr       */
+/*   Created: 2023/05/15 18:12:24 by ynafiss           #+#    #+#             */
+/*   Updated: 2023/05/16 16:17:54 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_putstr_fd(char *s, int fd)
+char	*basic_expand(char *line, t_data *v, t_env *env)
 {
-	int	i;
+	int		i;
 
 	i = 0;
-	if (s == NULL)
-		return ;
-	while (s[i])
+	v->ret = ft_strdup("");
+	while (line[i])
 	{
-		write(fd, &s[i], 1);
+		if (line[i] == '$' && !v->squote)
+		{
+			i += in_dollar(v, line + i + 1, env);
+			continue ;
+		}
+		else
+			v->ret = ft_strjoin_c(v->ret, line[i]);
 		i++;
 	}
+	return (v->ret);
 }

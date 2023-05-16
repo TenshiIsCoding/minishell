@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
+/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:14:19 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 10:23:39 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/15 16:02:56 by azaher           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ void	ft_echo(char **print, int ch)
 		write(1, "\n", 1);
 	if (ch == 0)
 	{
-		g_exit = 0;
+		g_data.g_exit = 0;
 		exit (0);
 	}
 	else
-		g_exit = 0;
+		g_data.g_exit = 0;
 }

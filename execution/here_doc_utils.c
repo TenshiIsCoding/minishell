@@ -6,51 +6,60 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:00:32 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/13 13:48:27 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/16 15:01:56 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	*where_here(t_cmd *cmd, t_queue *line, t_queue_node *node)
+int	*full_tab(t_cmd *cmd, t_queue_node *node, t_tab *t, t_queue *line)
 {
-	int	i;
-	int	j;
-	int	c;
 	int	*here;
 
-	j = 0;
-	c = 0;
+	t->c = 0;
 	here = calloc(line->len, 4);
 	while (cmd && node)
 	{
-		i = 0;
+		t->i = 0;
 		cmd = node->ptr;
 		if (cmd)
 		{
-			while (cmd->files[i])
+			while (cmd->files[t->i])
 			{
-				if (cmd->files[i]->type == HERE)
+				if (cmd->files[t->i]->type == HERE)
 				{
-					here[j] = c;
-					j++;
+					here[t->j] = t->c;
+					t->j++;
 					break ;
 				}
-				i++;
+				t->i++;
 			}
 		}
-		c++;
+		t->c++;
 		node = node->next;
 	}
-	if (j == 0)
+	return (here);
+}
+
+int	*where_here(t_cmd *cmd, t_queue *line, t_queue_node *node)
+{
+	t_tab	t;
+	int		*here;
+
+	t.j = 0;
+	here = full_tab(cmd, node, &t, line);
+	if (t.j == 0)
+	{
+		free(here);
 		return (NULL);
+	}
 	return (here);
 }
 
 void	here_handel(int sig)
 {
 	(void)sig;
-	g_exit = 44;
+	g_data.g_exit = 44;
 	exit(44);
 }
 

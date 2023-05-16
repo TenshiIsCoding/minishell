@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:13:24 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 09:08:34 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/16 14:07:55 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,27 +76,25 @@ int	check_exist(t_env *env, char *var)
 	t_env	*tmp;
 	int		i;
 	int		j;
-	char	*str;
+	char	*cmp;
 
 	i = 0;
 	j = 0;
 	tmp = env;
 	while (var[j] != '\0' && var[j] != '=')
 		j++;
-	if (var[j] == '=')
-		j++;
-	str = ft_substr(var, 0, j);
+	cmp = full_cmp(var, j);
 	while (env)
 	{
-		if (export_strcmp(env->name, str) == 0)
+		if (export_strcmp(env->name, cmp) == 0)
 		{
-			free(str);
+			free(cmp);
 			return (1);
 		}
 		env = env->next;
 	}
 	env = tmp;
-	free(str);
+	free(cmp);
 	return (0);
 }
 
@@ -105,7 +103,6 @@ char	*check_exist_1(t_env *env, char *var)
 	t_env	*tmp;
 	int		i;
 	int		j;
-	char	*str;
 	char	*final;
 
 	i = 0;
@@ -116,19 +113,14 @@ char	*check_exist_1(t_env *env, char *var)
 		j++;
 	if (var[j] != '+')
 		return (NULL);
-	str = ft_substr(var, 0, j);
-	if (var[j] == '+')
-		final = ft_strjoin(str, "=");
+	final = full_final(var, j);
 	while (env)
 	{
 		if (ft_strcmp(env->name, final) == 0)
-		{
-			(free(str));
 			return (final);
-		}
 		env = env->next;
 	}
 	env = tmp;
-	(free(str), free(final));
+	free(final);
 	return (NULL);
 }

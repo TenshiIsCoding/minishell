@@ -6,47 +6,11 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 12:48:47 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/16 14:07:08 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*expo_substr(char const *s, unsigned int start, size_t len)
-{
-	char			*sub;
-	unsigned int	i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (start > ft_strlen(s))
-		len = 0;
-	if (len > (ft_strlen(s) - start))
-		len = ft_strlen(s) - start;
-	sub = malloc (sizeof (char) * (len + 1));
-	if (!sub)
-		return (NULL);
-	while (s && s[i] != '\0' && len != 0)
-	{
-		if (s[start + i] == '+')
-		{
-			sub[i] = '=';
-			i++;
-			break ;
-		}
-		sub[i] = s[start + i];
-		i++;
-		len--;
-	}
-	if (sub[i - 1] != '=')
-	{
-		sub[i] = '=';
-		i++;
-	}
-	sub[i] = '\0';
-	return (sub);
-}
 
 void	add_var(t_env **env, char *var)
 {
@@ -59,8 +23,7 @@ void	add_var(t_env **env, char *var)
 		i++;
 	if (var[i] == '=')
 		i++;
-	new->name = expo_substr(var, 0, i);
-	printf("%s\n", new->name);
+	new->name = export_strdup(var);
 	new->value = ft_strdup(var + i);
 	new->next = NULL;
 	ft_lstadd_back(env, new);
@@ -93,7 +56,6 @@ void	over_add(t_env **env, char *var)
 	{
 		i++;
 		str = ft_substr(var, 0, i);
-		printf("*** %s ***\n", str);
 		while (current_env != NULL && \
 		export_strcmp(current_env->name, str) != 0)
 			current_env = current_env->next;
@@ -111,7 +73,6 @@ void	append(t_env **env, char *var, char *cmp)
 
 	i = ft_strlen(cmp) + 1;
 	current_env = *env;
-	printf("%s\n", cmp);
 	while (current_env != NULL && \
 	ft_strcmp(current_env->name, cmp) != 0)
 		current_env = current_env->next;
@@ -130,26 +91,17 @@ int	export(char **cmd, t_env **env)
 
 	i = 1;
 	if (cmd[1] == NULL)
-	{
 		export_print((*env), (ft_lstsize(*env) - 1));
-		g_exit = 0;
-	}
 	else
 	{
 		while (cmd[i])
 		{
-			g_exit = check_valid(cmd[i]);
-			if (g_exit == 0)
+			g_data.g_exit = check_valid(cmd[i]);
+			if (g_data.g_exit == 0)
 			{
 				cmp = check_exist_1((*env), cmd[i]);
-				printf("%s\n", cmp);
 				if (cmp == NULL)
-				{
-					if (check_exist((*env), cmd[i]) == 0)
-						add_var(env, cmd[i]);
-					else
-						over_add(env, cmd[i]);
-				}
+					creat_var(cmd[i], env);
 				else
 					append(env, cmd[i], cmp);
 				free (cmp);
@@ -157,6 +109,5 @@ int	export(char **cmd, t_env **env)
 			i++;
 		}
 	}
-	return (g_exit);
+	return (g_data.g_exit);
 }
-

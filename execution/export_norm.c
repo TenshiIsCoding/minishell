@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   export_norm.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 18:04:38 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 12:04:01 by ynafiss          ###   ########.fr       */
+/*   Created: 2023/05/16 11:46:24 by ynafiss           #+#    #+#             */
+/*   Updated: 2023/05/16 12:05:22 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	*ft_strdup(const char *s1)
+char	*export_strdup(const char *s1)
 {
 	size_t	i;
 	char	*s2;
@@ -23,9 +23,28 @@ char	*ft_strdup(const char *s1)
 		return (NULL);
 	while (s1 && s1[i] != '\0')
 	{
+		if (s1[i] == '+')
+		{
+			s2[i] = '=';
+			i++;
+			break ;
+		}
 		s2[i] = s1 [i];
+		i++;
+	}
+	if (s2[i - 1] != '=')
+	{
+		s2[i] = '=';
 		i++;
 	}
 	s2[i] = '\0';
 	return (s2);
+}
+
+void	creat_var(char *cmd, t_env **env)
+{
+	if (check_exist((*env), cmd) == 0)
+		add_var(env, cmd);
+	else
+		over_add(env, cmd);
 }

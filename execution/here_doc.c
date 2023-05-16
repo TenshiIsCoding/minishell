@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:31:22 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 15:50:16 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/16 15:55:41 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,65 +47,14 @@ int	is_here(t_file **file)
 	return (0);
 }
 
-void	norm_here(t_cmd *cmd, int pi[2], int ch, t_env *env, t_data *var)
-{
-	int				i;
-	char			*line_r;
-	struct termios	term;
-
-	i = 0;
-	line_r = NULL;
-	if (ch == 0)
-	{
-		tcgetattr(STDIN_FILENO, &term);
-		here_signal(term);
-		while (cmd->files[i])
-		{
-			if (cmd->files[i]->type == HERE)
-			{
-				while (1)
-				{
-					line_r = readline("> ");
-					if (!line_r || \
-					!ft_strcmp(cmd->files[i]->filename, line_r))
-					{
-						free(line_r);
-						break ;
-					}
-					if (i == last_here(cmd->files) && cmd->files[i]->inqt == 0)
-						(ft_putstr_fd(expand_argument(line_r, var, env), \
-						pi[1]), write(pi[1], "\n", 1));
-					if (i == last_here(cmd->files) && cmd->files[i]->inqt == 1)
-						(ft_putstr_fd(line_r, pi[1]), write(pi[1], "\n", 1));
-					// free(line_r);
-				}
-			}
-			i++;
-		}
-		exit(0);
-	}
-}
-
-// void    ft_here(struct termios a2, char **env, char *lim, int fdp)
-// {
-//     a2.c_cc[VQUIT] = _POSIX_VDISABLE;
-//     a2.c_lflag &= ~ECHOCTL;
-//     (tcsetattr(0, TCSANOW, &a2), signal(SIGINT, doc));
-//     (here_doc1(env, lim, fdp), exit(0));
-// }
-
 int	here_doc(t_queue *line, t_vars *fd_h, t_env *env, t_data *var)
 {
-	t_list			*here;
 	t_queue_node	*node;
 	t_cmd			*cmd;
 	t_norm			n;
 
-	here = NULL;
 	node = line->head;
 	n.k = 0;
-	if (!node)
-		return (g_exit);
 	while (node)
 	{
 		cmd = node->ptr;
@@ -113,17 +62,16 @@ int	here_doc(t_queue *line, t_vars *fd_h, t_env *env, t_data *var)
 		{
 			(pipe(n.pi), n.ch = fork());
 			if (n.ch == 0)
-				norm_here(cmd, n.pi, n.ch, env, var);
+				norm_here(cmd, n, env, var);
 			(close(n.pi[1]), waitpid(n.ch, &n.status, 0));
 			if (WEXITSTATUS(n.status) == 44)
 				return (44);
 			if (n.k++ == 0)
-				(fd_h->fd_h = ft_lstnew_nor(n.pi[0]), here = fd_h->fd_h);
+				fd_h->fd_h = ft_lstnew_nor(n.pi[0]);
 			else
 				ft_lstadd_back_nor(&fd_h->fd_h, ft_lstnew_nor(n.pi[0]));
 		}
 		node = node->next;
 	}
-	fd_h->fd_h = here;
-	return (g_exit);
+	return (g_data.g_exit);
 }

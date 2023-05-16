@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 16:53:12 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/13 21:15:20 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/16 11:23:01 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	return (dest);
 }
-

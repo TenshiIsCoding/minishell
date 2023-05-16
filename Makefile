@@ -6,13 +6,13 @@
 #    By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/13 14:54:07 by azaher            #+#    #+#              #
-#    Updated: 2023/05/15 12:58:49 by ynafiss          ###   ########.fr        #
+#    Updated: 2023/05/16 16:51:38 by ynafiss          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = libft/libft.a
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g3
+CFLAGS = #-Wall -Werror -Wextra #-fsanitize=address -g
 AF= minishell.c \
 execution/builtins.c	\
 execution/ft_list.c	\
@@ -23,13 +23,17 @@ execution/env_pwd.c	\
 execution/here_doc_utils.c	\
 execution/unset.c	\
 execution/signal_exec.c	\
+execution/norm_multi.c	\
 execution/multipipe.c	\
 execution/exec_cmds.c	\
 execution/exec_cmd_2.c	\
+execution/check_norm.c	\
 execution/wait_ch.c	\
 execution/exec_bult.c	\
 execution/export.c	\
+execution/export_norm.c	\
 execution/here_doc.c	\
+execution/here_doc_norm.c	\
 execution/export_utils.c	\
 execution/open_files.c	\
 execution/cd.c	\
@@ -43,6 +47,7 @@ parsing/syntax_tools.c \
 parsing/syntax_tools2.c \
 parsing/syntax.c \
 parsing/expanding_tools.c \
+parsing/basic_expand.c \
 parsing/parse_start.c \
 parsing/parse_tools.c \
 parsing/parse_tools_2.c \

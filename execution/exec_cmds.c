@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 12:41:18 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/16 17:43:25 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 	{
 		handel_cmd_signal();
 		dup_in(t);
-		open_out(cmd->files);
 		if (open_in(cmd->files, t->fd_h) == 1)
 			exit(1);
+		open_out(cmd->files);
 		if (is_cmd(cmd) == 1)
 		{
 			if (is_builtin(cmd->args) == 0)
@@ -40,8 +40,12 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 				exec_built(cmd->args, t->env, ch, eenv);
 		}
 		else
-			(open_out_no_cmd(cmd->files), \
-			open_in_no_cmd(cmd->files, t->fd_h), exit(0));
+		{
+			if (open_in_no_cmd(cmd->files, t->fd_h) == 1)
+				exit (1);
+			open_out_no_cmd(cmd->files);
+			exit(0);
+		}
 	}
 	else
 		(close(t->pi[1]), close(t->fd), t->fd = t->pi[0]);
@@ -54,9 +58,9 @@ void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 		handel_cmd_signal();
 		dup2(t->fd, 0);
 		close(t->fd);
-		open_out(cmd->files);
 		if (open_in(cmd->files, t->fd_h) == 1)
 			exit(1);
+		open_out(cmd->files);
 		if (is_cmd(cmd) == 1)
 		{
 			if (is_builtin(cmd->args) == 0)
@@ -65,8 +69,12 @@ void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 				exec_built(cmd->args, t->env, ch, eenv);
 		}
 		else
-			(open_out_no_cmd(cmd->files), \
-			open_in_no_cmd(cmd->files, t->fd_h), exit(0));
+		{
+			if (open_in_no_cmd(cmd->files, t->fd_h) == 1)
+				exit (1);
+			open_out_no_cmd(cmd->files);
+			exit(0);
+		}
 	}
 	else
 		close (t->fd);
@@ -83,19 +91,18 @@ void	norm_one(t_cmd *cmd, t_env **eenv, t_vars *t)
 		path = get((*eenv), cmd->args[0]);
 	if (execve(path, cmd->args, t->env) == -1)
 	{
-		ft_putstr_fd(path, 2);
-		write(2, ": No such file or directory\n", 28);
+		write(2, "command not found : ", 20);
+		ft_putstr_fd(cmd->args[0], 2);
+		write(2, "\n", 1);
+		exit (127);
 	}
 }
 
 void	one_cmd(t_cmd *cmd, int ch, t_vars *t, t_env **eenv)
 {
-	struct termios	term;
-
 	if (ch == 0 || is_builtin(cmd->args) != 0)
 	{
-		tcgetattr(STDIN_FILENO, &term);
-		cmd_signal(term);
+		handel_cmd_signal();
 		if (open_in(cmd->files, t->fd_h) == 1)
 			return ;
 		open_out(cmd->files);
