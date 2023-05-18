@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaher <azaher@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 04:09:08 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/14 19:03:10 by azaher           ###   ########.fr       */
+/*   Updated: 2023/05/17 15:24:58 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,14 @@ char	*get_envalue(char *name, t_env *env)
 {
 	t_env	*node;
 	char	*ret;
+	char	*charnum;
 	int		namelen;
 
 	if (!ft_strcmp("?", name))
 	{
-		ret = ft_strdup(ft_itoa(g_data.g_exit));
+		charnum = ft_itoa(g_data.g_exit);
+		ret = ft_strdup(charnum);
+		free (charnum);
 		return (ret);
 	}
 	node = env;

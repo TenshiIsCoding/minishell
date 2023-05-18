@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 12:04:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 16:12:58 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 16:22:45 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_cd(char *path, char **env, int ch)
 			chdir(get_env(env, path));
 		else if (chdir(path) == -1)
 		{
-			printf("cd: no such file or directory: %s\n", path);
+			perror("");
 			g_data.g_exit = 1;
 		}
 	}

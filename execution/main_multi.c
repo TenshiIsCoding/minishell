@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:59:57 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 17:43:01 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 16:23:39 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	last_one(t_vars *t, t_cmd *cmd, t_env **env)
 {
 	t->ch[t->i] = fork();
 	last_cmd(t, cmd, t->ch[t->i], env);
+	if (t->ch[t->i] == 0)
+		exit (0);
 	wait_child(t->i, t->ch);
 }
 
@@ -57,9 +59,12 @@ void	ft_else_if(t_queue *line, t_cmd *cmd, t_env *eenv, t_vars t)
 	else if (cmd_num(line) == 0)
 	{
 		if (open_in_no_cmd(cmd->files, t.fd_h) == 1)
-			exit (1);
+		{
+			g_data.g_exit = 1;
+			return ;
+		}
 		open_out_no_cmd(cmd->files);
-		exit(0);
+		return ;
 	}
 	t.fd_h = tmp;
 }
@@ -71,6 +76,10 @@ void	multi_norm(t_cmd *cmd, t_vars *t, t_env *env)
 	else
 		t->ch[0] = 1;
 	one_cmd(cmd, t->ch[0], t, &env);
+	if (t->ch[0] == 1)
+		(dup2(t->fd_in, 0), dup2(t->fd_out, 1));
+	else if (t->ch[0] == 0)
+		exit (127);
 }
 
 void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t)
@@ -83,7 +92,8 @@ void	multipipe(t_data *line, char **env, t_env *eenv, t_vars t)
 		t.ch = malloc(sizeof(int) * line->commands.len);
 		node = line->commands.head;
 		cmd = node->ptr;
-		t.fd = dup (0);
+		t.fd_in = dup (0);
+		t.fd_out = dup (0);
 		t.env = full_vars(env);
 		if (!node)
 			return ;

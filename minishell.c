@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 14:23:24 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 17:37:43 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 16:24:51 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,17 @@ void	free_cmd(void *v)
 	free(p);
 }
 
-void	while_1(t_data *vars, char **env, t_vars t)
+void	while_1(t_data *vars, char **env, t_vars t, struct termios *term)
 {
 	t.env = full_vars(env);
-	handle_signals();
 	while (1)
 	{
+		tcgetattr(0, term);
+		handle_signals(0);
 		g_data.sigflag = 0;
 		vars->line = readline("minishell → ");
 		if (!vars->line)
-		{
-			printf("exit\n");
-			exit (0);
-		}
+			(ft_putstr_fd("exit\n", 2), exit (0));
 		if (!vars->line[0] || parse_start(vars, vars->env))
 		{
 			if (vars->line[0])
@@ -105,13 +103,15 @@ void	while_1(t_data *vars, char **env, t_vars t)
 		(queue_free(&vars->commands, free_cmd), add_history(vars->line));
 		free(vars->line);
 		g_data.sigflag = 0;
+		tcsetattr(0, TCSANOW, term);
 	}
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	t_data	*vars;
-	t_vars	*t;
+	t_data			*vars;
+	t_vars			*t;
+	struct termios	term;
 
 	(void)argc;
 	(void)argv;
@@ -121,5 +121,5 @@ int	main(int argc, char **argv, char **env)
 	g_data.g_exit = 0;
 	g_data.sigflag = 0;
 	t->fd_h = NULL;
-	while_1(vars, env, *t);
+	while_1(vars, env, *t, &term);
 }

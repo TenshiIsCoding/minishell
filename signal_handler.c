@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 16:23:25 by azaher            #+#    #+#             */
-/*   Updated: 2023/05/15 17:32:53 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/18 12:01:58 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,18 @@ void	handler(int signal)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	else
-		write(1, "\n", 1);
 }
 
-void	handle_signals(void)
+void	handle_signals(int i)
 {
-	signal(SIGINT, handler);
-	signal(SIGQUIT, SIG_IGN);
+	if (i == 0)
+	{
+		signal(SIGINT, handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
 }

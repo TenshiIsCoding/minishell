@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:00:32 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 15:01:56 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 13:37:53 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ void	here_handel(int sig)
 	exit(44);
 }
 
-void	here_signal(struct termios term)
+void	here_signal(void)
 {
-	term.c_cc[VQUIT] = _POSIX_VDISABLE;
-	term.c_lflag &= ~ECHOCTL;
-	(tcsetattr(0, TCSANOW, &term), signal(SIGINT, here_handel));
+	signal(SIGINT, here_handel);
+	signal(SIGQUIT, SIG_IGN);
 }

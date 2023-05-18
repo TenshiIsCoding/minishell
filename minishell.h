@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:46:31 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 15:33:53 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 14:33:59 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ typedef struct t_list
 typedef struct t_vars
 {
 	int				pi[2];
-	int				fd;
+	int				fd_in;
+	int				fd_out;
 	int				*ch;
 	char			**env;
 	t_list			*fd_h;
@@ -171,7 +172,7 @@ char	*export_strdup(const char *s1);
 int		export_strncmp(const char *s1, const char *s2, size_t n);
 int		export_strcmp(const char *s1, const char *s2);
 int		is_cmd(t_cmd *cmd);
-void	here_signal(struct termios term);
+void	here_signal(void);
 char	*full_final(char *var, int j);
 int		open_out_no_cmd(t_file **file);
 int		open_in_no_cmd(t_file **file, t_list *here);
@@ -295,7 +296,7 @@ int		ambig_test(char *file, t_env *env, t_data *v);
 char	**ambig_upgraded_split(char *token, char *mask);
 void	replace_quotes(char *varvalue);
 int		is_splitable(char **varvalue);
-void	handle_signals(void);
+void	handle_signals(int i);
 int		in_dollar(t_data *v, char *line, t_env *env);
 char	*basic_expand(char *line, t_data *v, t_env *env);
 void	rl_replace_line(const char *text, int clear_undo);

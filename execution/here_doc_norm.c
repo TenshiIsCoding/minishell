@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:36:45 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 16:24:26 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 13:38:30 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,10 @@ void	main_while(t_norm n, t_cmd *cmd, t_data *var, t_env *env)
 
 void	norm_here(t_cmd *cmd, t_norm n, t_env *env, t_data *var)
 {
-	struct termios	term;
-
 	n.i = 0;
 	if (n.ch == 0)
 	{
-		tcgetattr(STDIN_FILENO, &term);
-		here_signal(term);
+		here_signal();
 		while (cmd->files[n.i])
 		{
 			if (cmd->files[n.i]->type == HERE)

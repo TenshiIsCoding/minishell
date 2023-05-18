@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 09:26:25 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 14:07:08 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/18 12:02:44 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	export(char **cmd, t_env **env)
 	i = 1;
 	if (cmd[1] == NULL)
 		export_print((*env), (ft_lstsize(*env) - 1));
-	else
+	else if ((*env))
 	{
 		while (cmd[i])
 		{

@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:15:02 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/15 16:18:00 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 14:40:32 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,27 @@ void	ft_env(t_env *env, int ch)
 void	ft_pwd(int ch)
 {
 	char	s[1000];
+	char	*pwd;
 
+	pwd = getcwd(s, 1000);
 	g_data.g_exit = 0;
-	printf("%s\n", getcwd(s, 1000));
+	if (pwd)
+		printf("%s\n", pwd);
+	else
+		ft_putstr_fd(": path not found\n", 2);
 	if (ch == 0)
 		exit(0);
 }
 
 void	ft_exit(char *i)
 {
-	printf("exit\n");
+	ft_putstr_fd("exit\n", 2);
 	if (!i)
 		exit (0);
 	if (ft_isalpha(i[0]) == 1)
 	{
 		g_data.g_exit = 255;
-		printf("exit: fd: numeric argument required\n");
+		ft_putstr_fd("exit: fd: numeric argument required\n", 2);
 		exit (g_data.g_exit);
 	}
 	else

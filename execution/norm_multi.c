@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 11:13:10 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 11:15:09 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 14:43:46 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ void	pipes_fork(t_vars *t, t_cmd *cmd, t_env **env, int i)
 	pipe(t->pi);
 	t->ch[i] = fork();
 	mid_cmd(t, cmd, t->ch[i], env);
-	t->fd = t->pi[0];
+	t->fd_in = t->pi[0];
 }

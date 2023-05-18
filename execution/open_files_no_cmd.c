@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:04:45 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 16:39:41 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 15:22:39 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	norm_open_out_no_cmd(t_file **file, int *fd_out, int i)
 	{
 		if (file[i]->type == OUT)
 			*fd_out = open (file[i]->filename, O_CREAT | O_TRUNC | \
-		O_WRONLY | O_RDONLY, 0777);
+		O_WRONLY | O_RDONLY, 0644);
 		if (file[i]->type == APND)
 			*fd_out = open (file[i]->filename, O_CREAT | O_APPEND | \
-		O_WRONLY | O_RDONLY, 0777);
+		O_WRONLY | O_RDONLY, 0644);
 		if (*fd_out == -1)
 		{
 			write(2, "open filed: ", 12);

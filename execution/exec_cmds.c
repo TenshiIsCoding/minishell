@@ -6,7 +6,7 @@
 /*   By: ynafiss <ynafiss@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 04:45:34 by ynafiss           #+#    #+#             */
-/*   Updated: 2023/05/16 17:43:25 by ynafiss          ###   ########.fr       */
+/*   Updated: 2023/05/17 14:44:35 by ynafiss          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 {
 	if (ch == 0)
 	{
-		handel_cmd_signal();
+		if (ch == 0)
+			handle_signals(1);
 		dup_in(t);
 		if (open_in(cmd->files, t->fd_h) == 1)
 			exit(1);
@@ -48,16 +49,17 @@ void	mid_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 		}
 	}
 	else
-		(close(t->pi[1]), close(t->fd), t->fd = t->pi[0]);
+		(close(t->pi[1]), close(t->fd_in), t->fd_in = t->pi[0]);
 }
 
 void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 {
 	if (ch == 0)
 	{
-		handel_cmd_signal();
-		dup2(t->fd, 0);
-		close(t->fd);
+		if (ch == 0)
+			handle_signals(1);
+		dup2(t->fd_in, 0);
+		close(t->fd_in);
 		if (open_in(cmd->files, t->fd_h) == 1)
 			exit(1);
 		open_out(cmd->files);
@@ -72,12 +74,11 @@ void	last_cmd(t_vars *t, t_cmd *cmd, int ch, t_env **eenv)
 		{
 			if (open_in_no_cmd(cmd->files, t->fd_h) == 1)
 				exit (1);
-			open_out_no_cmd(cmd->files);
-			exit(0);
+			(open_out_no_cmd(cmd->files), exit(0));
 		}
 	}
 	else
-		close (t->fd);
+		close (t->fd_in);
 }
 
 void	norm_one(t_cmd *cmd, t_env **eenv, t_vars *t)
@@ -102,7 +103,8 @@ void	one_cmd(t_cmd *cmd, int ch, t_vars *t, t_env **eenv)
 {
 	if (ch == 0 || is_builtin(cmd->args) != 0)
 	{
-		handel_cmd_signal();
+		if (ch == 0)
+			handle_signals(1);
 		if (open_in(cmd->files, t->fd_h) == 1)
 			return ;
 		open_out(cmd->files);
